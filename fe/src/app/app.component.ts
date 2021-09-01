@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {NbMenuItem, NbSidebarService} from "@nebular/theme";
 import {HelperService} from "./@core/services/helper.service";
+import {JwtAuthService} from "./@core/services/jwt-auth.service";
 
 
 @Component({
@@ -9,6 +10,7 @@ import {HelperService} from "./@core/services/helper.service";
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+  sessionUser;
   loggedIn = false;
   items: NbMenuItem[] = [
     {
@@ -26,14 +28,16 @@ export class AppComponent {
 
   userMenu = [{ title: 'Log out', link: '/logout' }]
 
-  constructor(private readonly sidebarService: NbSidebarService, private helperService: HelperService) {
-    this.helperService.shouldEnableSidePanel.subscribe(res => {
+  constructor(private readonly sidebarService: NbSidebarService, private helperService: HelperService, private jwtAuth: JwtAuthService) {
+    this.helperService.isUserLoggedIn.subscribe(res => {
       if (res) {
         this.loggedIn = true;
       } else {
         this.loggedIn = false;
       }
     })
+
+    this.sessionUser = this.jwtAuth.getUser();
   }
 
   toggleSidebar(): boolean {

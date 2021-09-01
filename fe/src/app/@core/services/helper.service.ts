@@ -6,12 +6,12 @@ import {BehaviorSubject} from "rxjs";
 })
 export class HelperService {
 
-  private enableSidePanel = new BehaviorSubject(null);
-  shouldEnableSidePanel = this.enableSidePanel.asObservable();
+  private userLoggedIn = new BehaviorSubject(null);
+  isUserLoggedIn = this.userLoggedIn.asObservable();
 
   constructor() { }
 
-  changeSidePanelDisplay(enabled) {
-    this.enableSidePanel.next(enabled);
+  changeUserLoggedIn(loggedIn) {
+    this.userLoggedIn.next(loggedIn);
   }
 }

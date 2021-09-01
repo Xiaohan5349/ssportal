@@ -7,7 +7,7 @@
     <div class="header-container" *ngIf="loggedIn">
       <nb-actions size="small">
         <nb-action class="user-action">
-          <nb-user [nbContextMenu]="userMenu">
+          <nb-user [nbContextMenu]="userMenu" [name]="sessionUser?.username">
           </nb-user>
         </nb-action>
       </nb-actions>

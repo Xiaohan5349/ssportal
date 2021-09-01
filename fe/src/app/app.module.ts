@@ -9,7 +9,7 @@ import {
   NbIconModule,
   NbSidebarModule,
   NbMenuModule,
-  NbButtonModule, NbInputModule, NbAlertModule, NbActionsModule, NbUserModule, NbContextMenuModule
+  NbButtonModule, NbInputModule, NbAlertModule, NbActionsModule, NbUserModule, NbContextMenuModule, NbCardModule
 } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { HomeComponent } from './@components/home/home.component';
@@ -40,6 +40,7 @@ import { LogoutComponent } from './@components/logout/logout.component';
     FlexLayoutModule,
     NbActionsModule,
     NbContextMenuModule,
+    NbCardModule,
     NbIconModule,
     NbAlertModule,
     NbUserModule,
