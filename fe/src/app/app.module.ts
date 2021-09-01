@@ -21,6 +21,7 @@ import {AuthGuard} from "./@auth/auth.guard";
 import {JwtAuthService} from "./@core/services/jwt-auth.service";
 import {LocalStoreService} from "./@core/services/local-store.service";
 import {FormsModule} from "@angular/forms";
+import {HelperService} from "./@core/services/helper.service";
 
 @NgModule({
   declarations: [
@@ -45,7 +46,10 @@ import {FormsModule} from "@angular/forms";
     HttpClientModule
 
   ],
-  providers: [LoginService, AuthGuard, JwtAuthService, LocalStoreService],
+  providers: [
+    LoginService, AuthGuard, JwtAuthService, LocalStoreService,
+    HelperService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

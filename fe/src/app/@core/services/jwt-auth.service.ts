@@ -4,9 +4,10 @@ import {Router, ActivatedRoute} from '@angular/router';
 import {map, catchError, delay} from 'rxjs/operators';
 import {of, BehaviorSubject, throwError} from 'rxjs';
 import {User} from "../models/user";
-import {AppConst} from "../helpers/app-const";
+import {AppConst} from "../utils/app-const";
 import {LocalStoreService} from "./local-store.service";
 import {environment} from "../../../environments/environment";
+import {HelperService} from "./helper.service";
 
 @Injectable({
     providedIn: 'root',
@@ -25,7 +26,8 @@ export class JwtAuthService {
         private ls: LocalStoreService,
         private http: HttpClient,
         private router: Router,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private helperService: HelperService
     ) {
         this.route.queryParams
             .subscribe(params => this.return = params['return'] || '/home');

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {NbMenuItem, NbSidebarService} from "@nebular/theme";
+import {HelperService} from "./@core/services/helper.service";
 
 
 @Component({
@@ -8,6 +9,7 @@ import {NbMenuItem, NbSidebarService} from "@nebular/theme";
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+  enableSidePanel = false;
   items: NbMenuItem[] = [
     {
       title: 'Home',
@@ -22,7 +24,16 @@ export class AppComponent {
     }
   ];
 
-  constructor(private readonly sidebarService: NbSidebarService) {
+  constructor(private readonly sidebarService: NbSidebarService, private helperService: HelperService) {
+    this.helperService.shouldEnableSidePanel.subscribe(res => {
+      if (res) {
+        console.log('enabled')
+        this.enableSidePanel = true;
+      } else {
+        console.log('disabled')
+        this.enableSidePanel = false;
+      }
+    })
   }
 
   toggleSidebar(): boolean {

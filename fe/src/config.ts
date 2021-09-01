@@ -3,7 +3,7 @@
 // ROLE_ADMIN - client admin
 // ROLE_SYS_ADMIN - super admin
 
-import {AppConst} from "./app/@core/helpers/app-const";
+import {AppConst} from "./app/@core/utils/app-const";
 
 export const config = {
   apiUrl: AppConst.serverPath,

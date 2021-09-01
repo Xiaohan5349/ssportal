@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {AppConst} from "../../@core/helpers/app-const";
+import {AppConst} from "../../@core/utils/app-const";
 import {Router} from "@angular/router";
 import {LoginService} from "../../@core/services/login.service";
 import {FormGroup} from "@angular/forms";
@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit {
           headers: new HttpHeaders({'Authorization': 'Bearer ' + res.result.token})
         };
 
-        this.http.get(`${environment.apiURL}/user/get-current-user`, httpOptions).subscribe(
+        this.http.get(`${environment.apiURL}/user/getCurrentUser`, httpOptions).subscribe(
           user => {
             const me = <User> user;
 

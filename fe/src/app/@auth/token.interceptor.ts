@@ -9,7 +9,7 @@ import {Observable, throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import {Router} from '@angular/router';
 import 'rxjs/add/operator/do';
-import {AppConst} from "../@core/helpers/app-const";
+import {AppConst} from "../@core/utils/app-const";
 import {JwtAuthService} from "../@core/services/jwt-auth.service";
 import {LocalStoreService} from "../@core/services/local-store.service";
 
