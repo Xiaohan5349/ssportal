@@ -7,6 +7,7 @@ import {JwtAuthService} from "../../@core/services/jwt-auth.service";
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {environment} from "../../../environments/environment";
 import {User} from "../../@core/models/user";
+import {HelperService} from "../../@core/services/helper.service";
 
 @Component({
   selector: 'app-login',
@@ -22,7 +23,8 @@ export class LoginComponent implements OnInit {
     private loginService: LoginService,
     private router: Router,
     private jwtAuth: JwtAuthService,
-    private http: HttpClient
+    private http: HttpClient,
+    private helperService: HelperService
   ) {
   }
 
@@ -43,7 +45,7 @@ export class LoginComponent implements OnInit {
             //   const role = authorities[i].authority;
             //   me.roles.push(role);
             // }
-
+            console.log(me);
             this.jwtAuth.setUserAndToken(res.result.token, me, !!res);
 
             this.router.navigateByUrl(this.jwtAuth.return);

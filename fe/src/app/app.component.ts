@@ -9,7 +9,7 @@ import {HelperService} from "./@core/services/helper.service";
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  enableSidePanel = false;
+  loggedIn = false;
   items: NbMenuItem[] = [
     {
       title: 'Home',
@@ -24,14 +24,14 @@ export class AppComponent {
     }
   ];
 
+  userMenu = [{ title: 'Log out', link: '/logout' }]
+
   constructor(private readonly sidebarService: NbSidebarService, private helperService: HelperService) {
     this.helperService.shouldEnableSidePanel.subscribe(res => {
       if (res) {
-        console.log('enabled')
-        this.enableSidePanel = true;
+        this.loggedIn = true;
       } else {
-        console.log('disabled')
-        this.enableSidePanel = false;
+        this.loggedIn = false;
       }
     })
   }

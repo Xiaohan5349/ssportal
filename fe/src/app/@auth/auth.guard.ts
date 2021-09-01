@@ -18,7 +18,6 @@ export class AuthGuard implements CanActivate {
     const user = this.jwtAuth.getUser();
     if (this.jwtAuth.isLoggedIn()) {
       this.helperService.changeSidePanelDisplay(true);
-
       return true;
     } else {
       this.helperService.changeSidePanelDisplay(false);

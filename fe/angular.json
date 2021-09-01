@@ -31,10 +31,13 @@
               "src/assets"
             ],
             "styles": [
-              "node_modules/@nebular/theme/styles/prebuilt/corporate.css",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/@nebular/theme/styles/prebuilt/corporate.scss",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/bootstrap/dist/js/bootstrap.min.js"
+            ]
           },
           "configurations": {
             "production": {

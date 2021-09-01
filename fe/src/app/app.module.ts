@@ -9,12 +9,12 @@ import {
   NbIconModule,
   NbSidebarModule,
   NbMenuModule,
-  NbButtonModule, NbInputModule, NbAlertModule
+  NbButtonModule, NbInputModule, NbAlertModule, NbActionsModule, NbUserModule, NbContextMenuModule
 } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { HomeComponent } from './@components/home/home.component';
 import { HttpClientModule } from '@angular/common/http';
-import {NbAuthModule, NbPasswordAuthStrategy} from "@nebular/auth";
+import {NbAuthModule, NbPasswordAuthStrategy, NbUser} from "@nebular/auth";
 import {LoginService} from "./@core/services/login.service";
 import { LoginComponent } from './@components/login/login.component';
 import {AuthGuard} from "./@auth/auth.guard";
@@ -22,20 +22,27 @@ import {JwtAuthService} from "./@core/services/jwt-auth.service";
 import {LocalStoreService} from "./@core/services/local-store.service";
 import {FormsModule} from "@angular/forms";
 import {HelperService} from "./@core/services/helper.service";
+import {FlexLayoutModule} from "@angular/flex-layout";
+import { LogoutComponent } from './@components/logout/logout.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    LoginComponent
+    LoginComponent,
+    LogoutComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     FormsModule,
+    FlexLayoutModule,
+    NbActionsModule,
+    NbContextMenuModule,
     NbIconModule,
     NbAlertModule,
+    NbUserModule,
     NbSidebarModule.forRoot(),
     NbMenuModule.forRoot(),
     NbThemeModule.forRoot(),
