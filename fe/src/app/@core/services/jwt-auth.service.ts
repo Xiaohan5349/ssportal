@@ -49,32 +49,15 @@ export class JwtAuthService {
         // FOLLOWING CODE SENDS SIGNIN REQUEST TO SERVER
 
         this.signingIn = true;
-        // return this.http.post(`${environment.apiURL}/login`, {username, password})
-        //     .pipe(
-        //         map((res: any) => {
-        //             this.signingIn = false;
-        //             return res;
-        //         }), catchError((error) => {
-        //             return throwError(error);
-        //         })
-        //     );
-
-        const url = `${environment.apiURL}/login`;
-        const body = new URLSearchParams();
-        body.set('username', username);
-        body.set('password', password);
-        const httpOptions = {
-          headers: new HttpHeaders({'Content-Type': 'application/x-www-form-urlencoded'})
-        };
-
-        return this.http.post(url, body.toString(), httpOptions).pipe(
-          map((res: any) => {
-            this.signingIn = false;
-            return res;
-          }), catchError((error) => {
-            return throwError(error);
-          })
-        );
+        return this.http.post(`${environment.apiURL}/authenticate`, {username, password})
+            .pipe(
+                map((res: any) => {
+                    this.signingIn = false;
+                    return res;
+                }), catchError((error) => {
+                    return throwError(error);
+                })
+            );
     }
 
     /*

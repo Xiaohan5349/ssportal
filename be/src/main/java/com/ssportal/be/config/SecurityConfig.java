@@ -1,83 +1,76 @@
 package com.ssportal.be.config;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import static com.ssportal.be.model.util.SecurityUtility.passwordEncoder;
+import javax.annotation.Resource;
 
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true, proxyTargetClass = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private CustomAuthenticationProvider authProvider;
+    @Resource(name = "userService")
+    private UserDetailsService userDetailsService;
 
     @Autowired
-    private RestAuthenticationEntryPoint restAuthenticationEntryPoint;
+    private JwtAuthenticationEntryPoint unauthorizedHandler;
+
+    @Override
+    @Bean
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
 
     @Autowired
-    private AuthenticationSuccessHandler authenticationSuccessHandler;
+    public void globalUserDetails(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService)
+                .passwordEncoder(SecurityUtility.passwordEncoder());
+    }
 
-    @Autowired
-    private CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
-
-    @Autowired
-    private UserSecurityService userSecurityService;
-
-    private static final String[] PUBLIC_MATCHERS = {
-            "/css/**",
-            "/js/**",
-            "/login/**",
-            "/logout/**",
-    };
+    @Bean
+    public JwtAuthenticationFilter authenticationTokenFilterBean() throws Exception {
+        return new JwtAuthenticationFilter();
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .cors().and()
-                .csrf().disable()
-                .exceptionHandling()
-                .authenticationEntryPoint(restAuthenticationEntryPoint)
-                .and()
-                .authorizeRequests()
-                .antMatchers(PUBLIC_MATCHERS)
-                .permitAll()
+        http.cors().and().csrf().disable().
+                authorizeRequests()
+                .antMatchers(
+                        "/authenticate"
+                ).permitAll()
+                .antMatchers("/api-docs",
+                        "/configuration/ui",
+                        "/swagger-resources/**",
+                        "/configuration/security",
+                        "/swagger-ui.html",
+                        "/webjars/**"
+                ).permitAll()
+//                .antMatchers("/", "/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .formLogin()
-                .successHandler(authenticationSuccessHandler)
-                .failureHandler(new SimpleUrlAuthenticationFailureHandler())
-                .and()
-                .logout();
+                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http
+                .addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
     }
 
-    @Bean
-    public AuthenticationSuccessHandler mySuccessHandler() {
-        return new AuthenticationSuccessHandler(new MappingJackson2HttpMessageConverter());
-    }
-
-    @Bean
-    public SimpleUrlAuthenticationFailureHandler myFailureHandler() {
-        return new SimpleUrlAuthenticationFailureHandler();
-    }
-
-
-
-    @Override
-    protected void configure(
-            AuthenticationManagerBuilder auth) throws Exception {
-//        auth.authenticationProvider(authProvider);
-        auth.userDetailsService(userSecurityService).passwordEncoder(passwordEncoder());
-    }
+//    @Bean
+//    public BCryptPasswordEncoder encoder(){
+//        return new BCryptPasswordEncoder();
+//    }
 
 
 }

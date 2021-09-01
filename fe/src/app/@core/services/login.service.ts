@@ -15,7 +15,7 @@ export class LoginService {
   }
 
   sendCredential(username: string, password: string) {
-    const url = this.serverPath + '/login';
+    const url = this.serverPath + '/authenticate';
     const body = new URLSearchParams();
     body.set('username', username);
     body.set('password', password);

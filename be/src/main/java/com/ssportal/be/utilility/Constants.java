@@ -1,4 +1,4 @@
-package com.ssportal.be.model.util;
+package com.ssportal.be.utilility;
 
 import java.util.Base64;
 

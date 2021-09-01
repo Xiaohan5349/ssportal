@@ -1,13 +1,19 @@
 package com.ssportal.be.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ssportal.be.config.JwtTokenUtil;
 import com.ssportal.be.model.User;
 import com.ssportal.be.repository.RoleRepository;
 import com.ssportal.be.repository.UserRepository;
 import com.ssportal.be.service.UserService;
+import com.ssportal.be.utilility.ApiResponse;
+import com.ssportal.be.utilility.AuthToken;
+import com.ssportal.be.utilility.HelperUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +24,15 @@ import java.util.HashMap;
 
 @RestController
 public class LoginController {
+    private static final Logger LOG = LoggerFactory.getLogger(LoginController.class);
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
+
+
     private final UserService userService;
 
     private final UserRepository userRepository;
@@ -31,25 +46,10 @@ public class LoginController {
         this.roleRepository = roleRepository;
     }
 
-    @RequestMapping("/login")
-    public ResponseEntity<String> logout(
-            @RequestParam("logout") String logout
-    ){
-        return new ResponseEntity<>("Logout success.", HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/user/logout", method = RequestMethod.POST)
-    public void logout(HttpServletRequest request, Principal principal) {
-        String username = principal.getName();
-        String sessionId = request.getSession().getId();
-
-    }
-
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
-    public void authenticate(
-            @RequestBody HashMap<String, Object> mapper
+    public Object authenticate(
+            @RequestBody HashMap<String, String> mapper
     ){
-        ObjectMapper om = new ObjectMapper();
         String username = mapper.get("username");
         String password = mapper.get("password");
         if (username != null && password != null) {
@@ -60,26 +60,10 @@ public class LoginController {
                 return new ApiResponse<>(200, "success", new AuthToken(token, username));
             } catch (Exception ex) {
                 LOG.error("", ex);
-                return EsdUtil.handleException(ex);
+                return HelperUtil.handleException(ex);
             }
         }
 
-    }
-
-    @RequestMapping("/test")
-    public String test() {
-        return "test";
-    }
-
-    @RequestMapping("/checkLoggedIn")
-    public String checkLoggedIn() {
-        return "Session Active";
-    }
-
-    @RequestMapping("/checkSession")
-    public User checkSession(Principal principal) {
-        User user = userService.getUserByUsername(principal.getName());
-
-        return user;
+        return null;
     }
 }

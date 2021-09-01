@@ -1,19 +1,20 @@
 package com.ssportal.be.service.impl;
 
+import com.ssportal.be.config.SecurityUtility;
 import com.ssportal.be.model.User;
-import com.ssportal.be.model.security.Role;
 import com.ssportal.be.model.security.UserRole;
-import com.ssportal.be.model.util.SecurityUtility;
+import com.ssportal.be.repository.RoleRepository;
 import com.ssportal.be.repository.UserRepository;
+import com.ssportal.be.repository.UserRoleRepository;
 import com.ssportal.be.service.UserService;
-import javassist.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
-import java.util.*;
+import javax.transaction.Transactional;
+import java.util.List;
+import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -21,81 +22,72 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
-    @Autowired
-    public UserServiceImpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    private final RoleRepository roleRepository;
 
-    private BCryptPasswordEncoder passwordEncoder(){
-        return SecurityUtility.passwordEncoder();
+    private final UserRoleRepository userRoleRepository;
+
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, UserRoleRepository userRoleRepository ) {
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.userRoleRepository = userRoleRepository;
     }
 
     @Override
-    public User createUser(User user) {
-        User localUser = userRepository.findByUsername(user.getUsername());
+    public User create(User user) throws Exception {
+        return createUser(user, null);
+    }
 
-        if(localUser != null) {
-            LOG.info("User with username {} already exist. Nothing will be done. ", user.getUsername());
+    @Override
+    @Transactional
+    public User createUser(User user, Set<UserRole> userRoles) throws Exception {
+        if (findByUsername(user.getUsername().toLowerCase()) != null) {
+            LOG.info("User with username " + user.getUsername() + " already exist. User can't be created. ");
+        } else
+        if (findByEmail(user.getEmail()) != null) {
+            LOG.info("User with email " + user.getEmail() + " already exist. User can't be created. ");
         } else {
 
-            Set<UserRole> userRoles = new HashSet<>();
-            Role localRole = new Role();
-            localRole.setRoleId(1);
-            userRoles.add(new UserRole(user, localRole));
-            user.getUserRoles().addAll(userRoles);
+            user.setUsername(user.getUsername().toLowerCase());
+            if (!StringUtils.isEmpty(user.getPassword())) {
+                String encryptedPassword = SecurityUtility.passwordEncoder().encode(user.getPassword());
+                user.setPassword(encryptedPassword);
+            }
 
-            Date today = new Date();
-            user.setJoinDate(today);
+            if (userRoles != null && userRoles.size() > 0) {
+                user.getUserRoles().addAll(userRoles);
+            }
+            User localUser = userRepository.save(user);
 
-            String encryptedPassword = SecurityUtility.passwordEncoder().encode(user.getPassword());
-            user.setPassword(encryptedPassword);
-
-            localUser = userRepository.save(user);
+            return localUser;
         }
 
-        return localUser;
+        return null;
+    }
+
+    public User save(User user) {
+        return userRepository.save(user);
     }
 
     @Override
-    public User getUserByEmail(String email) {
+    public User findById(Long id) {
+        return userRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username.toLowerCase());
+    }
+
+
+    @Override
+    public User findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 
-    @Override
-    public User getUserByUsername(String username) {
-        return userRepository.findByUsername(username);
-    }
-
 
     @Override
-    public User getUserById(Long id) {
-        return userRepository.findById(id).get();
+    public List<User> findAll() {
+        List<User> userList = userRepository.findAll();
+        return userList;
     }
-
-    @Override
-    public User updateUser(User user) throws NotFoundException {
-        User localUser = getUserById(user.getId());
-        if(localUser==null) {
-            throw new NotFoundException("User not found");
-        }
-
-        localUser.setFirstName(user.getFirstName());
-        localUser.setLastName(user.getLastName());
-        localUser.setEmail(user.getEmail());
-        localUser.setPhone(user.getPhone());
-
-        localUser = userRepository.save(localUser);
-
-        return localUser;
-    }
-
-    @Override
-    public void updatePassword(User user, String newPassword) {
-        String encodedPassword = passwordEncoder().encode(newPassword);
-
-        user.setPassword(encodedPassword);
-        userRepository.save(user);
-    }
-
-
 }

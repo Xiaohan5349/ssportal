@@ -22,7 +22,7 @@ public class UserController {
     @RequestMapping("/getCurrentUser")
     public User getUser(Principal principal) {
         String username = principal.getName();
-        User user = userService.getUserByUsername(username);
+        User user = userService.findByUsername(username);
 
         return user;
     }
