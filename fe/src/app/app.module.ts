@@ -8,11 +8,17 @@ import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { HomeComponent } from './@components/home/home.component';
 import { HttpClientModule } from '@angular/common/http';
 import {NbAuthModule, NbPasswordAuthStrategy} from "@nebular/auth";
+import {LoginService} from "./@core/services/login.service";
+import { LoginComponent } from './@components/login/login.component';
+import {AuthGuard} from "./@auth/auth.guard";
+import {JwtAuthService} from "./@core/services/jwt-auth.service";
+import {LocalStoreService} from "./@core/services/local-store.service";
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent
+    HomeComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -50,7 +56,7 @@ import {NbAuthModule, NbPasswordAuthStrategy} from "@nebular/auth";
       forms: {},
     }),
   ],
-  providers: [],
+  providers: [LoginService, AuthGuard, JwtAuthService, LocalStoreService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

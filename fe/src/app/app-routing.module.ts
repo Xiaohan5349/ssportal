@@ -1,30 +1,18 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {HomeComponent} from "./@components/home/home.component";
-import {NbAuthComponent, NbLoginComponent, NbLogoutComponent} from "@nebular/auth";
+import {LoginComponent} from "./@components/login/login.component";
+import {AuthGuard} from "./@auth/auth.guard";
 
 const routes: Routes = [
   {
-    path: 'auth',
-    component: NbAuthComponent,
-    children: [
-      {
-        path: '',
-        component: NbLoginComponent,
-      },
-      {
-        path: 'login',
-        component: NbLoginComponent,
-      },
-      {
-        path: 'logout',
-        component: NbLogoutComponent,
-      },
-    ],
+    path: 'login',
+    component: LoginComponent
   },
   {
     path: 'home',
-    component: HomeComponent
+    component: HomeComponent,
+    canActivate: [AuthGuard]
   },
   {path: '', redirectTo: 'home', pathMatch: 'full'},
   {path: 'users', loadChildren: () => import('./@components/users/users.module').then(m => m.UsersModule)},
