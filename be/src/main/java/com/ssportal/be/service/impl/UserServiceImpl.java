@@ -1,9 +1,9 @@
 package com.ssportal.be.service.impl;
 
-import com.ssportal.be.config.SecurityUtility;
 import com.ssportal.be.model.User;
 import com.ssportal.be.model.security.Role;
 import com.ssportal.be.model.security.UserRole;
+import com.ssportal.be.model.util.SecurityUtility;
 import com.ssportal.be.repository.UserRepository;
 import com.ssportal.be.service.UserService;
 import javassist.NotFoundException;

@@ -11,7 +11,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 
-import static com.ssportal.be.config.SecurityUtility.passwordEncoder;
+import static com.ssportal.be.model.util.SecurityUtility.passwordEncoder;
+
 
 @Configuration
 @EnableWebSecurity

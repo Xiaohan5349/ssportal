@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {NbThemeModule, NbLayoutModule, NbIconModule, NbSidebarModule, NbMenuModule} from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { HomeComponent } from './@components/home/home.component';
+import { HttpClientModule } from '@angular/common/http';
+import {NbAuthModule, NbPasswordAuthStrategy} from "@nebular/auth";
 
 @NgModule({
   declarations: [
@@ -22,7 +23,32 @@ import { HomeComponent } from './@components/home/home.component';
     NbMenuModule.forRoot(),
     NbThemeModule.forRoot({name: 'corporate'}),
     NbLayoutModule,
-    NbEvaIconsModule
+    NbEvaIconsModule,
+    HttpClientModule,
+    NbAuthModule.forRoot({
+      strategies: [
+        NbPasswordAuthStrategy.setup({
+          name: 'email',
+          baseEndpoint: 'http://example.com/app-api/v1',
+          login: {
+            endpoint: '/auth/sign-in',
+          },
+          register: {
+            endpoint: '/auth/sign-up',
+          },
+          logout: {
+            endpoint: '/auth/sign-out',
+          },
+          requestPass: {
+            endpoint: '/auth/request-pass',
+          },
+          resetPass: {
+            endpoint: '/auth/reset-pass',
+          },
+        }),
+      ],
+      forms: {},
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent]

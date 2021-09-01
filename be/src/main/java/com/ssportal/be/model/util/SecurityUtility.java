@@ -1,4 +1,4 @@
-package com.ssportal.be.config;
+package com.ssportal.be.model.util;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

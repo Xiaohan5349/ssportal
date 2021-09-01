@@ -32,11 +32,13 @@ public class User implements Serializable, UserDetails {
 
     private String company;
     private String phone;
+    private String fax;
     private String username;
 
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
     @Temporal(TemporalType.DATE)
     private Date birthday;
+
 
     public Long getId() {
         return id;
@@ -96,13 +98,7 @@ public class User implements Serializable, UserDetails {
         this.password = password;
     }
 
-    public Set<UserRole> getUserRoles() {
-        return userRoles;
-    }
 
-    public void setUserRoles(Set<UserRole> userRoles) {
-        this.userRoles = userRoles;
-    }
 
     public String getCompany() {
         return company;
@@ -120,6 +116,14 @@ public class User implements Serializable, UserDetails {
         this.phone = phone;
     }
 
+    public String getFax() {
+        return fax;
+    }
+
+    public void setFax(String fax) {
+        this.fax = fax;
+    }
+
     public Date getBirthday() {
         return birthday;
     }
@@ -127,6 +131,16 @@ public class User implements Serializable, UserDetails {
     public void setBirthday(Date birthday) {
         this.birthday = birthday;
     }
+
+    public Set<UserRole> getUserRoles() {
+        return userRoles;
+    }
+
+    public void setUserRoles(Set<UserRole> userRoles) {
+        this.userRoles = userRoles;
+    }
+
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -6,7 +6,6 @@ import com.ssportal.be.model.User;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Objects;
 
 @Entity
 @Table(name="user_role")
