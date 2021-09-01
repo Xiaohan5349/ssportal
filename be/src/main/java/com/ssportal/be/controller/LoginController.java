@@ -8,6 +8,8 @@ import com.ssportal.be.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -48,8 +50,19 @@ public class LoginController {
             @RequestBody HashMap<String, Object> mapper
     ){
         ObjectMapper om = new ObjectMapper();
-        String username = (String) mapper.get("username");
-        String password = (String) mapper.get("password");
+        String username = mapper.get("username");
+        String password = mapper.get("password");
+        if (username != null && password != null) {
+            username = username.toLowerCase();
+            try {
+                Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+                final String token = jwtTokenUtil.generateToken(authentication.getPrincipal());
+                return new ApiResponse<>(200, "success", new AuthToken(token, username));
+            } catch (Exception ex) {
+                LOG.error("", ex);
+                return EsdUtil.handleException(ex);
+            }
+        }
 
     }
 

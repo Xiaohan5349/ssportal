@@ -19,7 +19,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @RequestMapping("/getUser")
+    @RequestMapping("/getCurrentUser")
     public User getUser(Principal principal) {
         String username = principal.getName();
         User user = userService.getUserByUsername(username);

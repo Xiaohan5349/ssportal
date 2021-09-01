@@ -19,11 +19,6 @@ public class RequestFilter implements Filter {
         String origin = request.getHeader("Origin");
 
         response.setHeader("Access-Control-Allow-Origin", origin);
-//        response.setHeader("Access-Control-Allow-Origin", "http://107.191.51.151");
-//        response.setHeader("Access-Control-Allow-Origin", "http://192.144.132.111");
-//        response.setHeader("Access-Control-Allow-Origin", "http://140.143.15.26");
-
-
 
         response.setHeader("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE");
 //        response.setHeader("Access-Control-Allow-Headers", "x-requested-with, x-auth-token");
@@ -38,9 +33,7 @@ public class RequestFilter implements Filter {
                 e.printStackTrace();
             }
         } else {
-            System.out.println("Pre-flight");
             response.setHeader("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE");
-
             response.setHeader("Access-Control-Max-Age", "3600");
             response.setHeader("Access-Control-Allow-Headers", "authorization, content-type, x-auth-token, " +
                     "access-control-request-headers,access-control-request-method,accept,origin,authorization,x-requested-with");

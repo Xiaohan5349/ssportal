@@ -36,18 +36,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private static final String[] PUBLIC_MATCHERS = {
             "/css/**",
             "/js/**",
-            "/image/**",
             "/login/**",
             "/logout/**",
-            "/user",
-            "/user/forgetpassword",
-            "/user/oauthUser",
-            "/authenticate",
-            "/otp",
-            "/googleLogin",
-            "/googleLoginPost",
-            "/segment/getCurrentSegmentData",
-            "/segment/saveSegmentAnnotation"
     };
 
     @Override

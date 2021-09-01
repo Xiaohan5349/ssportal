@@ -1,1 +1,19 @@
-<p>login works!</p>
+<div class="container">
+  <h1 id="title" class="title">Login</h1>
+  <nb-alert *ngIf="errorMsg" status="warning">{{errorMsg}}</nb-alert>
+  <div>
+    <input nbInput class="mb-1" [(ngModel)]="credential.username"
+           fullWidth name="username"
+           id="input-username"
+           placeholder="Username">
+    <input nbInput class="mb-1" [(ngModel)]="credential.password"
+           fullWidth name="password"
+           id="input-password"
+           type="password"
+           placeholder="Password">
+    <button nbButton fullWidth status="primary" size="large" [disabled]="!this.credential.username || !this.credential.password"
+            (click)="onLogin()">
+      Log In
+    </button>
+  </div>
+</div>

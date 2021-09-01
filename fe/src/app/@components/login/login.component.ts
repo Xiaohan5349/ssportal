@@ -2,6 +2,11 @@ import {Component, OnInit} from '@angular/core';
 import {AppConst} from "../../@core/helpers/app-const";
 import {Router} from "@angular/router";
 import {LoginService} from "../../@core/services/login.service";
+import {FormGroup} from "@angular/forms";
+import {JwtAuthService} from "../../@core/services/jwt-auth.service";
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {environment} from "../../../environments/environment";
+import {User} from "../../@core/models/user";
 
 @Component({
   selector: 'app-login',
@@ -9,56 +14,45 @@ import {LoginService} from "../../@core/services/login.service";
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-
-  busy: boolean = false;
-
   serverPath = AppConst.serverPath;
-  loginError: boolean = false;
-  loggedIn = false;
+  errorMsg;
   credential = {'username': '', 'password': ''};
-  emailSent: boolean = false;
-  usernameExists: boolean = false;
-  emailExists: boolean = false;
-  username: string = '';
-  email: string = '';
 
   constructor(
     private loginService: LoginService,
-    private router: Router
+    private router: Router,
+    private jwtAuth: JwtAuthService,
+    private http: HttpClient
   ) {
   }
 
   onLogin() {
-    this.busy = true;
+    this.jwtAuth.signin(this.credential.username, this.credential.password)
+      .subscribe(res => {
+        this.jwtAuth.setToken(res['result'].token);
+        const httpOptions = {
+          headers: new HttpHeaders({'Authorization': 'Bearer ' + res.result.token})
+        };
 
-    if (this.credential.username.trim() == "" || this.credential.password.trim() == "") {
-      this.busy = false;
-      this.loggedIn = false;
-      this.loginError = true;
-    } else {
-      this.loginService.sendCredential(this.credential.username, this.credential.password).subscribe(
-        res => {
-          const result: any = res;
-          let user = result.json();
-          console.log(user);
-          this.loggedIn = true;
-          let role = user.role[0].authority;
+        this.http.get(`${environment.apiURL}/user/get-current-user`, httpOptions).subscribe(
+          user => {
+            const me = <User> user;
 
-          if (role == 'ROLE_USER') {
-            this.router.navigate(['/dashboard']);
+            // me.roles = [];
+            // for (let i = 0; i < authorities.length; i++) {
+            //   const role = authorities[i].authority;
+            //   me.roles.push(role);
+            // }
+
+            this.jwtAuth.setUserAndToken(res.result.token, me, !!res);
+
+            this.router.navigateByUrl(this.jwtAuth.return);
+          }, error => {
           }
-
-          if (role == 'ROLE_ADMIN') {
-            this.router.navigate(['/adminDashboard']);
-          }
-        },
-        error => {
-          this.busy = false;
-          this.loggedIn = false;
-          this.loginError = true;
-        }
-      );
-    }
+        );
+      }, err => {
+        this.errorMsg = 'Invalid Username/Password. Please try again.';
+      })
   }
 
   ngOnInit(): void {

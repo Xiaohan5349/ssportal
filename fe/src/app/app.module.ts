@@ -3,7 +3,14 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {NbThemeModule, NbLayoutModule, NbIconModule, NbSidebarModule, NbMenuModule} from '@nebular/theme';
+import {
+  NbThemeModule,
+  NbLayoutModule,
+  NbIconModule,
+  NbSidebarModule,
+  NbMenuModule,
+  NbButtonModule, NbInputModule, NbAlertModule
+} from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { HomeComponent } from './@components/home/home.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -13,6 +20,7 @@ import { LoginComponent } from './@components/login/login.component';
 import {AuthGuard} from "./@auth/auth.guard";
 import {JwtAuthService} from "./@core/services/jwt-auth.service";
 import {LocalStoreService} from "./@core/services/local-store.service";
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -24,37 +32,18 @@ import {LocalStoreService} from "./@core/services/local-store.service";
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    FormsModule,
     NbIconModule,
+    NbAlertModule,
     NbSidebarModule.forRoot(),
     NbMenuModule.forRoot(),
-    NbThemeModule.forRoot({name: 'corporate'}),
+    NbThemeModule.forRoot(),
+    NbInputModule,
+    NbButtonModule,
     NbLayoutModule,
     NbEvaIconsModule,
-    HttpClientModule,
-    NbAuthModule.forRoot({
-      strategies: [
-        NbPasswordAuthStrategy.setup({
-          name: 'email',
-          baseEndpoint: 'http://example.com/app-api/v1',
-          login: {
-            endpoint: '/auth/sign-in',
-          },
-          register: {
-            endpoint: '/auth/sign-up',
-          },
-          logout: {
-            endpoint: '/auth/sign-out',
-          },
-          requestPass: {
-            endpoint: '/auth/request-pass',
-          },
-          resetPass: {
-            endpoint: '/auth/reset-pass',
-          },
-        }),
-      ],
-      forms: {},
-    }),
+    HttpClientModule
+
   ],
   providers: [LoginService, AuthGuard, JwtAuthService, LocalStoreService],
   bootstrap: [AppComponent]
