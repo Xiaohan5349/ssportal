@@ -7,7 +7,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
   providedIn: 'root'
 })
 export class LoginService {
-  private serverPath: string = AppConst.serverPath;
+  private serverPath: string = AppConst.SERVER_PATH;
 
   constructor(
     private http: HttpClient

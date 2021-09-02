@@ -1,11 +1,31 @@
 <div class="container">
-<nb-card status="info">
-  <nb-card-header>My Device List</nb-card-header>
-  <nb-card-body>
-    You don't have any device.
-  </nb-card-body>
-  <nb-card-footer>
-    <button nbButton status="info">Register Device</button>
-  </nb-card-footer>
-</nb-card>
+  <nb-card status="info">
+    <nb-card-header><nb-icon icon="person" class="mr-1"></nb-icon>User Information</nb-card-header>
+    <nb-card-body>
+      <div class="row">
+        <div class="col">
+          <p>First Name: <strong>{{user?.fname}}</strong></p>
+          <p>Last Name: <strong>{{user?.lname}}</strong></p>
+          <p>Username: <strong>{{user?.userName}}</strong></p>
+          <p>Email: <strong>{{user?.email}}</strong></p>
+        </div>
+        <div class="col">
+          <p>Status: <strong>{{user?.status}}</strong></p>
+          <p>User Enabled: <strong>{{user?.userEnabled}}</strong></p>
+          <p>Last Login: <strong>{{user?.lastLogin | date:'medium'}}</strong></p>
+          <p>User Bypass: <strong>{{user?.userInBypass}}</strong></p>
+        </div>
+      </div>
+    </nb-card-body>
+  </nb-card>
+
+  <nb-card status="info">
+    <nb-card-header><nb-icon icon="smartphone" class="mr-1"></nb-icon>My Device List</nb-card-header>
+    <nb-card-body>
+      You don't have any device.
+    </nb-card-body>
+    <nb-card-footer>
+      <button nbButton status="info">Register Device</button>
+    </nb-card-footer>
+  </nb-card>
 </div>

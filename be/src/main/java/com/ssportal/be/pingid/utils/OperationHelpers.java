@@ -84,11 +84,11 @@ public class OperationHelpers {
         try {
             URL restUrl = new URL(operation.getEndpoint());
             HttpURLConnection urlConnection = (HttpURLConnection) restUrl.openConnection();
+            urlConnection.setDoOutput(true);
             urlConnection.setRequestMethod("POST");
             urlConnection.addRequestProperty("Content-Type", "application/json");
             urlConnection.addRequestProperty("Accept", "*/*");
 
-            urlConnection.setDoOutput(true);
             outputStreamWriter = new OutputStreamWriter(urlConnection.getOutputStream(), "UTF-8");
             outputStreamWriter.write(operation.getRequestToken());
             outputStreamWriter.flush();
@@ -102,7 +102,7 @@ public class OperationHelpers {
                 String encoding = urlConnection.getContentEncoding();
                 try (InputStream is = urlConnection.getInputStream()) {
                     String stringJWS = IOUtils.toString(is, encoding);
-                    operation.setRequestToken(stringJWS);
+                    operation.setResponseToken(stringJWS);
                     operation.setWasSuccessful(true);
                 }
                 urlConnection.disconnect();
@@ -111,7 +111,7 @@ public class OperationHelpers {
                 String encoding = urlConnection.getContentEncoding();
                 try (InputStream is = urlConnection.getErrorStream()) {
                     String stringJWS = IOUtils.toString(is, encoding);
-                    operation.setRequestToken(stringJWS);
+                    operation.setResponseToken(stringJWS);
                     operation.setWasSuccessful(false);
                 }
                 urlConnection.disconnect();
@@ -139,7 +139,7 @@ public class OperationHelpers {
         try {
 
             JsonWebSignature responseJWS = new JsonWebSignature();
-            responseJWS.setCompactSerialization(operation.getRequestToken());
+            responseJWS.setCompactSerialization(operation.getResponseToken());
             HmacKey key = new HmacKey(Base64.decode(operation.getUseBase64Key()));
             responseJWS.setKey(key);
             // Getting response payload

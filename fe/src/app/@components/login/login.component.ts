@@ -15,7 +15,7 @@ import {HelperService} from "../../@core/services/helper.service";
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  serverPath = AppConst.serverPath;
+  serverPath = AppConst.SERVER_PATH;
   errorMsg;
   credential = {'username': '', 'password': ''};
 

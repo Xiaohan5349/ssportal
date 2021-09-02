@@ -3,6 +3,7 @@ package com.ssportal.be.pingid.service.impl;
 import com.ssportal.be.pingid.model.DeviceDetail;
 import com.ssportal.be.pingid.model.Operation;
 import com.ssportal.be.pingid.model.PingIdUser;
+import com.ssportal.be.pingid.service.PingIdOperationService;
 import com.ssportal.be.pingid.utils.OperationHelpers;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
@@ -15,6 +16,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,7 +28,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
-public class PingIdOperationServiceImpl {
+@Service
+public class PingIdOperationServiceImpl implements PingIdOperationService {
     private static final Logger LOG = Logger.getLogger(PingIdOperationServiceImpl.class);
 
     // public methods
@@ -62,7 +65,7 @@ public class PingIdOperationServiceImpl {
     }
 
     @SuppressWarnings("unchecked")
-    public boolean GetUserDetails(Operation operation) {
+    public JSONObject GetUserDetails(Operation operation) {
 
         operation.setName("GetUserDetails");
         operation.setEndpoint(operation.getApiUrl() + "/rest/4/getuserdetails/do");
@@ -82,13 +85,13 @@ public class PingIdOperationServiceImpl {
 
         JSONObject userDetails = (JSONObject) response.get("userDetails");
         if (userDetails == null) {
-            return false;
+            return null;
         }
         operation.setPingIdUser(new PingIdUser(userDetails));
         if (userDetails.get("deviceDetails") != null) {
             DeviceDetail deviceDetail = new DeviceDetail((JSONObject) userDetails.get("deviceDetails"));
             operation.getPingIdUser().setDeviceDetail(deviceDetail);
         }
-        return true;
+        return userDetails;
     }
 }

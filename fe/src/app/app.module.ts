@@ -13,7 +13,7 @@ import {
 } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { HomeComponent } from './@components/home/home.component';
-import { HttpClientModule } from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {NbAuthModule, NbPasswordAuthStrategy, NbUser} from "@nebular/auth";
 import {LoginService} from "./@core/services/login.service";
 import { LoginComponent } from './@components/login/login.component';
@@ -24,6 +24,8 @@ import {FormsModule} from "@angular/forms";
 import {HelperService} from "./@core/services/helper.service";
 import {FlexLayoutModule} from "@angular/flex-layout";
 import { LogoutComponent } from './@components/logout/logout.component';
+import {UserService} from "./@core/services/user.service";
+import {TokenInterceptor} from "./@auth/token.interceptor";
 
 @NgModule({
   declarations: [
@@ -55,8 +57,14 @@ import { LogoutComponent } from './@components/logout/logout.component';
 
   ],
   providers: [
+    // REQUIRED IF YOU USE JWT AUTHENTICATION
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true,
+    },,
     LoginService, AuthGuard, JwtAuthService, LocalStoreService,
-    HelperService
+    HelperService, UserService
   ],
   bootstrap: [AppComponent]
 })

@@ -8,10 +8,10 @@ import {
 import {Observable, throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import {Router} from '@angular/router';
-import 'rxjs/add/operator/do';
 import {AppConst} from "../@core/utils/app-const";
 import {JwtAuthService} from "../@core/services/jwt-auth.service";
 import {LocalStoreService} from "../@core/services/local-store.service";
+import 'rxjs/add/operator/do';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
@@ -37,7 +37,6 @@ export class TokenInterceptor implements HttpInterceptor {
         } else {
             changedReq = req;
         }
-
         return next.handle(changedReq).do((event: HttpEvent<any>) => {
             if (event instanceof HttpResponse) {
                 // do stuff with response if you want

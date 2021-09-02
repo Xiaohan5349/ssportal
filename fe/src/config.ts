@@ -6,7 +6,7 @@
 import {AppConst} from "./app/@core/utils/app-const";
 
 export const config = {
-  apiUrl: AppConst.serverPath,
+  apiUrl: AppConst.SERVER_PATH,
   // authRoles: {
   //   sa: ['SA'], // Only Super Admin has access
   //   admin: ['SA', 'Admin'], // Only SA & Admin has access
