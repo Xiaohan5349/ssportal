@@ -18,3 +18,8 @@ server:
     context-path: /ssportal/be
   port: 8181
 
+# logging
+logging:
+  file:
+    name: name=logs/ssportal.log
+    max-size: 20MB

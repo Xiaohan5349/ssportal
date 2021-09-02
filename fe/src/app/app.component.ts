@@ -32,12 +32,11 @@ export class AppComponent {
     this.helperService.isUserLoggedIn.subscribe(res => {
       if (res) {
         this.loggedIn = true;
+        this.sessionUser = this.jwtAuth.getUser();
       } else {
         this.loggedIn = false;
       }
     })
-
-    this.sessionUser = this.jwtAuth.getUser();
   }
 
   toggleSidebar(): boolean {

@@ -8,13 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @SpringBootApplication
-@EnableSwagger2
 public class BeApplication implements CommandLineRunner {
     public final UserService userService;
 
@@ -40,5 +38,17 @@ public class BeApplication implements CommandLineRunner {
         role1.setName("ROLE_ADMIN");
         userRoles.add(new UserRole(user1, role1));
         userService.createUser(user1, userRoles);
+
+        userRoles.clear();
+        User user2 = new User();
+        user2.setFirstName("Le");
+        user2.setLastName("Deng");
+        user2.setUsername("ldeng");
+        user2.setPassword("password");
+        user2.setEmail("le.deng@authright.com");
+        Role role2 = new Role();
+        role2.setName("ROLE_USER");
+        userRoles.add(new UserRole(user2, role2));
+        userService.createUser(user2, userRoles);
     }
 }
