@@ -50,5 +50,15 @@ public class BeApplication implements CommandLineRunner {
         role2.setName("ROLE_USER");
         userRoles.add(new UserRole(user2, role2));
         userService.createUser(user2, userRoles);
+
+        userRoles.clear();
+        User user3 = new User();
+        user3.setFirstName("lPing");
+        user3.setLastName("Deng");
+        user3.setUsername("ldengpingproject");
+        user3.setPassword("password");
+        user3.setEmail("ray.deng83@authright.com");
+        userRoles.add(new UserRole(user3, role2));
+        userService.createUser(user3, userRoles);
     }
 }

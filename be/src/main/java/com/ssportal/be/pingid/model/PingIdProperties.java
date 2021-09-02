@@ -180,4 +180,127 @@ public class PingIdProperties {
         return activateUserEnabled;
     }
 
+    public String getPingid_org_alias() {
+        return pingid_org_alias;
+    }
+
+    public void setPingid_org_alias(String pingid_org_alias) {
+        this.pingid_org_alias = pingid_org_alias;
+    }
+
+    public String getPingid_token() {
+        return pingid_token;
+    }
+
+    public void setPingid_token(String pingid_token) {
+        this.pingid_token = pingid_token;
+    }
+
+    public String getPingid_use_base64_key() {
+        return pingid_use_base64_key;
+    }
+
+    public void setPingid_use_base64_key(String pingid_use_base64_key) {
+        this.pingid_use_base64_key = pingid_use_base64_key;
+    }
+
+    public String getBase_url() {
+        return base_url;
+    }
+
+    public void setBase_url(String base_url) {
+        this.base_url = base_url;
+    }
+
+    public String getLogin_url() {
+        return login_url;
+    }
+
+    public void setLogin_url(String login_url) {
+        this.login_url = login_url;
+    }
+
+    public String getApp_url() {
+        return app_url;
+    }
+
+    public void setApp_url(String app_url) {
+        this.app_url = app_url;
+    }
+
+    public String getLogout_path() {
+        return logout_path;
+    }
+
+    public void setLogout_path(String logout_path) {
+        this.logout_path = logout_path;
+    }
+
+    public String getRefid_user() {
+        return refid_user;
+    }
+
+    public void setRefid_user(String refid_user) {
+        this.refid_user = refid_user;
+    }
+
+    public String getRefid_pwd() {
+        return refid_pwd;
+    }
+
+    public void setRefid_pwd(String refid_pwd) {
+        this.refid_pwd = refid_pwd;
+    }
+
+    public String getInstance_id() {
+        return instance_id;
+    }
+
+    public void setInstance_id(String instance_id) {
+        this.instance_id = instance_id;
+    }
+
+    public int getMax_devices_count() {
+        return max_devices_count;
+    }
+
+    public void setMax_devices_count(int max_devices_count) {
+        this.max_devices_count = max_devices_count;
+    }
+
+    public String getApi_url() {
+        return api_url;
+    }
+
+    public void setApi_url(String api_url) {
+        this.api_url = api_url;
+    }
+
+    public void setClientIP(String clientIP) {
+        this.clientIP = clientIP;
+    }
+
+    public void setDesktopEnabled(boolean desktopEnabled) {
+        this.desktopEnabled = desktopEnabled;
+    }
+
+    public void setMfaBypassEnabled(boolean mfaBypassEnabled) {
+        this.mfaBypassEnabled = mfaBypassEnabled;
+    }
+
+    public void setActivateUserEnabled(boolean activateUserEnabled) {
+        this.activateUserEnabled = activateUserEnabled;
+    }
+
+    public void setBypassDuration(int bypassDuration) {
+        this.bypassDuration = bypassDuration;
+    }
+
+    public void setWebAuthnRegUrl(String webAuthnRegUrl) {
+        this.webAuthnRegUrl = webAuthnRegUrl;
+    }
+
+    public void setWebAuthnAuthUrl(String webAuthnAuthUrl) {
+        this.webAuthnAuthUrl = webAuthnAuthUrl;
+    }
 }

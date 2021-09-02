@@ -2,6 +2,8 @@ package com.ssportal.be.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.attribute.UserPrincipal;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Properties;
@@ -30,18 +32,22 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/pingid")
 public class PingIdController {
     private static final Logger LOG = Logger.getLogger(PingIdController.class);
+    private PingIdProperties pingIdProperties;
+
+    public PingIdController() throws IOException {
+        this.pingIdProperties = new PingIdProperties();
+        pingIdProperties.setProperties(0);
+    }
 
     @Autowired
     private PingIdOperationService pingIdOperationService;
 
     @RequestMapping(value = "/getUserDetails", method = RequestMethod.GET)
-    public JSONObject getUserDetails() throws IOException, ServletException {
-        String pingid_org_alias = "dffd9656-dfb8-4a0b-bb35-8590e62984e4";
-        String pingid_token = "2e7ad6a77f7b44d28f3253c4793f3d08";
-        String pingid_use_base64_key = "RY6nkQLFbbl1geD4Vn82OIKc5Bd7RVnc7+2SjESehyQ=";
-        String api_url = "https://idpxnyl3m.pingidentity.com/pingid";
-        Operation operation = new Operation(pingid_org_alias, pingid_token, pingid_use_base64_key, api_url);
-        operation.setTargetUser("ldeng");
+    public JSONObject getUserDetails(Principal principal) throws IOException, ServletException {
+
+        Operation operation = new Operation(pingIdProperties.getOrgAlias(), pingIdProperties.getPingid_token(), pingIdProperties.getPingid_use_base64_key(), pingIdProperties.getApi_url());
+        String username = principal.getName();
+        operation.setTargetUser(username);
         JSONObject userDetails = pingIdOperationService.GetUserDetails(operation);
 
         return userDetails;
@@ -62,7 +68,6 @@ public class PingIdController {
     @RequestMapping(value = "/addUser", method = RequestMethod.POST)
     public void addUser(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
     }
-
 
 
     @RequestMapping(value = "/makeDevicePrimary", method = RequestMethod.POST)
