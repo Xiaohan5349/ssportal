@@ -1,7 +1,11 @@
 package com.ssportal.be.pingid.service.impl;
 
+import com.ssportal.be.pingid.model.DeviceDetail;
 import com.ssportal.be.pingid.model.Operation;
+import com.ssportal.be.pingid.model.PingIdUser;
+import com.ssportal.be.pingid.utils.OperationHelpers;
 import org.apache.commons.io.IOUtils;
+import org.apache.log4j.Logger;
 import org.jose4j.base64url.Base64;
 import org.jose4j.jws.AlgorithmIdentifiers;
 import org.jose4j.jws.JsonWebSignature;
@@ -23,38 +27,68 @@ import java.util.Date;
 import java.util.TimeZone;
 
 public class PingIdOperationServiceImpl {
+    private static final Logger LOG = Logger.getLogger(PingIdOperationServiceImpl.class);
+
     // public methods
     public JSONObject AddUser(Boolean activateUser) {
-        Operation opera = new Operation();
+        Operation operation = new Operation();
 
-        opera.setName("AddUser");
-        opera.setEndpoint(opera.getApiUrl() + "/rest/4/adduser/do");
+        operation.setName("AddUser");
+        operation.setEndpoint(operation.getApiUrl() + "/rest/4/adduser/do");
 
         JSONObject reqBody = new JSONObject();
         reqBody.put("activateUser", activateUser);
-        if (opera.getPingIdUser().getEmail() != null) {
-            reqBody.put("email", opera.getPingIdUser().getEmail());
+        if (operation.getPingIdUser().getEmail() != null) {
+            reqBody.put("email", operation.getPingIdUser().getEmail());
         }
-        if (opera.getPingIdUser().getfName() != null) {
-            reqBody.put("fName", opera.getPingIdUser().getfName());
+        if (operation.getPingIdUser().getfName() != null) {
+            reqBody.put("fName", operation.getPingIdUser().getfName());
         }
-        if (opera.getPingIdUser().getlName() != null) {
-            reqBody.put("lname", opera.getPingIdUser().getlName());
+        if (operation.getPingIdUser().getlName() != null) {
+            reqBody.put("lname", operation.getPingIdUser().getlName());
         }
-        reqBody.put("username", opera.getPingIdUser().getUserName());
-        reqBody.put("role", opera.getPingIdUser().getRole().getValue());
-        reqBody.put("clientData", opera.getClientData());
+        reqBody.put("username", operation.getPingIdUser().getUserName());
+        reqBody.put("role", operation.getPingIdUser().getRole().getValue());
+        reqBody.put("clientData", operation.getClientData());
 
-        opera.setRequestToken(opera.(reqBody));
-
-        sendRequest();
-        JSONObject response = parseResponse();
-        values.clear();
+        operation.setRequestToken(OperationHelpers.buildRequestToken(reqBody, operation));
+        OperationHelpers.sendRequest(operation);
+        JSONObject response = OperationHelpers.parseResponse(operation);
+        operation.getValues().clear();
         if (activateUser) {
-            this.lastActivationCode = (String) response.get("activationCode");
+            operation.setLastActivationCode((String) response.get("activationCode"));
         }
         return response;
     }
 
+    @SuppressWarnings("unchecked")
+    public boolean GetUserDetails(Operation operation) {
 
+        operation.setName("GetUserDetails");
+        operation.setEndpoint(operation.getApiUrl() + "/rest/4/getuserdetails/do");
+
+        JSONObject reqBody = new JSONObject();
+        reqBody.put("getSameDeviceUsers", false);
+        reqBody.put("userName", operation.getPingIdUser().getUserName());
+        reqBody.put("clientData", operation.getClientData());
+
+        operation.setRequestToken(OperationHelpers.buildRequestToken(reqBody, operation));
+
+        OperationHelpers.sendRequest(operation);
+        operation.getValues().clear();
+
+        JSONObject response = OperationHelpers.parseResponse(operation);
+        LOG.debug("API response from operation = GetUserDetails for user = " + operation.getPingIdUser().getUserName() + ": " + response);
+
+        JSONObject userDetails = (JSONObject) response.get("userDetails");
+        if (userDetails == null) {
+            return false;
+        }
+        operation.setPingIdUser(new PingIdUser(userDetails));
+        if (userDetails.get("deviceDetails") != null) {
+            DeviceDetail deviceDetail = new DeviceDetail((JSONObject) userDetails.get("deviceDetails"));
+            operation.getPingIdUser().setDeviceDetail(deviceDetail);
+        }
+        return true;
+    }
 }

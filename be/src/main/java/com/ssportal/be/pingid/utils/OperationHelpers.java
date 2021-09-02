@@ -22,7 +22,7 @@ import java.util.Date;
 import java.util.TimeZone;
 
 public class OperationHelpers {
-    private static final Logger LOG = Logger.getLogger(OperationHelpers.class);
+    public static final Logger LOG = Logger.getLogger(OperationHelpers.class);
 
     @SuppressWarnings("unchecked")
     public static String buildRequestToken(JSONObject requestBody, Operation operation) {
@@ -79,7 +79,7 @@ public class OperationHelpers {
         return PingIDDateFormat.format(currentDate);
     }
 
-    private static void sendRequest(Operation operation) {
+    public static void sendRequest(Operation operation) {
         OutputStreamWriter outputStreamWriter = null;
         try {
             URL restUrl = new URL(operation.getEndpoint());
