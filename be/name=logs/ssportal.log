@@ -834,3 +834,5 @@ org.springframework.security.authentication.BadCredentialsException: Bad credent
 2021-09-02 15:10:24.646  INFO 33382 --- [http-nio-8181-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
 2021-09-02 15:10:24.648  INFO 33382 --- [http-nio-8181-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
 2021-09-02 15:10:40.569  INFO 33382 --- [http-nio-8181-exec-4] c.s.be.config.JwtAuthenticationFilter    : couldn't find bearer string, will ignore the header of URI: /ssportal/be/authenticate
+2021-09-02 15:43:51.689  INFO 33382 --- [http-nio-8181-exec-3] c.s.be.config.JwtAuthenticationFilter    : couldn't find bearer string, will ignore the header of URI: /ssportal/be/authenticate
+2021-09-02 15:44:08.452  INFO 33382 --- [http-nio-8181-exec-9] c.s.be.config.JwtAuthenticationFilter    : couldn't find bearer string, will ignore the header of URI: /ssportal/be/authenticate
