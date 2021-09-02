@@ -1,7 +1,7 @@
-package com.ssportal.be.pingid.impl;
+package com.ssportal.be.pingid.service.impl;
 
 import com.ssportal.be.model.User;
-import com.ssportal.be.pingid.PingIdUserService;
+import com.ssportal.be.pingid.service.PingIdUserService;
 import org.springframework.stereotype.Service;
 
 @Service

@@ -1,4 +1,4 @@
-package com.ssportal.be.pingid;
+package com.ssportal.be.pingid.service;
 
 public interface PingIdMobileService {
 }

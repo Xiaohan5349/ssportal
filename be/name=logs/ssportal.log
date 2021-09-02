@@ -381,7 +381,7 @@ Update your application's configuration
 2021-09-01 20:56:51.668  INFO 11825 --- [http-nio-8181-exec-10] c.s.be.config.JwtAuthenticationFilter    : couldn't find bearer string, will ignore the header of URI: /v3/api-docs
 2021-09-01 20:56:51.914  INFO 11825 --- [http-nio-8181-exec-10] o.springdoc.api.AbstractOpenApiResource  : Init duration for springdoc-openapi is: 234 ms
 2021-09-01 20:56:59.811  INFO 11825 --- [http-nio-8181-exec-1] c.s.be.config.JwtAuthenticationFilter    : couldn't find bearer string, will ignore the header of URI: /v3/api-docs
-2021-09-01 20:57:09.908  INFO 11825 --- [http-nio-8181-exec-2] c.s.be.config.JwtAuthenticationFilter    : couldn't find bearer string, will ignore the header of URI: /user/getCurrentUser
+2021-09-01 20:57:09.908  INFO 11825 --- [http-nio-8181-exec-2] c.s.be.config.JwtAuthenticationFilter    : couldn't find bearer string, will ignore the header of URI: /pingIdUser/getCurrentUser
 2021-09-01 21:28:37.453  INFO 11825 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
 2021-09-01 21:28:37.462  INFO 11825 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
 2021-09-01 21:28:37.466  INFO 11825 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
@@ -569,3 +569,48 @@ Caused by: java.lang.IllegalArgumentException: Could not resolve placeholder 'op
 2021-09-01 21:32:00.680  INFO 12335 --- [http-nio-8181-exec-1] c.s.be.config.JwtAuthenticationFilter    : couldn't find bearer string, will ignore the header of URI: /ssportal/be/v3/api-docs
 2021-09-01 21:32:00.682  INFO 12335 --- [http-nio-8181-exec-2] c.s.be.config.JwtAuthenticationFilter    : couldn't find bearer string, will ignore the header of URI: /ssportal/be/swagger-ui/favicon-32x32.png
 2021-09-01 21:32:00.865  INFO 12335 --- [http-nio-8181-exec-1] o.springdoc.api.AbstractOpenApiResource  : Init duration for springdoc-openapi is: 178 ms
+2021-09-01 21:35:36.396  INFO 12335 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2021-09-01 21:35:36.400  INFO 12335 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2021-09-01 21:35:36.406  INFO 12335 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2021-09-01 21:35:39.385  INFO 12897 --- [main] com.ssportal.be.BeApplication            : Starting BeApplication using Java 11.0.10 on Les-MacBook-Pro-2.local with PID 12897 (/Users/ledeng/projects/ssportal/be/target/classes started by ledeng in /Users/ledeng/projects/ssportal/be)
+2021-09-01 21:35:39.387  INFO 12897 --- [main] com.ssportal.be.BeApplication            : No active profile set, falling back to default profiles: default
+2021-09-01 21:35:40.121  INFO 12897 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2021-09-01 21:35:40.173  INFO 12897 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 44 ms. Found 3 JPA repository interfaces.
+2021-09-01 21:35:40.406  INFO 12897 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@580fd26b' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-09-01 21:35:40.410  INFO 12897 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-09-01 21:35:40.607  INFO 12897 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8181 (http)
+2021-09-01 21:35:40.615  INFO 12897 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-09-01 21:35:40.616  INFO 12897 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.52]
+2021-09-01 21:35:40.697  INFO 12897 --- [main] o.a.c.c.C.[.[localhost].[/ssportal/be]   : Initializing Spring embedded WebApplicationContext
+2021-09-01 21:35:40.697  INFO 12897 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1109 ms
+2021-09-01 21:35:40.860  INFO 12897 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2021-09-01 21:35:40.903  INFO 12897 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.32.Final
+2021-09-01 21:35:41.007  INFO 12897 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2021-09-01 21:35:41.083  INFO 12897 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2021-09-01 21:35:41.190  INFO 12897 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2021-09-01 21:35:41.201  INFO 12897 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2021-09-01 21:35:41.789  INFO 12897 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2021-09-01 21:35:41.800  INFO 12897 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2021-09-01 21:35:42.223  WARN 12897 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2021-09-01 21:35:42.780  INFO 12897 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@7e2f16bd, org.springframework.security.web.context.SecurityContextPersistenceFilter@1bbfd42f, org.springframework.security.web.header.HeaderWriterFilter@79454d8e, org.springframework.web.filter.CorsFilter@594fcb22, org.springframework.security.web.authentication.logout.LogoutFilter@782ed745, com.ssportal.be.config.JwtAuthenticationFilter@5b86f4cb, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@48a61e38, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@4aadf144, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@1399ad68, org.springframework.security.web.session.SessionManagementFilter@69988d42, org.springframework.security.web.access.ExceptionTranslationFilter@576323ff, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@31921151]
+2021-09-01 21:35:42.913  WARN 12897 --- [main] ion$DefaultTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates or check your Thymeleaf configuration)
+2021-09-01 21:35:43.218  INFO 12897 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8181 (http) with context path '/ssportal/be'
+2021-09-01 21:35:43.227  INFO 12897 --- [main] com.ssportal.be.BeApplication            : Started BeApplication in 4.187 seconds (JVM running for 4.791)
+2021-09-01 21:35:43.352  INFO 12897 --- [main] com.ssportal.be.service.UserService      : User with username Admin1 already exist. User can't be created. 
+2021-09-01 21:35:43.365  INFO 12897 --- [main] com.ssportal.be.service.UserService      : User with username ldeng already exist. User can't be created. 
+2021-09-01 21:35:45.735  INFO 12897 --- [http-nio-8181-exec-1] o.a.c.c.C.[.[localhost].[/ssportal/be]   : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-09-01 21:35:45.736  INFO 12897 --- [http-nio-8181-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2021-09-01 21:35:45.737  INFO 12897 --- [http-nio-8181-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2021-09-01 21:35:45.754  INFO 12897 --- [http-nio-8181-exec-1] c.s.be.config.JwtAuthenticationFilter    : couldn't find bearer string, will ignore the header of URI: /ssportal/be/swagger-ui/index.html
+2021-09-01 21:35:45.847  INFO 12897 --- [http-nio-8181-exec-2] c.s.be.config.JwtAuthenticationFilter    : couldn't find bearer string, will ignore the header of URI: /ssportal/be/swagger-ui/swagger-ui.css
+2021-09-01 21:35:45.847  INFO 12897 --- [http-nio-8181-exec-3] c.s.be.config.JwtAuthenticationFilter    : couldn't find bearer string, will ignore the header of URI: /ssportal/be/swagger-ui/swagger-ui-bundle.js
+2021-09-01 21:35:45.848  INFO 12897 --- [http-nio-8181-exec-4] c.s.be.config.JwtAuthenticationFilter    : couldn't find bearer string, will ignore the header of URI: /ssportal/be/swagger-ui/swagger-ui-standalone-preset.js
+2021-09-01 21:35:46.050  INFO 12897 --- [http-nio-8181-exec-5] c.s.be.config.JwtAuthenticationFilter    : couldn't find bearer string, will ignore the header of URI: /ssportal/be/v3/api-docs/swagger-config
+2021-09-01 21:35:46.050  INFO 12897 --- [http-nio-8181-exec-6] c.s.be.config.JwtAuthenticationFilter    : couldn't find bearer string, will ignore the header of URI: /ssportal/be/swagger-ui/favicon-32x32.png
+2021-09-01 21:35:46.166  INFO 12897 --- [http-nio-8181-exec-7] c.s.be.config.JwtAuthenticationFilter    : couldn't find bearer string, will ignore the header of URI: /ssportal/be/v3/api-docs
+2021-09-01 21:35:46.498  INFO 12897 --- [http-nio-8181-exec-7] o.springdoc.api.AbstractOpenApiResource  : Init duration for springdoc-openapi is: 323 ms
+2021-09-01 21:36:13.849  INFO 12897 --- [http-nio-8181-exec-8] c.s.be.config.JwtAuthenticationFilter    : couldn't find bearer string, will ignore the header of URI: /ssportal/be/pingid/getUserDetails
+2021-09-01 21:36:48.094  INFO 12897 --- [http-nio-8181-exec-2] c.s.be.config.JwtAuthenticationFilter    : couldn't find bearer string, will ignore the header of URI: /ssportal/be/authenticate
+2021-09-01 22:08:38.262  INFO 12897 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2021-09-01 22:08:38.276  INFO 12897 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2021-09-01 22:08:38.280  INFO 12897 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
