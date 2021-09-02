@@ -44,7 +44,7 @@
               <td>{{deviceDetail?.deviceRole}}</td>
               <td>{{deviceDetail?.type}}</td>
               <td>{{deviceDetail?.enrollment}}</td>
-              <td><nb-icon icon="trash"></nb-icon></td>
+              <td><nb-icon icon="trash" class="action-icon" (click)="unpairDevice(deviceDetail)"></nb-icon></td>
             </tr>
             </tbody>
           </table>

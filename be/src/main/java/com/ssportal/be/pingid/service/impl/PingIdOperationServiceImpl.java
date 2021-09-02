@@ -33,7 +33,7 @@ public class PingIdOperationServiceImpl implements PingIdOperationService {
     private static final Logger LOG = Logger.getLogger(PingIdOperationServiceImpl.class);
 
     // public methods
-    public JSONObject AddUser(Boolean activateUser) {
+    public JSONObject addUser(Boolean activateUser) {
         Operation operation = new Operation();
 
         operation.setName("AddUser");
@@ -65,7 +65,7 @@ public class PingIdOperationServiceImpl implements PingIdOperationService {
     }
 
     @SuppressWarnings("unchecked")
-    public JSONObject GetUserDetails(Operation operation) {
+    public JSONObject getUserDetails(Operation operation) {
 
         operation.setName("GetUserDetails");
         operation.setEndpoint(operation.getApiUrl() + "/rest/4/getuserdetails/do");
@@ -93,5 +93,24 @@ public class PingIdOperationServiceImpl implements PingIdOperationService {
             operation.getPingIdUser().setDeviceDetail(deviceDetail);
         }
         return userDetails;
+    }
+
+    @SuppressWarnings("unchecked")
+    public JSONObject unpairDevice(String deviceId, Operation operation) {
+
+        operation.setName("UnpairDevice");
+        operation.setEndpoint(operation.getApiUrl()+ "/rest/4/unpairdevice/do");
+
+        JSONObject reqBody = new JSONObject();
+        reqBody.put("userName", operation.getPingIdUser().getUserName());
+        reqBody.put("deviceId", deviceId);
+        reqBody.put("clientData", operation.getClientData());
+
+        operation.setRequestToken(OperationHelpers.buildRequestToken(reqBody, operation));
+
+        OperationHelpers.sendRequest(operation);
+        JSONObject response = OperationHelpers.parseResponse(operation);
+        operation.getValues().clear();
+        return response;
     }
 }

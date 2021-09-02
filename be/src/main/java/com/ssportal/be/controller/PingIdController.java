@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.nio.file.attribute.UserPrincipal;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Properties;
 import javax.servlet.RequestDispatcher;
@@ -24,6 +25,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springdoc.core.OperationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -48,9 +50,21 @@ public class PingIdController {
         Operation operation = new Operation(pingIdProperties.getOrgAlias(), pingIdProperties.getPingid_token(), pingIdProperties.getPingid_use_base64_key(), pingIdProperties.getApi_url());
         String username = principal.getName();
         operation.setTargetUser(username);
-        JSONObject userDetails = pingIdOperationService.GetUserDetails(operation);
+        JSONObject userDetails = pingIdOperationService.getUserDetails(operation);
 
         return userDetails;
+    }
+
+    @RequestMapping(value = "/unpairDevice", method = RequestMethod.POST)
+    public JSONObject unpairDevice(Principal principal, @RequestBody HashMap<String, String> mapper) throws IOException, ServletException {
+        String deviceId = (String) mapper.get("deviceId");
+
+        Operation operation = new Operation(pingIdProperties.getOrgAlias(), pingIdProperties.getPingid_token(), pingIdProperties.getPingid_use_base64_key(), pingIdProperties.getApi_url());
+        String username = principal.getName();
+        operation.setTargetUser(username);
+        JSONObject response = pingIdOperationService.unpairDevice(deviceId, operation);
+
+        return response;
     }
 
     @RequestMapping(value = "/pairYubiKey", method = RequestMethod.POST)
@@ -76,10 +90,6 @@ public class PingIdController {
 
     @RequestMapping(value = "/updateDeviceNickname", method = RequestMethod.POST)
     public void updateDeviceNickname(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-    }
-
-    @RequestMapping(value = "/unpairDevice", method = RequestMethod.POST)
-    public void unpairDevice(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
     }
 
     @RequestMapping(value = "/getActivationCode", method = RequestMethod.POST)

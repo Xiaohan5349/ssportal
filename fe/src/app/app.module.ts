@@ -9,7 +9,14 @@ import {
   NbIconModule,
   NbSidebarModule,
   NbMenuModule,
-  NbButtonModule, NbInputModule, NbAlertModule, NbActionsModule, NbUserModule, NbContextMenuModule, NbCardModule
+  NbButtonModule,
+  NbInputModule,
+  NbAlertModule,
+  NbActionsModule,
+  NbUserModule,
+  NbContextMenuModule,
+  NbCardModule,
+  NbDialogModule, NbDialogService
 } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { HomeComponent } from './@components/home/home.component';
@@ -27,13 +34,15 @@ import { LogoutComponent } from './@components/logout/logout.component';
 import {UserService} from "./@core/services/user.service";
 import {TokenInterceptor} from "./@auth/token.interceptor";
 import {CommonModule} from "@angular/common";
+import { HomeDialogComponent } from './@components/home/home-dialog/home-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     LoginComponent,
-    LogoutComponent
+    LogoutComponent,
+    HomeDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -48,6 +57,7 @@ import {CommonModule} from "@angular/common";
     NbIconModule,
     NbAlertModule,
     NbUserModule,
+    NbDialogModule.forRoot(),
     NbSidebarModule.forRoot(),
     NbMenuModule.forRoot(),
     NbThemeModule.forRoot(),
@@ -66,7 +76,7 @@ import {CommonModule} from "@angular/common";
       multi: true,
     },,
     LoginService, AuthGuard, JwtAuthService, LocalStoreService,
-    HelperService, UserService
+    HelperService, UserService, NbDialogService
   ],
   bootstrap: [AppComponent]
 })
