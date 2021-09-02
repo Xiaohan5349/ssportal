@@ -26,6 +26,7 @@ import {FlexLayoutModule} from "@angular/flex-layout";
 import { LogoutComponent } from './@components/logout/logout.component';
 import {UserService} from "./@core/services/user.service";
 import {TokenInterceptor} from "./@auth/token.interceptor";
+import {CommonModule} from "@angular/common";
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import {TokenInterceptor} from "./@auth/token.interceptor";
   ],
   imports: [
     BrowserModule,
+    CommonModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     FormsModule,

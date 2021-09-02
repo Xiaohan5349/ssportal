@@ -7,7 +7,6 @@ import {UserService} from "../../@core/services/user.service";
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-
   user;
 
   constructor(

@@ -1,6 +1,9 @@
 <div class="container">
   <nb-card status="info">
-    <nb-card-header><nb-icon icon="person" class="mr-1"></nb-icon>User Information</nb-card-header>
+    <nb-card-header>
+      <nb-icon icon="person" class="mr-1"></nb-icon>
+      User Information
+    </nb-card-header>
     <nb-card-body>
       <div class="row">
         <div class="col">
@@ -20,12 +23,50 @@
   </nb-card>
 
   <nb-card status="info">
-    <nb-card-header><nb-icon icon="smartphone" class="mr-1"></nb-icon>My Device List</nb-card-header>
+    <nb-card-header>
+      <nb-icon icon="smartphone" class="mr-1"></nb-icon>
+      My Device List
+    </nb-card-header>
     <nb-card-body>
-      You don't have any device.
-    </nb-card-body>
-    <nb-card-footer>
+<!--          <div class="row">-->
+<!--            <div class="col">-->
+<!--              <p>Device Name: <strong>{{deviceDetail?.nickname}}</strong></p>-->
+<!--            </div>-->
+<!--            <div class="col">-->
+<!--              <p>Role: <strong>{{deviceDetail?.deviceRole}}</strong></p>-->
+<!--            </div>-->
+<!--            <div class="col">-->
+<!--              <p>Type: <strong>{{deviceDetail?.type}}</strong></p>-->
+<!--            </div>-->
+<!--            <div class="col">-->
+<!--              <p>Enrollment: <strong>{{deviceDetail?.enrollment}}</strong></p>-->
+<!--            </div>-->
+<!--            <div class="col">-->
+<!--              <nb-icon icon="trash"></nb-icon>-->
+<!--            </div>-->
+<!--          </div>-->
+
+          <table class="table">
+            <thead>
+            <tr>
+              <th scope="col">Device Name</th>
+              <th scope="col">Role</th>
+              <th scope="col">Device Type</th>
+              <th scope="col">Enrollment</th>
+              <th scope="col">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let deviceDetail of user?.devicesDetails">
+              <th scope="row">{{deviceDetail?.nickname}}</th>
+              <td>{{deviceDetail?.deviceRole}}</td>
+              <td>{{deviceDetail?.type}}</td>
+              <td>{{deviceDetail?.enrollment}}</td>
+              <td><nb-icon icon="trash"></nb-icon></td>
+            </tr>
+            </tbody>
+          </table>
       <button nbButton status="info">Register Device</button>
-    </nb-card-footer>
+    </nb-card-body>
   </nb-card>
 </div>
