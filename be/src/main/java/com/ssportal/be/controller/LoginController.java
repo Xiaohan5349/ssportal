@@ -35,7 +35,7 @@ import java.util.HashMap;
 
 @RestController
 public class LoginController {
-    private static final Logger LOG = LoggerFactory.getLogger(LoginController.class);
+    private static final Logger LOG = LoggerFactory.getLogger ( LoginController.class );
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -62,45 +62,48 @@ public class LoginController {
             @RequestParam(name = "REF") String RefID
     ) throws IOException {
 
-        if (StringUtils.isNotBlank(RefID)) {
-            RefID = RefID.replaceAll("[^A-Za-z0-9]", "");
+        if (StringUtils.isNotBlank ( RefID )) {
+            RefID = RefID.replaceAll ( "[^A-Za-z0-9]", "" );
         }
+        System.out.println ( RefID );
         String base_url = "https://localhost:9031";
         String pickupLocation = base_url + "/ext/ref/pickup?REF=" + RefID;
-        LOG.debug(pickupLocation);
-        URL pickUrl = new URL(pickupLocation);
-        HttpURLConnection httpURLConn = (HttpURLConnection) pickUrl.openConnection();
-        httpURLConn.setRequestProperty("ping.uname", "administrator");
-        httpURLConn.setRequestProperty("ping.pwd", "OBFoPN1xq6lqu3RIE8hR");
+        LOG.debug ( pickupLocation );
+        URL pickUrl = new URL ( pickupLocation );
+        HttpURLConnection httpURLConn = (HttpURLConnection) pickUrl.openConnection ();
+        httpURLConn.setRequestProperty ( "ping.uname", "admin" );
+        httpURLConn.setRequestProperty ( "ping.pwd", "Password1!!" );
         // ping.instanceId is optional and only needs to be specified if multiple instances of ReferenceId adapter are configured.
-        httpURLConn.setRequestProperty("ping.instanceId", "REFID");
-        String encoding = httpURLConn.getContentEncoding();
+        httpURLConn.setRequestProperty ( "ping.instanceId", "ssoSPadapter" );
+        String encoding = httpURLConn.getContentEncoding ();
+
+//        PF Part
         try (InputStream is = httpURLConn.getInputStream()) {
             InputStreamReader streamReader = new InputStreamReader(is, encoding != null ? encoding : "UTF-8");
 
             JSONParser parser = new JSONParser();
-            JSONObject spUserAttributes = (JSONObject) parser.parse(streamReader);
+                JSONObject spUserAttributes = (JSONObject) parser.parse(streamReader);
 
             String username = spUserAttributes.get( "subject" ).toString ();
-            if (username != null ) {
-                username = username.toLowerCase();
-                try {
-                    Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username,"password"));
-                    final String token = jwtTokenUtil.generateToken(authentication.getPrincipal());
-                    return new ApiResponse<>(200, "success", new AuthToken(token, username));
-                } catch (Exception ex) {
-                    LOG.error("", ex);
-                    return HelperUtil.handleException(ex);
-                }
+            System.out.println ( username );
+
+        if (username != null) {
+            username = username.toLowerCase ();
+            try {
+                User user = new User (spUserAttributes);
+                final String token = jwtTokenUtil.generateToken (user);
+                System.out.println ( token );
+                return new ApiResponse<> ( 200, "success", new AuthToken ( token, username ) );
+            } catch (Exception ex) {
+                LOG.error ( "", ex );
+                return HelperUtil.handleException ( ex );
             }
+        }
         } catch (ParseException e) {
+            System.out.println ( "Certificate Error!!" );
             LOG.error("Error processing user details, Please contact Administrator", e);
         }
         return null;
     }
-
-
-
-
 }
 

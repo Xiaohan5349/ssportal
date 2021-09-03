@@ -15,7 +15,7 @@
     <name>be</name>
     <description>Backend for PIng Identity Service</description>
     <properties>
-        <java.version>11</java.version>
+        <java.version>8</java.version>
     </properties>
     <dependencies>
         <dependency>
@@ -25,16 +25,23 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>ch.qos.logback</groupId>
+                    <artifactId>logback-classic</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+
             <!-- delete embeded tomcat -->
             <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-tomcat</artifactId>
-                </exclusion>
+<!--                <exclusion>-->
+<!--                    <groupId>org.springframework.boot</groupId>-->
+<!--                    <artifactId>spring-boot-starter-tomcat</artifactId>-->
+<!--                </exclusion>-->
                 <!-- delete comflict maven denpedny -->
                 <exclusion>
                     <groupId>org.springframework.boot</groupId>
@@ -46,7 +53,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-tomcat</artifactId>
-            <scope>provided</scope>
+<!--            <scope>provided</scope>-->
         </dependency>
 
         <!-- add servlet -->

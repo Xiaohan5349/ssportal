@@ -4,12 +4,15 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ssportal.be.model.security.Authority;
 import com.ssportal.be.model.security.UserRole;
+import org.json.simple.JSONObject;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;
+
+
 
 @Entity
 public class User implements Serializable, UserDetails {
@@ -35,11 +38,19 @@ public class User implements Serializable, UserDetails {
     private String fax;
     private String username;
 
+
+    private String admin;
+
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
     @Temporal(TemporalType.DATE)
     private Date birthday;
 
-
+    public User(){}
+    public User(JSONObject userAttributes){
+        this.username = userAttributes.get ( "subject" ).toString ();
+        this.email = userAttributes.get ( "mail" ).toString ();
+        this.admin = userAttributes.get ( "admin" ).toString ();
+    }
     public Long getId() {
         return id;
     }
@@ -140,6 +151,13 @@ public class User implements Serializable, UserDetails {
         this.userRoles = userRoles;
     }
 
+    public String getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(String admin) {
+        this.admin = admin;
+    }
 
 
     @Override

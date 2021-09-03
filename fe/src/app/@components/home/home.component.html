@@ -39,7 +39,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let deviceDetail of user?.devicesDetails">
+            <tr *ngFor="let deviceDetail of deviceList">
               <th scope="row">{{deviceDetail?.nickname}}</th>
               <td>{{deviceDetail?.deviceRole}}</td>
               <td>{{deviceDetail?.type}}</td>
@@ -48,7 +48,11 @@
             </tr>
             </tbody>
           </table>
-      <button nbButton status="info">Register Device</button>
+      <button nbButton outline status="info" (click)="getActivationCode('MOBILE')" class="mr-1">Register Device</button>
+      <button nbButton outline status="success" (click)="testMFA()" class="mr-1" [disabled]="!deviceList">Test MFA</button>
+      <nb-alert *ngIf="mfaTriggered" status="warning" class="mt-3">MFA triggered. Please check your device...</nb-alert>
+      <nb-alert *ngIf="mfaApproved" status="success" class="mt-3">MFA Approved.</nb-alert>
+      <nb-alert *ngIf="mfaRejected" status="danger" class="mt-3">MFA Rejected.</nb-alert>
     </nb-card-body>
   </nb-card>
 </div>

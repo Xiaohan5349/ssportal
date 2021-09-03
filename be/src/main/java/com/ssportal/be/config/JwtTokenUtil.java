@@ -60,13 +60,17 @@ public class JwtTokenUtil implements Serializable {
     }
 
     private String doGenerateToken(User user) {
+        user.getUsername ();
         Claims claims = Jwts.claims().setSubject(user.getUsername());
+
         Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
         claims.put("scopes", authorities);
 
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuer("Self Service Portal")
+                .claim ( "mail", user.getEmail () )
+                .claim ( "admin", user.getAdmin () )
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + Constants.ACCESS_TOKEN_VALIDITY_SECONDS * 1000))
                 .signWith(SignatureAlgorithm.HS256, Constants.SIGNING_KEY_BASE64)

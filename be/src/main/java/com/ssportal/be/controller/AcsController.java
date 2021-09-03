@@ -34,12 +34,8 @@ public class AcsController {
         //return "redirect";
        attr.addAttribute ( "RefID", RefID );
 
-       return "redirect:/index.html";
+       return "forward:/index.html";
     }
 
-    @RequestMapping(value = "/login")
-    public String login(){
-        return "forward:/index.html";
-    }
 
 }
