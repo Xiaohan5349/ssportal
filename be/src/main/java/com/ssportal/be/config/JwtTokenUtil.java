@@ -76,7 +76,6 @@ public class JwtTokenUtil implements Serializable {
     private String doGenerateToken(String subject) {
 
         Claims claims = Jwts.claims().setSubject(subject);
-
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuer("eScure Docs")

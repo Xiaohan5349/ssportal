@@ -19,6 +19,10 @@ public class UserController {
         this.userService = userService;
     }
 
+    @RequestMapping("/saml-acs"){
+        String
+    }
+
     @RequestMapping("/getCurrentUser")
     public User getUser(Principal principal) {
         String username = principal.getName();

@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="pingfederate-idp-equifax-stepup-adapter">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/ping/pingfederate2/pingfederate/server/default/deploy/pingfederate-idp-equifax-stepup-adapter.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

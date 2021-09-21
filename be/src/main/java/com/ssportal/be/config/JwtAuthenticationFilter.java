@@ -36,7 +36,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Autowired
     private UserService userService;
-
+    //xiaohan
+    //this function check the jwt token in the request, retrieve rhe username from jwt token
     @Override
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
         LOG.debug("Request URI: {} , from: {}", req.getRequestURI(), req.getRemoteAddr());

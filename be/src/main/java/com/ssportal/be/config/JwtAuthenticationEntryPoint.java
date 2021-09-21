@@ -12,7 +12,8 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
-
+//xiaohan
+// used for session expired
 @Component
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint, Serializable {
 
@@ -27,5 +28,6 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint, Se
         response.getWriter().write(HelperUtil.getObjectMapper().writeValueAsString(data));
         response.getWriter().flush();
         response.getWriter().close();
+
     }
 }
