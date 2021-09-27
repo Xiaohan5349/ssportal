@@ -23,7 +23,6 @@ public class AcsController {
             RefID = RefID.replaceAll ( "[^A-Za-z0-9]", "" );
         }
         model.addAttribute ( "RefID", RefID );
-        LOG.info("Fetch RefID:" + RefID);
         return "redirect";
 //        attr.addAttribute ( "RefID", RefID );
 //        return "redirect:/test.html";
