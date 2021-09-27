@@ -10,6 +10,7 @@ import java.security.Principal;
 
 
 @RestController
+
 @RequestMapping("/user")
 public class UserController {
     private final UserService userService;
@@ -19,9 +20,6 @@ public class UserController {
         this.userService = userService;
     }
 
-    @RequestMapping("/saml-acs"){
-        String
-    }
 
     @RequestMapping("/getCurrentUser")
     public User getUser(Principal principal) {
@@ -30,4 +28,6 @@ public class UserController {
 
         return user;
     }
+
+
 }
