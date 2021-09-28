@@ -29,8 +29,8 @@ export class JwtAuthService {
         private route: ActivatedRoute,
         private helperService: HelperService
     ) {
-        this.route.queryParams
-            .subscribe(params => this.return = params['return'] || '/home');
+//        this.route.queryParams
+//            .subscribe(params => this.return = params['return'] || '/home');
         this.user$ = (new BehaviorSubject<User>(this.user));
     }
 

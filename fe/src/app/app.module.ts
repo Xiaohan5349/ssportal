@@ -32,7 +32,7 @@ import {HelperService} from "./@core/services/helper.service";
 import {FlexLayoutModule} from "@angular/flex-layout";
 import { LogoutComponent } from './@components/logout/logout.component';
 import {UserService} from "./@core/services/user.service";
-import {TokenInterceptor} from "./@auth/token.interceptor";
+//import {TokenInterceptor} from "./@auth/token.interceptor";
 import {CommonModule} from "@angular/common";
 import { HomeDialogComponent } from './@components/home/home-dialog/home-dialog.component';
 
@@ -70,11 +70,11 @@ import { HomeDialogComponent } from './@components/home/home-dialog/home-dialog.
   ],
   providers: [
     // REQUIRED IF YOU USE JWT AUTHENTICATION
-    {
+    /* {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
       multi: true,
-    },,
+    } */,,
     LoginService, AuthGuard, JwtAuthService, LocalStoreService,
     HelperService, UserService, NbDialogService
   ],

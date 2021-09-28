@@ -18,6 +18,8 @@ export class LoginComponent implements OnInit {
   serverPath = AppConst.SERVER_PATH;
   errorMsg;
   credential = {'username': '', 'password': ''};
+  REF : string;
+  log;
 
   constructor(
     private loginService: LoginService,
@@ -57,6 +59,20 @@ export class LoginComponent implements OnInit {
       })
   }
 
+testRef(){
+  // console.log('calling be acs');
+  // this.http.get(`http://localhost:8181/ssportal/be/saml-acs?REF=909090`).subscribe(
+  //   res => {
+  //     console.log(res);
+  //   }
+  // )
+
+  window.location.href='http://localhost:8181/ssportal/be/saml-acs?REF=909090'
+}
+
+
   ngOnInit(): void {
+    this.REF = this.router.url.substring(this.router.url.indexOf('=') + 1);
+    console.log(this.REF)
   }
 }
