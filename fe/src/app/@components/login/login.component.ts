@@ -87,9 +87,8 @@ testRef(){
     this.REF = this.router.url.substring(this.router.url.indexOf('=') + 1);
     console.log(this.REF);
     const httpOptions = {
-      headers: new HttpHeaders({'ping.uname': 'admin', 'ping.pwd': 'Password1!', 'ping.instanceId': 'ssoSPadapter'})
     };
-    this.http.get(`http://localhost:9031/ext/ref/pickup?REF=${this.REF}`, httpOptions).subscribe(
+    this.http.get(`http://localhost:8080/sso/authenticate?REF=${this.REF}`).subscribe(
       res => { 
            console.log(res);
      }
