@@ -1,3 +1,4 @@
+import { LocalStoreService } from './../../@core/services/local-store.service';
 import {Component, OnInit} from '@angular/core';
 import {AppConst} from "../../@core/utils/app-const";
 import {Router} from "@angular/router";
@@ -8,6 +9,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {environment} from "../../../environments/environment";
 import {User} from "../../@core/models/user";
 import {HelperService} from "../../@core/services/helper.service";
+
 
 @Component({
   selector: 'app-login',
@@ -20,8 +22,18 @@ export class LoginComponent implements OnInit {
   credential = {'username': '', 'password': ''};
   REF : string;
   log;
+  user = {
+    "partnerEntityID": "pfTest",
+    "instanceId": "mfaRef",
+    "mail": "test@example.com",
+    "subject": "test",
+    "authnCtx": "urn:oasis:names:tc:SAML:2.0:ac:classes:unspecified",
+    "sessionid": "PgQagrYFnqYxo5v239ALAAmWgzO",
+    "authnInst": "2021-09-29 14:37:47-0400"
+};
 
   constructor(
+    private ls:LocalStoreService,
     private loginService: LoginService,
     private router: Router,
     private jwtAuth: JwtAuthService,
@@ -73,14 +85,18 @@ testRef(){
 
   ngOnInit(): void {
     this.REF = this.router.url.substring(this.router.url.indexOf('=') + 1);
-    console.log(this.REF)
+    console.log(this.REF);
     const httpOptions = {
-      headers: new HttpHeaders({'ping.uname': 'admin', 'ping.pwd': 'Password1!!', 'ping.instanceId': 'ssoSPadapter'})
+      headers: new HttpHeaders({'ping.uname': 'admin', 'ping.pwd': 'Password1!', 'ping.instanceId': 'ssoSPadapter'})
     };
     this.http.get(`http://localhost:9031/ext/ref/pickup?REF=${this.REF}`, httpOptions).subscribe(
       res => {
            console.log(res);
      }
     )
+    this.ls.setItem('SSPORTAL_APP_USER', this.user.subject)
+    if (this.user.subject == 'test') {
+      this.router.navigate(['/home']);
+    }
   }
 }

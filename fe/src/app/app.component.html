@@ -2,7 +2,10 @@
   <nb-layout-header fixed>
     <div class="header-container">
       <h4><img src="assets/images/bbb-logo.png"  style="height: 60px;">
-        Self Service Portal</h4>
+        Self Service Portal
+        <button nbbutton (click)="logout()">Logout</button>
+        <button nbbutton (click)="login()">Login</button>
+      </h4>
     </div>
     <span style="flex: 1 1 auto;"></span>
     <div class="header-container" *ngIf="loggedIn">
