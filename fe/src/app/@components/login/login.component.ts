@@ -90,12 +90,12 @@ testRef(){
       headers: new HttpHeaders({'ping.uname': 'admin', 'ping.pwd': 'Password1!', 'ping.instanceId': 'ssoSPadapter'})
     };
     this.http.get(`http://localhost:9031/ext/ref/pickup?REF=${this.REF}`, httpOptions).subscribe(
-      res => {
+      res => { 
            console.log(res);
      }
     )
     this.ls.setItem('SSPORTAL_APP_USER', this.user.subject)
-    if (this.user.subject == 'test') {
+    if (this.user.subject == 'test2') {
       this.router.navigate(['/home']);
     }
   }
