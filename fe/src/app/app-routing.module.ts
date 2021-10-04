@@ -17,11 +17,10 @@ const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent,
-    canActivate: [AuthGuard]
+    //canActivate: [AuthGuard]
   },
   {path: '', redirectTo: 'home', pathMatch: 'full'},
   {path: 'users', loadChildren: () => import('./@components/users/users.module').then(m => m.UsersModule)},
-  {path: '**', redirectTo: 'home'},
 ];
 
 @NgModule({

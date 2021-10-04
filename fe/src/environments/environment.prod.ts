@@ -1,3 +1,6 @@
+import {config} from "../config";
+
 export const environment = {
-  production: true
+  production: false,
+  apiURL: config.apiUrl
 };
