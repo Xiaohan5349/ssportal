@@ -8,6 +8,9 @@ import com.ssportal.be.service.UserService;
 import com.ssportal.be.utilility.ApiResponse;
 import com.ssportal.be.utilility.AuthToken;
 import com.ssportal.be.utilility.HelperUtil;
+import org.apache.commons.lang3.StringUtils;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +19,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.json.simple.parser.JSONParser;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.security.Principal;
 import java.util.HashMap;
 
@@ -48,24 +59,47 @@ public class LoginController {
 
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
     public Object authenticate(
-            @RequestBody HashMap<String, String> mapper
-    ){
-        String username = mapper.get("username");
-        String password = mapper.get("password");
-        if (username != null && password != null) {
-            username = username.toLowerCase();
-            try {
-                Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-                final String token = jwtTokenUtil.generateToken(authentication.getPrincipal());
-                return new ApiResponse<>(200, "success", new AuthToken(token, username));
-            } catch (Exception ex) {
-                LOG.error("", ex);
-                return HelperUtil.handleException(ex);
-            }
-        }
+            @RequestParam(name = "REF") String RefID
+    ) throws IOException {
 
+        if (StringUtils.isNotBlank(RefID)) {
+            RefID = RefID.replaceAll("[^A-Za-z0-9]", "");
+        }
+        String base_url = "https://localhost:9031";
+        String pickupLocation = base_url + "/ext/ref/pickup?REF=" + RefID;
+        LOG.debug(pickupLocation);
+        URL pickUrl = new URL(pickupLocation);
+        HttpURLConnection httpURLConn = (HttpURLConnection) pickUrl.openConnection();
+        httpURLConn.setRequestProperty("ping.uname", "administrator");
+        httpURLConn.setRequestProperty("ping.pwd", "OBFoPN1xq6lqu3RIE8hR");
+        // ping.instanceId is optional and only needs to be specified if multiple instances of ReferenceId adapter are configured.
+        httpURLConn.setRequestProperty("ping.instanceId", "REFID");
+        String encoding = httpURLConn.getContentEncoding();
+        try (InputStream is = httpURLConn.getInputStream()) {
+            InputStreamReader streamReader = new InputStreamReader(is, encoding != null ? encoding : "UTF-8");
+
+            JSONParser parser = new JSONParser();
+            JSONObject spUserAttributes = (JSONObject) parser.parse(streamReader);
+
+            String username = spUserAttributes.get( "subject" ).toString ();
+            if (username != null ) {
+                username = username.toLowerCase();
+                try {
+                    Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username,"password"));
+                    final String token = jwtTokenUtil.generateToken(authentication.getPrincipal());
+                    return new ApiResponse<>(200, "success", new AuthToken(token, username));
+                } catch (Exception ex) {
+                    LOG.error("", ex);
+                    return HelperUtil.handleException(ex);
+                }
+            }
+        } catch (ParseException e) {
+            LOG.error("Error processing user details, Please contact Administrator", e);
+        }
         return null;
     }
+
+
 
 
 }

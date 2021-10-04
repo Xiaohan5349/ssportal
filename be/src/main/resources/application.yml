@@ -15,8 +15,8 @@ spring:
       ddl-auto: update
 server:
   servlet:
-    context-path: /ssportal/be
-  port: 8181
+    context-path: /sso
+  port: 0
 
 # logging
 logging:

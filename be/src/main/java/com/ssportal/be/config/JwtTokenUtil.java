@@ -66,7 +66,7 @@ public class JwtTokenUtil implements Serializable {
 
         return Jwts.builder()
                 .setClaims(claims)
-                .setIssuer("eSecure Docs")
+                .setIssuer("Self Service Portal")
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + Constants.ACCESS_TOKEN_VALIDITY_SECONDS * 1000))
                 .signWith(SignatureAlgorithm.HS256, Constants.SIGNING_KEY_BASE64)
@@ -78,7 +78,7 @@ public class JwtTokenUtil implements Serializable {
         Claims claims = Jwts.claims().setSubject(subject);
         return Jwts.builder()
                 .setClaims(claims)
-                .setIssuer("eScure Docs")
+                .setIssuer("Self Service Portal")
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + Constants.ACCESS_TOKEN_VALIDITY_SECONDS * 1000))
                 .signWith(SignatureAlgorithm.HS256, Constants.SIGNING_KEY_BASE64)
