@@ -4,6 +4,7 @@ import {HomeComponent} from "./@components/home/home.component";
 import {LoginComponent} from "./@components/login/login.component";
 import {AuthGuard} from "./@auth/auth.guard";
 import {LogoutComponent} from "./@components/logout/logout.component";
+import {ServicesComponent} from "./@components/services/services.component";
 
 const routes: Routes = [
   {
@@ -19,8 +20,13 @@ const routes: Routes = [
     component: HomeComponent,
     //canActivate: [AuthGuard]
   },
+  {
+    path: 'services',
+    component: ServicesComponent,
+    //canActivate: [AuthGuard]
+  },
   {path: '', redirectTo: 'home', pathMatch: 'full'},
-  {path: 'users', loadChildren: () => import('./@components/users/users.module').then(m => m.UsersModule)},
+  {path: '**', redirectTo: 'home'},
 ];
 
 @NgModule({

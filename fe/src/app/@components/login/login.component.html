@@ -5,19 +5,23 @@
     <input nbInput class="mb-1" [(ngModel)]="credential.username"
            fullWidth name="username"
            id="input-username"
-           placeholder="Username">
+           placeholder="Username" (keyup.enter)="onLogin()">
     <input nbInput class="mb-1" [(ngModel)]="credential.password"
            fullWidth name="password"
            id="input-password"
            type="password"
-           placeholder="Password">
-    <button nbButton fullWidth status="primary" size="large" [disabled]="!this.credential.username || !this.credential.password"
-            (click)="onLogin()">
-      Log In
+           placeholder="Password" (keyup.enter)="onLogin()">
+    <button nbButton fullWidth status="primary" size="large" 
+            (click)="parseJwt()">
+      JWT Test
     </button>
     <button nbButton fullWidth status="primary" size="large" 
-    (click)="testRef()">
-    Test REF
+    (click)="testAdm()">
+    Test Adm
+    </button>
+    <button nbButton fullWidth status="primary" size="large" 
+    (click)="testNoAdmin()">
+    Test noAdm
     </button>
   </div>
 </div>

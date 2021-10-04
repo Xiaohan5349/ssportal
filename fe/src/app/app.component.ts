@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import {NbMenuItem, NbSidebarService} from "@nebular/theme";
 import {HelperService} from "./@core/services/helper.service";
 import {JwtAuthService} from "./@core/services/jwt-auth.service";
-import {Router, ActivatedRoute} from '@angular/router';
 
 
 @Component({
@@ -21,15 +20,15 @@ export class AppComponent {
       home: true
     },
     {
-      title: 'Users',
+      title: 'Services',
       icon: 'people-outline',
-      link: '/users'
+      link: '/services'
     }
   ];
 
   userMenu = [{ title: 'Log out', link: '/logout' }]
 
-  constructor(private readonly sidebarService: NbSidebarService, private helperService: HelperService, private jwtAuth: JwtAuthService, private router: Router,) {
+  constructor(private readonly sidebarService: NbSidebarService, private helperService: HelperService, private jwtAuth: JwtAuthService) {
     this.helperService.isUserLoggedIn.subscribe(res => {
       if (res) {
         this.loggedIn = true;
@@ -43,11 +42,5 @@ export class AppComponent {
   toggleSidebar(): boolean {
     this.sidebarService.toggle();
     return false;
-  }
-  logout(){
-    this.router.navigate(['/logout'])
-  }
-  login(){
-    this.router.navigate(['/login'])
   }
 }

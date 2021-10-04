@@ -13,8 +13,8 @@ import {JwtAuthService} from "../@core/services/jwt-auth.service";
 import {LocalStoreService} from "../@core/services/local-store.service";
 import 'rxjs/add/operator/do';
 
-/*@Injectable()
- export class TokenInterceptor implements HttpInterceptor {
+@Injectable()
+export class TokenInterceptor implements HttpInterceptor {
     JWT_TOKEN = AppConst.JWT_STORAGE_NAME;
     APP_USER = AppConst.APP_USER_STORAGE_NAME;
 
@@ -54,4 +54,3 @@ import 'rxjs/add/operator/do';
         });
     }
 }
-*/
