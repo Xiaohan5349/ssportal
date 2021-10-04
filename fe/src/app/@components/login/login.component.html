@@ -12,8 +12,12 @@
            type="password"
            placeholder="Password">
     <button nbButton fullWidth status="primary" size="large" [disabled]="!this.credential.username || !this.credential.password"
-            (click)="testRef()">
+            (click)="onLogin()">
       Log In
+    </button>
+    <button nbButton fullWidth status="primary" size="large" 
+    (click)="testRef()">
+    Test REF
     </button>
   </div>
 </div>

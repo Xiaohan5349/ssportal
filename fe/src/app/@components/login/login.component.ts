@@ -21,6 +21,7 @@ export class LoginComponent implements OnInit {
   errorMsg;
   credential = {'username': '', 'password': ''};
   REF : string;
+  test = '%2Fhome%3FRefID%3D3C6EE6BB683E147E72DAA9C026600B435ED7BE0F22';
   log;
   user = {
     "partnerEntityID": "pfTest",
@@ -31,6 +32,7 @@ export class LoginComponent implements OnInit {
     "sessionid": "PgQagrYFnqYxo5v239ALAAmWgzO",
     "authnInst": "2021-09-29 14:37:47-0400"
 };
+  Admin : boolean;
 
   constructor(
     private ls:LocalStoreService,
@@ -84,18 +86,18 @@ testRef(){
 
 
   ngOnInit(): void {
-    this.REF = this.router.url.substring(this.router.url.indexOf('=') + 1);
+    this.REF = this.test.substring(this.test.length - 42);
     console.log(this.REF);
-    const httpOptions = {
-    };
     this.http.get(`http://localhost:8080/sso/authenticate?REF=${this.REF}`).subscribe(
       res => { 
            console.log(res);
      }
     )
-    this.ls.setItem('SSPORTAL_APP_USER', this.user.subject)
-    if (this.user.subject == 'test2') {
-      this.router.navigate(['/home']);
-    }
+    // *ngif='Admin' html
+    // this.ls.setItem('SSPORTAL_APP_USER', this.user.subject)
+    // if (this.user.subject == 'test2') {
+    //   this.Admin=true
+    //   //his.router.navigate(['/home']);
+    // }
   }
 }
