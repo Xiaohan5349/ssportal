@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="pf-protocolengine">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/be/src/main/resources/libs/pf-protocolengine.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
