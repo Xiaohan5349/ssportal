@@ -1,3 +1,4 @@
+import {AdminGuard} from './@auth/admin.guard';
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {HomeComponent} from "./@components/home/home.component";
@@ -18,12 +19,12 @@ const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent,
-    //canActivate: [AuthGuard]
+    canActivate: [AuthGuard]
   },
   {
     path: 'services',
     component: ServicesComponent,
-    //canActivate: [AuthGuard]
+    canActivate: [AdminGuard]
   },
   {path: '', redirectTo: 'home', pathMatch: 'full'},
   {path: '**', redirectTo: 'home'},

@@ -12,6 +12,7 @@ import {JwtAuthService} from "./@core/services/jwt-auth.service";
 export class AppComponent {
   sessionUser;
   loggedIn = false;
+  Admin = false;
   items: NbMenuItem[] = [
     {
       title: 'Home',
@@ -35,6 +36,14 @@ export class AppComponent {
         this.sessionUser = this.jwtAuth.getUser();
       } else {
         this.loggedIn = false;
+      }
+    })
+    this.helperService.isuserAdminStatus.subscribe(res => {
+      if (res) {
+        this.Admin = true;
+        this.sessionUser = this.jwtAuth.getUser();
+      } else {
+        this.Admin = false;
       }
     })
   }

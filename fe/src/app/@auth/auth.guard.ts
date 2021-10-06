@@ -30,3 +30,21 @@ export class AuthGuard implements CanActivate {
     }
   }
 }
+// export class AdminGuard implements CanAdmin {
+  
+//   canAdmin(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+//     const adminStatus = this.jwtAuth.getAdmin();
+//     if (adminStatus == 'test') {
+//       this.helperService.changeUserLoggedIn(true);
+//       return true;
+//     } else {
+//       this.helperService.changeUserLoggedIn(false);
+//       this.router.navigate(['/login'], {
+//         queryParams: {
+//           return: state.url
+//         }
+//       });
+//       return false;
+//     }
+//   }
+// }
