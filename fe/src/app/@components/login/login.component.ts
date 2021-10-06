@@ -24,16 +24,16 @@ export class LoginComponent implements OnInit {
   REF : string;
   test = '%2Fhome%3FRefID%3D3C6EE6BB683E147E72DAA9C026600B435ED7BE0F22';
   log;
-  // user = {
-  //   "partnerEntityID": "pfTest",
-  //   "instanceId": "mfaRef",
-  //   "mail": "test@example.com",
-  //   "subject": "test",
-  //   "authnCtx": "urn:oasis:names:tc:SAML:2.0:ac:classes:unspecified",
-  //   "sessionid": "123456",
-  //   "authnInst": "2021-09-29 14:37:47-0400",
-  //   "admin": "false"
-  // };
+  user = {
+    "partnerEntityID": "pfTest",
+    "instanceId": "mfaRef",
+    "mail": "test@example.com",
+    "subject": "test",
+    "authnCtx": "urn:oasis:names:tc:SAML:2.0:ac:classes:unspecified",
+    "sessionid": "123456",
+    "authnInst": "2021-09-29 14:37:47-0400",
+    "admin": "false"
+  };
   // userAdmin = {
   //   "partnerEntityID": "pfTest",
   //   "instanceId": "mfaRef",
@@ -130,13 +130,31 @@ testNoAdmin(){
 
 
   ngOnInit(): void {
-    this.REF = this.test.substring(this.test.length - 42);
+    this.REF = window.location.href.substring(this.test.length - 42);
     console.log(this.REF);
-    this.http.get(`http://localhost:8080/sso/authenticate?REF=${this.REF}`).subscribe(
-      res => { 
-           console.log(res);
-     }
-    )
+    this.http.get(`http://openam2.example.com:8080/sso/authenticate?REF=${this.REF}`).subscribe(res => {
+      this.jwtAuth.setToken(res['result'].token);
+      const httpOptions = {
+        headers: new HttpHeaders({'Authorization': 'Bearer ' + res['result'].token})
+      };
+            this.http.get(`http://openam2.example.com:8080/sso/user/getCurrentUser`, httpOptions).subscribe(
+          user => {
+            const me = <User> user;
+            // me.roles = [];
+            // for (let i = 0; i < authorities.length; i++) {
+            //   const role = authorities[i].authority;
+            //   me.roles.push(role);
+            // }
+            console.log(me);
+            this.jwtAuth.setUserAndToken(res['result'].token, me, !!res);
+
+            this.router.navigateByUrl(this.jwtAuth.return);
+          }, error => {
+          }
+        );
+      }, err => {
+        this.errorMsg = 'Invalid JWT. Please try again.';
+      })
     // *ngif='Admin' html
 
     //  this.ls.setItem('SSPORTAL_APP_USER', this.user)

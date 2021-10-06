@@ -21,7 +21,7 @@ export class JwtAuthService {
     return: string;
     JWT_TOKEN = AppConst.JWT_STORAGE_NAME;
     APP_USER = AppConst.APP_USER_STORAGE_NAME;
-    
+
     constructor(
         private ls: LocalStoreService,
         private http: HttpClient,
@@ -91,10 +91,10 @@ export class JwtAuthService {
                     const me = <User>profile;
                     const authorities: any[] = me['authorities'];
 
-                    me.roles = [];
-                    for (let i = 0; i < authorities.length; i++) {
-                        me.roles.push(authorities[i].authority);
-                    }
+                    // me.roles = [];
+                    // for (let i = 0; i < authorities.length; i++) {
+                    //     me.roles.push(authorities[i].authority);
+                    // }
                     this.setUserAndToken(this.getJwtToken(), profile, true);
                     return profile;
                 }),
