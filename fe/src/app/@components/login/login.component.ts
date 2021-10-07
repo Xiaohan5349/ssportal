@@ -146,9 +146,10 @@ testNoAdmin(){
       console.log(this.REF);
       this.http.get(`http://openam2.example.com:8080/sso/authenticate?REF=${this.REF}`).subscribe(res => {
         this.jwtAuth.setToken(res['result'].token);
-        const httpOptions = {
-          headers: new HttpHeaders({'Authorization': 'Bearer ' + res['result'].token})
-        };
+        this.router.navigate(['/home']);
+        // const httpOptions = {
+        //   headers: new HttpHeaders({'Authorization': 'Bearer ' + res['result'].token})
+        // };
           //     this.http.get(`http://openam2.example.com:8080/sso/user/getCurrentUser`, httpOptions).subscribe(
           //   user => {
           //     const me = <User> user;
