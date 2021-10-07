@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
   serverPath = AppConst.SERVER_PATH;
   errorMsg;
   credential = {'username': '', 'password': ''};
-  REF : string;
+  REF;
   test = '%2Fhome%3FRefID%3D3C6EE6BB683E147E72DAA9C026600B435ED7BE0F22';
   log;
   user = {
@@ -141,8 +141,32 @@ testNoAdmin(){
   ngOnInit(): void {
 
     this.route.queryParams.subscribe(p => {
-      const newsUrl = p // 获取参数
-      console.log(newsUrl);
+      this.REF = p // 获取参数
+      this.REF = this.REF.REF
+      console.log(this.REF);
+      this.http.get(`http://openam2.example.com:8080/sso/authenticate?REF=${this.REF}`).subscribe(res => {
+        this.jwtAuth.setToken(res['result'].token);
+        const httpOptions = {
+          headers: new HttpHeaders({'Authorization': 'Bearer ' + res['result'].token})
+        };
+          //     this.http.get(`http://openam2.example.com:8080/sso/user/getCurrentUser`, httpOptions).subscribe(
+          //   user => {
+          //     const me = <User> user;
+          //     // me.roles = [];
+          //     // for (let i = 0; i < authorities.length; i++) {
+          //     //   const role = authorities[i].authority;
+          //     //   me.roles.push(role);
+          //     // }
+          //     console.log(me);
+          //     this.jwtAuth.setUserAndToken(res['result'].token, me, !!res);
+  
+          //     this.router.navigateByUrl(this.jwtAuth.return);
+          //   }, error => {
+          //   }
+          // );
+        }, err => {
+          this.errorMsg = 'Invalid JWT. Please try again.';
+        })
     });
 
     // this.REF = window.location.href.substring(this.test.length - 42);

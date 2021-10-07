@@ -106,7 +106,7 @@ export class JwtAuthService {
     }
 
     public signout() {
-        this.setUserAndToken(null, null, false);
+        this.cleanUserAndToken();
         this.router.navigateByUrl('/home');
     }
 
@@ -169,5 +169,9 @@ export class JwtAuthService {
         this.ls.setItem('SSPORTAL_APP_USER', jwtOut);
         console.log(jwtOut);
     }
-
+    cleanUserAndToken() {
+        this.ls.setItem(this.JWT_TOKEN, null);
+        this.ls.setItem(this.APP_USER, null);
+        this.ls.setItem('SSPORTAL_APP_ADMIN',null);
+    }
 }
