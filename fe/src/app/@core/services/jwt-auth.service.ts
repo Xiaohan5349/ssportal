@@ -29,8 +29,8 @@ export class JwtAuthService {
         private route: ActivatedRoute,
         private helperService: HelperService
     ) {
-//        this.route.queryParams
-//            .subscribe(params => this.return = params['return'] || '/home');
+        this.route.queryParams
+            .subscribe(params => this.return = params['return'] || '/home');
         this.user$ = (new BehaviorSubject<User>(this.user));
     }
 
@@ -91,10 +91,10 @@ export class JwtAuthService {
                     const me = <User>profile;
                     const authorities: any[] = me['authorities'];
 
-                    me.roles = [];
-                    for (let i = 0; i < authorities.length; i++) {
-                        me.roles.push(authorities[i].authority);
-                    }
+                    // me.roles = [];
+                    // for (let i = 0; i < authorities.length; i++) {
+                    //     me.roles.push(authorities[i].authority);
+                    // }
                     this.setUserAndToken(this.getJwtToken(), profile, true);
                     return profile;
                 }),
@@ -113,6 +113,13 @@ export class JwtAuthService {
     isLoggedIn(): Boolean {
         return !!this.getJwtToken();
     }
+    isAdmin(): Boolean {
+        if (this.getAdmin() == "true"){
+            return true
+        }else{
+            return false
+        }    
+    }
 
     getJwtToken() {
         const token = this.ls.getItem(this.JWT_TOKEN);
@@ -123,6 +130,21 @@ export class JwtAuthService {
         const user = this.ls.getItem(this.APP_USER);
         return user;
     }
+
+    getAdmin(){
+        const admin = this.ls.getItem('SSPORTAL_APP_ADMIN');
+        return admin;
+    }
+
+    setAdmin(){
+        const jwt = this.ls.getItem("SSPORTAL_JWT_TOKEN");
+        console.log(jwt);
+        //add check JWT method with BE
+        this.parseJwt(jwt);
+        const user = this.ls.getItem("SSPORTAL_APP_USER");
+        this.ls.setItem('SSPORTAL_APP_ADMIN',user.admin);
+    }
+
 
     setToken(token: String) {
         this.ls.setItem(this.JWT_TOKEN, token);
@@ -136,4 +158,16 @@ export class JwtAuthService {
         this.ls.setItem(this.JWT_TOKEN, token);
         this.ls.setItem(this.APP_USER, user);
     }
+
+    parseJwt (jwt) {
+        const base64Url = jwt.split('.')[1];
+        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+        const jwtOut = JSON.parse(jsonPayload);
+        this.ls.setItem('SSPORTAL_APP_USER', jwtOut);
+        console.log(jwtOut);
+    }
+
 }

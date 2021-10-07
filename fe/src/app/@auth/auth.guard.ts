@@ -15,18 +15,41 @@ export class AuthGuard implements CanActivate {
               ) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    const user = this.jwtAuth.getUser();
     if (this.jwtAuth.isLoggedIn()) {
+      const user = this.jwtAuth.getUser();
+      this.jwtAuth.setAdmin();
+      if (this.jwtAuth.isAdmin()) {
+        this.helperService.changeUserAdminStatus(true);
+      }else{
+        this.helperService.changeUserAdminStatus(false);
+      }
       this.helperService.changeUserLoggedIn(true);
+      console.log("home guard work")
       return true;
     } else {
       this.helperService.changeUserLoggedIn(false);
       this.router.navigate(['/login'], {
-        queryParams: {
-          return: state.url
-        }
       });
+      console.log("home guard not pass")
       return false;
     }
   }
 }
+// export class AdminGuard implements CanAdmin {
+  
+//   canAdmin(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+//     const adminStatus = this.jwtAuth.getAdmin();
+//     if (adminStatus == 'test') {
+//       this.helperService.changeUserLoggedIn(true);
+//       return true;
+//     } else {
+//       this.helperService.changeUserLoggedIn(false);
+//       this.router.navigate(['/login'], {
+//         queryParams: {
+//           return: state.url
+//         }
+//       });
+//       return false;
+//     }
+//   }
+// }

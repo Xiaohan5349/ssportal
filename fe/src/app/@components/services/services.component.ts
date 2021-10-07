@@ -1,23 +1,17 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {UserService} from "../../@core/services/user.service";
 import {NbDialogService} from "@nebular/theme";
-import {HomeDialogComponent} from "./home-dialog/home-dialog.component";
 import {PingIdService} from "../../@core/services/pingid.service";
-import {HomeQrCodeComponent} from "./home-qr-code/home-qr-code.component";
 import {HttpClient} from "@angular/common/http";
-import {Subscription, timer} from "rxjs";
-import {switchMap} from 'rxjs/operators';
-import {JwtAuthService} from "../../@core/services/jwt-auth.service";
-import {NgForm} from "@angular/forms";
+import {HomeDialogComponent} from "../home/home-dialog/home-dialog.component";
+import {HomeQrCodeComponent} from "../home/home-qr-code/home-qr-code.component";
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  selector: 'app-services',
+  templateUrl: './services.component.html',
+  styleUrls: ['./services.component.scss']
 })
-export class HomeComponent implements OnInit {
-  @ViewChild('ppmForm') ppmForm: ElementRef;
-
+export class ServicesComponent implements OnInit {
   user;
   activationCode;
   deviceList = [];
@@ -25,22 +19,18 @@ export class HomeComponent implements OnInit {
   mfaTriggered = false;
   mfaApproved = false;
   mfaRejected = false;
-  sessionUser;
+  userFound = false;
+  userName;
+  userNotFound = false;
+  errMsg;
   mfaErrMsg;
-  postUrl;
-  ppmRequest;
-  orgUuid = 'dffd9656-dfb8-4a0b-bb35-8590e62984e4';
-  idpAccountId
-
 
   constructor(
     private userService: UserService,
     private dialogService: NbDialogService,
     private pingidService: PingIdService,
-    private http: HttpClient,
-    private jwtAuth: JwtAuthService
+    private http: HttpClient
   ) {
-    this.sessionUser = jwtAuth.getUser();
   }
 
   unpairDevice(device) {
@@ -53,9 +43,9 @@ export class HomeComponent implements OnInit {
     }).onClose.subscribe(res => {
       if (res) {
         console.log(res);
-        this.pingidService.unpairDevice(device.deviceId, this.sessionUser.username).subscribe(
+        this.pingidService.unpairDevice(device.deviceId, this.user.userName).subscribe(
           res => {
-            this.ngOnInit();
+            this.searchUser();
           }, error => {
             console.log(error);
           }
@@ -64,20 +54,8 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  getUserDetails() {
-    this.userService.getUserDetailsByUsername(this.sessionUser.username).subscribe(
-      res => {
-        this.user = res;
-        this.deviceList = this.user.devicesDetails;
-        console.log(this.user);
-      }, error => {
-        console.log(error);
-      }
-    );
-  }
-
   getActivationCode(type) {
-    this.pingidService.getActivationCode(type, this.sessionUser.username).subscribe(
+    this.pingidService.getActivationCode(type, this.user.userName).subscribe(
       res => {
         const result: any = res;
         this.activationCode = result.activationCode;
@@ -86,13 +64,13 @@ export class HomeComponent implements OnInit {
             title: 'Register ' + type + ' Device',
             message: 'Please scan the QR code with your PingID ' + type + ' app or input paring code manually.',
             code: this.activationCode,
-            user: this.sessionUser
+            user: this.user
           },
           hasBackdrop: true,
           closeOnBackdropClick: false
         }).onClose.subscribe(res => {
           if (res) {
-            this.ngOnInit();
+            this.searchUser();
           }
         });
       }, error => {
@@ -110,9 +88,9 @@ export class HomeComponent implements OnInit {
       hasBackdrop: true,
     }).onClose.subscribe(res => {
       if (res) {
-        this.pingidService.makeDevicePrimary(device.deviceId, this.sessionUser.username).subscribe(
+        this.pingidService.makeDevicePrimary(device.deviceId, this.user.userName).subscribe(
           res => {
-            this.ngOnInit();
+            this.searchUser();
           }, error => {
             console.log(error);
           }
@@ -131,7 +109,7 @@ export class HomeComponent implements OnInit {
     }
 
     this.mfaTriggered = true;
-    this.pingidService.testMFA(this.primaryDevice.deviceId, this.sessionUser.username).subscribe(
+    this.pingidService.testMFA(this.primaryDevice.deviceId, this.user.userName).subscribe(
       res => {
         const result: any = res;
         if (result.errorMsg) {
@@ -154,35 +132,32 @@ export class HomeComponent implements OnInit {
     )
   }
 
-  testWebMFA() {
-    for (let i = 0; i < this.deviceList.length; i++) {
-      if (this.deviceList[i].deviceRole.toLowerCase() === 'primary') {
-        this.primaryDevice = this.deviceList[i];
-      }
-    }
-
-    this.pingidService.testWebMFA(this.primaryDevice.deviceId, this.sessionUser.username).subscribe(
-      res => {
-        const result: any = res;
-        this.postUrl = result.postUrl;
-        this.ppmRequest = result.ppm;
-        this.idpAccountId = result.idpAccountId;
-        this.ppmForm.nativeElement.submit();
-
-        console.log(result);
-      }, error => {
-        console.log(error);
-      }
-    )
-  }
-
   clearAlerts() {
     this.mfaRejected = false;
     this.mfaApproved = false;
     this.mfaTriggered = false;
+    this.userNotFound = false;
+  }
+
+  searchUser() {
+    this.userService.getUserDetailsByUsername(this.userName).subscribe(
+      res => {
+        this.user = res;
+        this.deviceList = this.user.devicesDetails;
+        this.userFound = true;
+      }, error => {
+        this.userNotFound = true;
+        console.log(error);
+        this.errMsg = error.error;
+        setTimeout(() =>
+          {
+            this.clearAlerts();
+          },
+          5000);
+      }
+    )
   }
 
   ngOnInit(): void {
-    this.getUserDetails();
   }
 }

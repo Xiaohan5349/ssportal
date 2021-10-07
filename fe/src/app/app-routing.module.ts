@@ -1,9 +1,11 @@
+import {AdminGuard} from './@auth/admin.guard';
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {HomeComponent} from "./@components/home/home.component";
 import {LoginComponent} from "./@components/login/login.component";
 import {AuthGuard} from "./@auth/auth.guard";
 import {LogoutComponent} from "./@components/logout/logout.component";
+import {ServicesComponent} from "./@components/services/services.component";
 
 const routes: Routes = [
   {
@@ -17,10 +19,15 @@ const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent,
-    //canActivate: [AuthGuard]
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'services',
+    component: ServicesComponent,
+    canActivate: [AdminGuard]
   },
   {path: '', redirectTo: 'home', pathMatch: 'full'},
-  {path: 'users', loadChildren: () => import('./@components/users/users.module').then(m => m.UsersModule)},
+  {path: '**', redirectTo: 'home'},
 ];
 
 @NgModule({
