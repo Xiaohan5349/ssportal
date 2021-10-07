@@ -168,7 +168,7 @@ export class JwtAuthService {
       return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
         }).join(''));
         const jwtOut = JSON.parse(jsonPayload);
-        this.ls.setItem(this.JWT_TOKEN, jwtOut);
+        this.ls.setItem(this.APP_USER, jwtOut);
         console.log(jwtOut);
     }
     cleanUserAndToken() {
