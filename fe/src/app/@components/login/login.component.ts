@@ -10,6 +10,7 @@ import {environment} from "../../../environments/environment";
 import {User} from "../../@core/models/user";
 import {HelperService} from "../../@core/services/helper.service";
 import { Subject } from 'rxjs';
+import {ActivatedRoute} from '@angular/router'
 
 
 @Component({
@@ -56,7 +57,8 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private jwtAuth: JwtAuthService,
     private http: HttpClient,
-    private helperService: HelperService
+    private helperService: HelperService,
+    private route: ActivatedRoute
   ) {
   }
 
@@ -129,41 +131,54 @@ testNoAdmin(){
 // };
 
 
+// showNewsDetailData() {
+//   this.route.queryParams.subscribe(p => {
+//     const newsUrl = p.newsUrl // 获取参数
+//     console.log(newsUrl);
+//   });
+// }
+
   ngOnInit(): void {
-    this.REF = window.location.href.substring(this.test.length - 42);
-    console.log(this.REF);
-    this.http.get(`http://openam2.example.com:8080/sso/authenticate?REF=${this.REF}`).subscribe(res => {
-      this.jwtAuth.setToken(res['result'].token);
-      const httpOptions = {
-        headers: new HttpHeaders({'Authorization': 'Bearer ' + res['result'].token})
-      };
-            this.http.get(`http://openam2.example.com:8080/sso/user/getCurrentUser`, httpOptions).subscribe(
-          user => {
-            const me = <User> user;
-            // me.roles = [];
-            // for (let i = 0; i < authorities.length; i++) {
-            //   const role = authorities[i].authority;
-            //   me.roles.push(role);
-            // }
-            console.log(me);
-            this.jwtAuth.setUserAndToken(res['result'].token, me, !!res);
 
-            this.router.navigateByUrl(this.jwtAuth.return);
-          }, error => {
-          }
-        );
-      }, err => {
-        this.errorMsg = 'Invalid JWT. Please try again.';
-      })
-    // *ngif='Admin' html
+    this.route.queryParams.subscribe(p => {
+      const newsUrl = p // 获取参数
+      console.log(newsUrl);
+    });
 
-    //  this.ls.setItem('SSPORTAL_APP_USER', this.user)
-    // if (this.user.subject == 'testAdm') {
-    //   this.Admin=true;
-    // //this.router.navigate(['/services']);
-    // }else{
-    //   this.noAdmin=true;
-    // //this.router.navigate(['/home']);
-    // }
+    // this.REF = window.location.href.substring(this.test.length - 42);
+    // console.log(this.REF);
+    // this.http.get(`http://openam2.example.com:8080/sso/authenticate?REF=${this.REF}`).subscribe(res => {
+    //   this.jwtAuth.setToken(res['result'].token);
+    //   const httpOptions = {
+    //     headers: new HttpHeaders({'Authorization': 'Bearer ' + res['result'].token})
+    //   };
+    //         this.http.get(`http://openam2.example.com:8080/sso/user/getCurrentUser`, httpOptions).subscribe(
+    //       user => {
+    //         const me = <User> user;
+    //         // me.roles = [];
+    //         // for (let i = 0; i < authorities.length; i++) {
+    //         //   const role = authorities[i].authority;
+    //         //   me.roles.push(role);
+    //         // }
+    //         console.log(me);
+    //         this.jwtAuth.setUserAndToken(res['result'].token, me, !!res);
+
+    //         this.router.navigateByUrl(this.jwtAuth.return);
+    //       }, error => {
+    //       }
+    //     );
+    //   }, err => {
+    //     this.errorMsg = 'Invalid JWT. Please try again.';
+    //   })
+    // // *ngif='Admin' html
+
+    // //  this.ls.setItem('SSPORTAL_APP_USER', this.user)
+    // // if (this.user.subject == 'testAdm') {
+    // //   this.Admin=true;
+    // // //this.router.navigate(['/services']);
+    // // }else{
+    // //   this.noAdmin=true;
+    // // //this.router.navigate(['/home']);
+    // // }
   }
 }

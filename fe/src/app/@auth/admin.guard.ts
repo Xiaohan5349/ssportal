@@ -17,14 +17,16 @@ export class AdminGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     //need modify
-    const user = this.jwtAuth.getUser();
-    this.jwtAuth.setAdmin();
       if (this.jwtAuth.isLoggedIn() && this.jwtAuth.isAdmin()) {
+        const user = this.jwtAuth.getUser();
+        this.jwtAuth.setAdmin();    
         this.helperService.changeUserLoggedIn(true);
         this.helperService.changeUserAdminStatus(true);
         console.log("admin user");
         return true;
       } else if (this.jwtAuth.isLoggedIn() && !this.jwtAuth.isAdmin()) {
+          const user = this.jwtAuth.getUser();
+          this.jwtAuth.setAdmin();    
           this.helperService.changeUserLoggedIn(true);
           this.helperService.changeUserAdminStatus(false);
           this.router.navigate(['/home'], {
@@ -34,7 +36,7 @@ export class AdminGuard implements CanActivate {
         } else {
             this.helperService.changeUserLoggedIn(false);
             this.helperService.changeUserAdminStatus(false);
-            this.router.navigate(['/home'], {
+            this.router.navigate(['/login'], {
             });
             console.log("not log in");
             return false;
