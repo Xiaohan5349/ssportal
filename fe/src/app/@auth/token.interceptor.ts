@@ -17,6 +17,7 @@ import 'rxjs/add/operator/do';
 export class TokenInterceptor implements HttpInterceptor {
     JWT_TOKEN = AppConst.JWT_STORAGE_NAME;
     APP_USER = AppConst.APP_USER_STORAGE_NAME;
+    APP_ADMIN = AppConst.APP_ADMIN_STORAGE_NAME;
 
     constructor(private jwtAuth: JwtAuthService, private router: Router, private ls: LocalStoreService) {
     }
@@ -47,6 +48,7 @@ export class TokenInterceptor implements HttpInterceptor {
                     console.log(err.message);
                     this.ls.setItem(this.JWT_TOKEN, null);
                     this.ls.setItem(this.APP_USER, null);
+                    this.ls.setItem(this.APP_ADMIN, null);
                     // redirect to the login route
                     this.router.navigate(['/login']);
                 }

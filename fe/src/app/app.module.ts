@@ -75,11 +75,11 @@ import { ServicesComponent } from './@components/services/services.component';
   ],
   providers: [
     // REQUIRED IF YOU USE JWT AUTHENTICATION
-    // {
-    //   provide: HTTP_INTERCEPTORS,
-    //   useClass: TokenInterceptor,
-    //   multi: true,
-    // },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true,
+    },
     LoginService, AuthGuard, JwtAuthService, LocalStoreService,
     HelperService, UserService, NbDialogService
   ],
