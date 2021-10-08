@@ -21,6 +21,8 @@ export class JwtAuthService {
     return: string;
     JWT_TOKEN = AppConst.JWT_STORAGE_NAME;
     APP_USER = AppConst.APP_USER_STORAGE_NAME;
+    APP_ADMIN = AppConst.APP_ADMIN_STORAGE_NAME;
+
 
     constructor(
         private ls: LocalStoreService,
@@ -132,17 +134,17 @@ export class JwtAuthService {
     }
 
     getAdmin(){
-        const admin = this.ls.getItem('SSPORTAL_APP_ADMIN');
+        const admin = this.ls.getItem(this.APP_ADMIN);
         return admin;
     }
 
     setAdmin(){
-        const jwt = this.ls.getItem("SSPORTAL_JWT_TOKEN");
+        const jwt = this.ls.getItem(this.JWT_TOKEN);
         console.log(jwt);
         //add check JWT method with BE
         this.parseJwt(jwt);
-        const user = this.ls.getItem("SSPORTAL_APP_USER");
-        this.ls.setItem('SSPORTAL_APP_ADMIN',user.admin);
+        const user = this.ls.getItem(this.APP_USER);
+        this.ls.setItem(this.APP_ADMIN,user.admin);
     }
 
 
@@ -166,12 +168,12 @@ export class JwtAuthService {
       return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
         }).join(''));
         const jwtOut = JSON.parse(jsonPayload);
-        this.ls.setItem('SSPORTAL_APP_USER', jwtOut);
+        this.ls.setItem(this.APP_USER, jwtOut);
         console.log(jwtOut);
     }
     cleanUserAndToken() {
         this.ls.setItem(this.JWT_TOKEN, null);
         this.ls.setItem(this.APP_USER, null);
-        this.ls.setItem('SSPORTAL_APP_ADMIN',null);
+        this.ls.setItem(this.APP_ADMIN,null);
     }
 }

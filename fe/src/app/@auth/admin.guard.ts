@@ -17,29 +17,28 @@ export class AdminGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     //need modify
-      if (this.jwtAuth.isLoggedIn() && this.jwtAuth.isAdmin()) {
+      if (this.jwtAuth.isLoggedIn()) {
         const user = this.jwtAuth.getUser();
-        this.jwtAuth.setAdmin();    
-        this.helperService.changeUserLoggedIn(true);
-        this.helperService.changeUserAdminStatus(true);
-        console.log("admin user");
-        return true;
-      } else if (this.jwtAuth.isLoggedIn() && !this.jwtAuth.isAdmin()) {
-          const user = this.jwtAuth.getUser();
-          this.jwtAuth.setAdmin();    
+        this.jwtAuth.setAdmin();
+        if (this.jwtAuth.isAdmin()) {
+          this.helperService.changeUserAdminStatus(true);
           this.helperService.changeUserLoggedIn(true);
+          console.log("admin user")
+          return true;
+        }else{
           this.helperService.changeUserAdminStatus(false);
+          this.helperService.changeUserLoggedIn(true);
           this.router.navigate(['/home'], {
-          });
-          console.log("not admin user");
+          });  
+          console.log("not admin user")
           return false;
-        } else {
-            this.helperService.changeUserLoggedIn(false);
-            this.helperService.changeUserAdminStatus(false);
-            this.router.navigate(['/login'], {
-            });
-            console.log("not log in");
-            return false;
         }
+      } else {
+        this.helperService.changeUserLoggedIn(false);
+        this.router.navigate(['/login'], {
+        });
+        console.log("not login")
+        return false;
+      }
   }
 }

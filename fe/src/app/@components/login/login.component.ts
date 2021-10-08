@@ -141,10 +141,10 @@ testNoAdmin(){
   ngOnInit(): void {
 
     this.route.queryParams.subscribe(p => {
-      this.REF = p // 获取参数
-      this.REF = this.REF.REF
+      this.REF = p;
+      this.REF = this.REF.REF;
       console.log(this.REF);
-      this.http.get(`https://openam2.example.com:8443/sso/authenticate?REF=${this.REF}`).subscribe(res => {
+      this.http.get(`${environment.apiURL}/authenticate?REF=${this.REF}`).subscribe(res => {
         this.jwtAuth.setToken(res['result'].token);
         this.router.navigate(['/home']);
         // const httpOptions = {
