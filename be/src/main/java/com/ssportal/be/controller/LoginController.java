@@ -57,7 +57,7 @@ public class LoginController {
         this.roleRepository = roleRepository;
     }
 
-    @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
+    @RequestMapping(value = "/authenticate", method = RequestMethod.GET)
     public Object authenticate(
             @RequestParam(name = "REF") String RefID
     ) throws IOException {

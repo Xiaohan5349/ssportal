@@ -16,7 +16,7 @@ spring:
 server:
   servlet:
     context-path: /sso
-  port: 8181
+  port: 0
 
 # logging
 logging:

@@ -169,4 +169,29 @@ public class OperationHelpers {
 
         return responsePayloadJSON;
     }
+
+    @SuppressWarnings("unchecked")
+    public static String signAuthnRequest(JSONObject requestBody, Operation operation) {
+        JsonWebSignature jws = new JsonWebSignature();
+        jws.setAlgorithmHeaderValue(AlgorithmIdentifiers.HMAC_SHA256);
+        jws.setHeader("org_alias", operation.getOrgAlias());
+        jws.setHeader("token", operation.getToken());
+        System.out.println(requestBody.toJSONString().replace("\\\\","").replace("\\",""));
+        jws.setPayload(requestBody.toJSONString().replace("\\\\","").replace("\\",""));
+
+        // Set the verification key
+        HmacKey key = new HmacKey(Base64.decode(operation.getUseBase64Key()));
+        jws.setKey(key);
+
+        String jwsCompactSerialization = null;
+        try {
+            jwsCompactSerialization = jws.getCompactSerialization();
+        } catch (JoseException e) {
+            LOG.error(e.getMessage());
+        }
+        // Signed request token
+        operation.setRequestToken(jwsCompactSerialization);
+
+        return jwsCompactSerialization;
+    }
 }

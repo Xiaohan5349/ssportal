@@ -29,13 +29,32 @@ public class AcsController {
         if (StringUtils.isNotBlank ( RefID )) {
             RefID = RefID.replaceAll ( "[^A-Za-z0-9]", "" );
         }
-        //model.addAttribute ( "RefID", RefID );
+        model.addAttribute ( "RefID", RefID );
         //localApiClient ().get ().uri ( "?REF="+RefID );
-        //return "redirect";
-       attr.addAttribute ( "RefID", RefID );
-
-       return "forward:/index.html";
+        return "redirect";
+//       attr.addAttribute ( "RefID", RefID );
+//
+//       return "forward:/redirect.html";
     }
+
+
+    @RequestMapping(value = "/login")
+    public String login(){
+        return "forward:/index.html";
+    }
+    @RequestMapping(value = "/home")
+    public String home(){
+        return "forward:/index.html";
+    }
+
+    @RequestMapping({"/services", "/logout"})
+    public String services(){
+        return "forward:/index.html";
+    }
+
+
+
+
 
 
 }

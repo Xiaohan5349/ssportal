@@ -1,0 +1,12 @@
+<assembly>
+    <formats>
+        <format>zip</format>
+    </formats>
+    <includeBaseDirectory>true</includeBaseDirectory>
+    <fileSets>
+        <fileSet>
+            <directory>target/sso.war</directory>
+            <outputDirectory>dist/sso.war</outputDirectory>
+        </fileSet>
+    </fileSets>
+</assembly>

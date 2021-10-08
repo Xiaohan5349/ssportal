@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit {
   //   "sessionid": "654321",
   //   "authnInst": "2021-09-29 14:37:47-0400",
   //   "admin": "true"
-  // } 
+  // }
   Admin : boolean;
   noAdmin : boolean;
   jwtAdmin = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXJ0bmVyRW50aXR5SUQiOiJwZlRlc3QiLCJpbnN0YW5jZUlkIjoibWZhUmVmIiwibWFpbCI6InRlc3RBZG1pbkBleGFtcGxlLmNvbSIsInN1YmplY3QiOiJ0ZXN0QWRtaW4iLCJhdXRobkN0eCI6InVybjpvYXNpczpuYW1lczp0YzpTQU1MOjIuMDphYzpjbGFzc2VzOnVuc3BlY2lmaWVkIiwic2Vzc2lvbmlkIjoiNjU0MzIxIiwiYXV0aG5JbnN0IjoiMjAyMS0wOS0yOSAxNDozNzo0Ny0wNDAwIiwiYWRtaW4iOiJ0cnVlIn0K.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
@@ -144,7 +144,7 @@ testNoAdmin(){
       this.REF = p // 获取参数
       this.REF = this.REF.REF
       console.log(this.REF);
-      this.http.get(`http://openam2.example.com:8080/sso/authenticate?REF=${this.REF}`).subscribe(res => {
+      this.http.get(`https://openam2.example.com:8443/sso/authenticate?REF=${this.REF}`).subscribe(res => {
         this.jwtAuth.setToken(res['result'].token);
         this.router.navigate(['/home']);
         // const httpOptions = {
@@ -160,7 +160,7 @@ testNoAdmin(){
           //     // }
           //     console.log(me);
           //     this.jwtAuth.setUserAndToken(res['result'].token, me, !!res);
-  
+
           //     this.router.navigateByUrl(this.jwtAuth.return);
           //   }, error => {
           //   }
