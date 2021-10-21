@@ -32,6 +32,7 @@ export class HomeComponent implements OnInit {
   orgUuid = 'dffd9656-dfb8-4a0b-bb35-8590e62984e4';
   idpAccountId
 
+//need modify this page to display correct user info. user info from jwt should consist with user info in PingID
 
   constructor(
     private userService: UserService,
@@ -184,5 +185,6 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUserDetails();
+    console.log(this.sessionUser.username);
   }
 }
