@@ -54,7 +54,7 @@ export class HomeComponent implements OnInit {
     }).onClose.subscribe(res => {
       if (res) {
         console.log(res);
-        this.pingidService.unpairDevice(device.deviceId, this.sessionUser.subject).subscribe(
+        this.pingidService.unpairDevice(device.deviceId, this.sessionUser.sub).subscribe(
           res => {
             this.ngOnInit();
           }, error => {
@@ -66,7 +66,7 @@ export class HomeComponent implements OnInit {
   }
 
   getUserDetails() {
-    this.userService.getUserDetailsByUsername(this.sessionUser.subject).subscribe(
+    this.userService.getUserDetailsByUsername(this.sessionUser.sub).subscribe(
       res => {
         this.user = res;
         this.deviceList = this.user.devicesDetails;
@@ -78,7 +78,7 @@ export class HomeComponent implements OnInit {
   }
 
   getActivationCode(type) {
-    this.pingidService.getActivationCode(type, this.sessionUser.subject).subscribe(
+    this.pingidService.getActivationCode(type, this.sessionUser.sub).subscribe(
       res => {
         const result: any = res;
         this.activationCode = result.activationCode;
@@ -111,7 +111,7 @@ export class HomeComponent implements OnInit {
       hasBackdrop: true,
     }).onClose.subscribe(res => {
       if (res) {
-        this.pingidService.makeDevicePrimary(device.deviceId, this.sessionUser.subject).subscribe(
+        this.pingidService.makeDevicePrimary(device.deviceId, this.sessionUser.sub).subscribe(
           res => {
             this.ngOnInit();
           }, error => {
@@ -132,7 +132,7 @@ export class HomeComponent implements OnInit {
     }
 
     this.mfaTriggered = true;
-    this.pingidService.testMFA(this.primaryDevice.deviceId, this.sessionUser.subject).subscribe(
+    this.pingidService.testMFA(this.primaryDevice.deviceId, this.sessionUser.sub).subscribe(
       res => {
         const result: any = res;
         if (result.errorMsg) {
@@ -162,7 +162,7 @@ export class HomeComponent implements OnInit {
       }
     }
 
-    this.pingidService.testWebMFA(this.primaryDevice.deviceId, this.sessionUser.subject).subscribe(
+    this.pingidService.testWebMFA(this.primaryDevice.deviceId, this.sessionUser.sub).subscribe(
       res => {
         const result: any = res;
         this.postUrl = result.postUrl;
@@ -185,6 +185,6 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUserDetails();
-    console.log(this.sessionUser.subject);
+    console.log(this.sessionUser.sub);
   }
 }
