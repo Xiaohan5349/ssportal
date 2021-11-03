@@ -148,7 +148,7 @@ onRedirect(){
           //   }
           // );
         }, err => {
-          this.errorMsg = 'Invalid JWT. Please try again.';
+          this.errorMsg = 'Please Login';
         })
     });
 
