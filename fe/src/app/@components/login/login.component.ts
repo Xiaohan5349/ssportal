@@ -117,6 +117,10 @@ testNoAdmin(){
   this.router.navigate(['/home']);
 }
 
+onRedirect(){
+  window.location.href='https://www.google.com';
+}
+
 // parseJwt () {
 //   var base64Url = this.jwt.split('.')[1];
 //   var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');

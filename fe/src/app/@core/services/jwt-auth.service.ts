@@ -174,6 +174,6 @@ export class JwtAuthService {
     cleanUserAndToken() {
         this.ls.setItem(this.JWT_TOKEN, null);
         this.ls.setItem(this.APP_USER, null);
-        this.ls.setItem(this.APP_ADMIN,null);
+        this.ls.setItem(this.APP_ADMIN, null);
     }
 }

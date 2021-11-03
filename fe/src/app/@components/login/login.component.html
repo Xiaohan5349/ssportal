@@ -11,10 +11,11 @@
            id="input-password"
            type="password"
            placeholder="Password" (keyup.enter)="onLogin()">
-    <button nbButton fullWidth status="primary" size="large" 
-            (click)="onLogin()">
-      Log In
-    </button> -->
+    -->
+    <button *ngIf="errorMsg" nbButton fullWidth status="primary" size="large" 
+            (click)="onRedirect()">
+      Log In Again
+    </button> 
     <button nbButton fullWidth status="primary" size="large" 
     (click)="testAdm()">
     Test Adm
