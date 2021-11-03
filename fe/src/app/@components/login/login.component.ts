@@ -22,30 +22,7 @@ export class LoginComponent implements OnInit {
   RE_LOGIN_URL: string = AppConst.LOGIN_PATH;
   serverPath = AppConst.SERVER_PATH;
   errorMsg;
-  credential = {'username': '', 'password': ''};
   REF;
-  test = '%2Fhome%3FRefID%3D3C6EE6BB683E147E72DAA9C026600B435ED7BE0F22';
-  log;
-  user = {
-    "partnerEntityID": "pfTest",
-    "instanceId": "mfaRef",
-    "mail": "test@example.com",
-    "subject": "test",
-    "authnCtx": "urn:oasis:names:tc:SAML:2.0:ac:classes:unspecified",
-    "sessionid": "123456",
-    "authnInst": "2021-09-29 14:37:47-0400",
-    "admin": "false"
-  };
-  // userAdmin = {
-  //   "partnerEntityID": "pfTest",
-  //   "instanceId": "mfaRef",
-  //   "mail": "testAdmin@example.com",
-  //   "subject": "testAdmin",
-  //   "authnCtx": "urn:oasis:names:tc:SAML:2.0:ac:classes:unspecified",
-  //   "sessionid": "654321",
-  //   "authnInst": "2021-09-29 14:37:47-0400",
-  //   "admin": "true"
-  // }
   Admin : boolean;
   noAdmin : boolean;
   jwtAdmin = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXJ0bmVyRW50aXR5SUQiOiJwZlRlc3QiLCJpbnN0YW5jZUlkIjoibWZhUmVmIiwibWFpbCI6InRlc3RBZG1pbkBleGFtcGxlLmNvbSIsInN1YmplY3QiOiJ0ZXN0dXNlciIsImF1dGhuQ3R4IjoidXJuOm9hc2lzOm5hbWVzOnRjOlNBTUw6Mi4wOmFjOmNsYXNzZXM6dW5zcGVjaWZpZWQiLCJzZXNzaW9uaWQiOiI2NTQzMjEiLCJhdXRobkluc3QiOiIyMDIxLTA5LTI5IDE0OjM3OjQ3LTA0MDAiLCJhZG1pbiI6InRydWUifQ.pBRsi9n13MG0UgMwXBRZwjwo7ZEOGXEqjoTOfQqQm0M';
@@ -63,34 +40,34 @@ export class LoginComponent implements OnInit {
   ) {
   }
 
-  onLogin() {
-    this.jwtAuth.signin(this.credential.username, this.credential.password)
-      .subscribe(res => {
-        this.jwtAuth.setToken(res['result'].token);
-        const httpOptions = {
-          headers: new HttpHeaders({'Authorization': 'Bearer ' + res.result.token})
-        };
+  // onLogin() {
+  //   this.jwtAuth.signin(this.credential.username, this.credential.password)
+  //     .subscribe(res => {
+  //       this.jwtAuth.setToken(res['result'].token);
+  //       const httpOptions = {
+  //         headers: new HttpHeaders({'Authorization': 'Bearer ' + res.result.token})
+  //       };
 
-        this.http.get(`${environment.apiURL}/user/getCurrentUser`, httpOptions).subscribe(
-          user => {
-            const me = <User> user;
+  //       this.http.get(`${environment.apiURL}/user/getCurrentUser`, httpOptions).subscribe(
+  //         user => {
+  //           const me = <User> user;
 
-            // me.roles = [];
-            // for (let i = 0; i < authorities.length; i++) {
-            //   const role = authorities[i].authority;
-            //   me.roles.push(role);
-            // }
-            console.log(me);
-            this.jwtAuth.setUserAndToken(res.result.token, me, !!res);
+  //           // me.roles = [];
+  //           // for (let i = 0; i < authorities.length; i++) {
+  //           //   const role = authorities[i].authority;
+  //           //   me.roles.push(role);
+  //           // }
+  //           console.log(me);
+  //           this.jwtAuth.setUserAndToken(res.result.token, me, !!res);
 
-            this.router.navigateByUrl(this.jwtAuth.return);
-          }, error => {
-          }
-        );
-      }, err => {
-        this.errorMsg = 'Invalid Username/Password. Please try again.';
-      })
-  }
+  //           this.router.navigateByUrl(this.jwtAuth.return);
+  //         }, error => {
+  //         }
+  //       );
+  //     }, err => {
+  //       this.errorMsg = 'Invalid Username/Password. Please try again.';
+  //     })
+  // }
 
 testAdm(){
   // console.log('calling be acs');
