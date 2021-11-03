@@ -19,6 +19,7 @@ import {ActivatedRoute} from '@angular/router'
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+  RE_LOGIN_URL: string = AppConst.LOGIN_PATH;
   serverPath = AppConst.SERVER_PATH;
   errorMsg;
   credential = {'username': '', 'password': ''};
@@ -118,7 +119,7 @@ testNoAdmin(){
 }
 
 onRedirect(){
-  window.location.href='https://www.google.com';
+  window.location.href=this.RE_LOGIN_URL;
 }
 
 // parseJwt () {
