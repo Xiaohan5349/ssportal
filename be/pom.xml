@@ -15,7 +15,7 @@
     <name>be</name>
     <description>Backend for PIng Identity Service</description>
     <properties>
-        <java.version>8</java.version>
+        <java.version>11</java.version>
         <skipTests>true</skipTests>
     </properties>
     <dependencies>
