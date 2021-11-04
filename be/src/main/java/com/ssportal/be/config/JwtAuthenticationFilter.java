@@ -1,8 +1,7 @@
 package com.ssportal.be.config;
 
-import com.ssportal.be.model.User;
-import com.ssportal.be.model.security.UserRole;
 import com.ssportal.be.service.UserService;
+import com.ssportal.be.utilility.Constants;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
 import org.slf4j.Logger;
@@ -22,7 +21,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
-import com.ssportal.be.utilility.Constants;
 
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
@@ -60,19 +58,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             LOG.info("couldn't find bearer string, will ignore the header of URI: {}", req.getRequestURI());
         }
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            User user = userService.findByUsername(username);
-            if (user != null ) {
-                Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
-                for (UserRole role : user.getUserRoles()) {
-                    grantedAuthorities.add(new SimpleGrantedAuthority(role.getRole().getName()));
-                }
 
-                if (jwtTokenUtil.validateToken(authToken, user)) {
-                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user, null, grantedAuthorities);
+                if (jwtTokenUtil.validateToken(authToken)) {
+                    Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
+                    grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(username, null, grantedAuthorities);
                     authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(req));
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 }
-            }
         }
 
         chain.doFilter(req, res);

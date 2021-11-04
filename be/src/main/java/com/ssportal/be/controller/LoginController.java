@@ -2,36 +2,28 @@ package com.ssportal.be.controller;
 
 import com.ssportal.be.config.JwtTokenUtil;
 import com.ssportal.be.model.User;
-import com.ssportal.be.repository.RoleRepository;
-import com.ssportal.be.repository.UserRepository;
 import com.ssportal.be.service.UserService;
 import com.ssportal.be.utilility.ApiResponse;
 import com.ssportal.be.utilility.AuthToken;
 import com.ssportal.be.utilility.HelperUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-import org.json.simple.parser.JSONParser;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.security.Principal;
-import java.util.HashMap;
 
 @RestController
 public class LoginController {
@@ -43,18 +35,13 @@ public class LoginController {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
-
+    @Autowired
     private final UserService userService;
 
-    private final UserRepository userRepository;
-
-    private final RoleRepository roleRepository;
 
     @Autowired
-    public LoginController(UserService userService, UserRepository userRepository, RoleRepository roleRepository) {
+    public LoginController(UserService userService) {
         this.userService = userService;
-        this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
     }
 
     @RequestMapping(value = "/authenticate", method = RequestMethod.GET)
@@ -82,23 +69,23 @@ public class LoginController {
             InputStreamReader streamReader = new InputStreamReader(is, encoding != null ? encoding : "UTF-8");
 
             JSONParser parser = new JSONParser();
-                JSONObject spUserAttributes = (JSONObject) parser.parse(streamReader);
+            JSONObject spUserAttributes = (JSONObject) parser.parse(streamReader);
 
             String username = spUserAttributes.get( "subject" ).toString ();
             System.out.println ( username );
 
-        if (username != null) {
-            username = username.toLowerCase ();
-            try {
-                User user = new User (spUserAttributes);
-                final String token = jwtTokenUtil.generateToken (user);
-                System.out.println ( token );
-                return new ApiResponse<> ( 200, "success", new AuthToken ( token, username ) );
-            } catch (Exception ex) {
-                LOG.error ( "", ex );
-                return HelperUtil.handleException ( ex );
+            if (username != null) {
+                username = username.toLowerCase ();
+                try {
+                    User user = new User (spUserAttributes);
+                    final String token = jwtTokenUtil.generateToken (user);
+                    System.out.println ( token );
+                    return new ApiResponse<> ( 200, "success", new AuthToken ( token, username ) );
+                } catch (Exception ex) {
+                    LOG.error ( "", ex );
+                    return HelperUtil.handleException ( ex );
+                }
             }
-        }
         } catch (ParseException e) {
             System.out.println ( "Certificate Error!!" );
             LOG.error("Error processing user details, Please contact Administrator", e);

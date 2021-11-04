@@ -8,18 +8,14 @@ import org.json.simple.JSONObject;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;
 
 
 
-@Entity
 public class User implements Serializable, UserDetails {
 
     private static final long serialVersionUID = -9138461153733765604L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String firstName;
     private String lastName;
@@ -29,7 +25,6 @@ public class User implements Serializable, UserDetails {
     private Date joinDate;
     private String password;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnore
     private Set<UserRole> userRoles = new HashSet<>();
 
@@ -42,7 +37,6 @@ public class User implements Serializable, UserDetails {
     private String admin;
 
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
-    @Temporal(TemporalType.DATE)
     private Date birthday;
 
     public User(){}

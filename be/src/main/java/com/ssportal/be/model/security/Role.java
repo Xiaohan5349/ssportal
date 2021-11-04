@@ -1,21 +1,17 @@
 package com.ssportal.be.model.security;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity
 public class Role implements Serializable {
 
     private static final long serialVersionUID = 890245234L;
 
-    @Id
     private int roleId;
 
     private String name;
 
-    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<UserRole> userRoles = new HashSet<>();
 
     public Role(){}
