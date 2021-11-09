@@ -1,5 +1,6 @@
 package com.ssportal.be.pingid.service.impl;
 
+import com.ssportal.be.model.User;
 import com.ssportal.be.pingid.model.Application;
 import com.ssportal.be.pingid.model.DeviceDetail;
 import com.ssportal.be.pingid.model.Operation;
@@ -35,25 +36,25 @@ public class PingIdOperationServiceImpl implements PingIdOperationService {
     private static final Logger LOG = Logger.getLogger(PingIdOperationServiceImpl.class);
 
     // public methods
-    public JSONObject addUser(Boolean activateUser) {
-        Operation operation = new Operation();
+    public JSONObject addUser(User user, Boolean activateUser, Operation operation) {
+        //Operation operation = new Operation();
 
         operation.setName("AddUser");
         operation.setEndpoint(operation.getApiUrl() + "/rest/4/adduser/do");
 
         JSONObject reqBody = new JSONObject();
         reqBody.put("activateUser", activateUser);
-        if (operation.getPingIdUser().getEmail() != null) {
-            reqBody.put("email", operation.getPingIdUser().getEmail());
+        if (user.getEmail () != null) {
+            reqBody.put("email", user.getEmail ());
         }
-        if (operation.getPingIdUser().getfName() != null) {
-            reqBody.put("fName", operation.getPingIdUser().getfName());
+        if (user.getFirstName () != null) {
+            reqBody.put("fName", user.getFirstName ());
         }
-        if (operation.getPingIdUser().getlName() != null) {
-            reqBody.put("lname", operation.getPingIdUser().getlName());
+        if (user.getLastName () != null) {
+            reqBody.put("lname", user.getLastName ());
         }
-        reqBody.put("username", operation.getPingIdUser().getUserName());
-        reqBody.put("role", operation.getPingIdUser().getRole().getValue());
+        reqBody.put("username", user.getUsername ());
+        reqBody.put("role", user.getUserRoles ());
         reqBody.put("clientData", operation.getClientData());
 
         operation.setRequestToken(OperationHelpers.buildRequestToken(reqBody, operation));
@@ -68,20 +69,15 @@ public class PingIdOperationServiceImpl implements PingIdOperationService {
 
     @SuppressWarnings("unchecked")
     public JSONObject getUserDetails(Operation operation) {
-
         operation.setName("GetUserDetails");
         operation.setEndpoint(operation.getApiUrl() + "/rest/4/getuserdetails/do");
-
         JSONObject reqBody = new JSONObject();
         reqBody.put("getSameDeviceUsers", false);
         reqBody.put("userName", operation.getPingIdUser().getUserName());
         reqBody.put("clientData", operation.getClientData());
-
         operation.setRequestToken(OperationHelpers.buildRequestToken(reqBody, operation));
-
         OperationHelpers.sendRequest(operation);
         operation.getValues().clear();
-
         JSONObject response = OperationHelpers.parseResponse(operation);
         LOG.debug("API response from operation = GetUserDetails for user = " + operation.getPingIdUser().getUserName() + ": " + response);
 

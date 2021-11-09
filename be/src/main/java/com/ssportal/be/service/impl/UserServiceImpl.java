@@ -23,9 +23,6 @@ public class UserServiceImpl implements UserService {
             String encryptedPassword = SecurityUtility.passwordEncoder ().encode ( user.getPassword () );
             user.setPassword ( encryptedPassword );
         }
-        if (userRoles != null && userRoles.size () > 0) {
-            user.getUserRoles ().addAll ( userRoles );
-        }
         return user;
     }
 }

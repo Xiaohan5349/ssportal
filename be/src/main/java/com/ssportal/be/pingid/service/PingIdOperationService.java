@@ -1,11 +1,12 @@
 package com.ssportal.be.pingid.service;
 
+import com.ssportal.be.model.User;
 import com.ssportal.be.pingid.model.Application;
 import com.ssportal.be.pingid.model.Operation;
 import org.json.simple.JSONObject;
 
 public interface PingIdOperationService {
-    JSONObject addUser(Boolean activateUser);
+    JSONObject addUser(User user, Boolean activateUser, Operation operation);
     JSONObject getUserDetails(Operation operation);
     JSONObject unpairDevice(String deviceId, Operation operation);
     String getActivationCode(String type, Operation operation);

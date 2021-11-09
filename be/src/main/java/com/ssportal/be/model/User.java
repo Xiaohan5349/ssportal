@@ -20,13 +20,14 @@ public class User implements Serializable, UserDetails {
     private String firstName;
     private String lastName;
     private String email;
+    private String role;
 
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
     private Date joinDate;
     private String password;
 
     @JsonIgnore
-    private Set<UserRole> userRoles = new HashSet<>();
+    private String userRoles;
 
     private String company;
     private String phone;
@@ -44,6 +45,8 @@ public class User implements Serializable, UserDetails {
         this.username = userAttributes.get ( "subject" ).toString ();
         this.email = userAttributes.get ( "mail" ).toString ();
         this.admin = userAttributes.get ( "admin" ).toString ();
+        this.firstName = userAttributes.get ( "firstName" ).toString ();
+        this.lastName = userAttributes.get ( "lastName" ).toString ();
     }
     public Long getId() {
         return id;
@@ -137,11 +140,15 @@ public class User implements Serializable, UserDetails {
         this.birthday = birthday;
     }
 
-    public Set<UserRole> getUserRoles() {
-        return userRoles;
+    public String getUserRoles() {
+        if(this.admin.equals ( "true" )){
+            return "ADMIN";
+        }else {
+            return "REGULAR";
+        }
     }
 
-    public void setUserRoles(Set<UserRole> userRoles) {
+    public void setUserRoles(String userRoles) {
         this.userRoles = userRoles;
     }
 
@@ -157,7 +164,6 @@ public class User implements Serializable, UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<GrantedAuthority> authorities = new HashSet<>();
-        userRoles.forEach(ur -> authorities.add(new Authority(ur.getRole().getName())));
         return authorities;
     }
 

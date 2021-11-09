@@ -1,6 +1,6 @@
 export class AppConst {
-  public static SERVER_PATH = 'http://openam2.example.com:8080/sso';
-  public static LOGIN_PATH = 'https://openam2.example.com:9031/idp/startSSO.ping?PartnerSpId=PFsaml';
+  public static SERVER_PATH = 'http://localhost:8080/sso';
+  public static LOGIN_PATH = 'https://localhost:9031/idp/startSSO.ping?PartnerSpId=PFsaml';
 
 
   public static JWT_STORAGE_NAME = 'SSPORTAL_JWT_TOKEN'

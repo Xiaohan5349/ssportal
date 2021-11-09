@@ -96,7 +96,6 @@ public class OperationHelpers {
 
             int responseCode = urlConnection.getResponseCode();
             operation.setResponseCode(responseCode);
-
             if (responseCode == 200) {
 
                 String encoding = urlConnection.getContentEncoding();

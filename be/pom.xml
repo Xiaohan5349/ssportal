@@ -39,11 +39,7 @@
         </dependency>
         <!-- add dependcy to solve module confilct   start -->
         <!-- https://mvnrepository.com/artifact/org.glassfish.jaxb/jaxb-runtime -->
-        <dependency>
-            <groupId>org.glassfish.jaxb</groupId>
-            <artifactId>jaxb-runtime</artifactId>
-            <version>2.2.11</version>
-        </dependency>
+
 <!--        <dependency>-->
 <!--            <groupId>com.google.code.gson</groupId>-->
 <!--            <artifactId>gson</artifactId>-->

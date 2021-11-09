@@ -30,7 +30,6 @@ public class UserSecurityService implements UserDetailsService {
         Role role1 = new Role ();
         role1.setName ( "Role_ADMIN" );
         userRoles.add ( new UserRole ( user1, role1 ) );
-        user1.getUserRoles ().addAll ( userRoles );
 
         return user1;
     }

@@ -2,6 +2,9 @@ package com.ssportal.be.controller;
 
 import com.ssportal.be.config.JwtTokenUtil;
 import com.ssportal.be.model.User;
+import com.ssportal.be.pingid.model.Operation;
+import com.ssportal.be.pingid.model.PingIdProperties;
+import com.ssportal.be.pingid.service.PingIdOperationService;
 import com.ssportal.be.service.UserService;
 import com.ssportal.be.utilility.ApiResponse;
 import com.ssportal.be.utilility.AuthToken;
@@ -36,6 +39,9 @@ public class LoginController {
     private JwtTokenUtil jwtTokenUtil;
 
     @Autowired
+    private PingIdOperationService pingIdOperationService;
+
+    @Autowired
     private final UserService userService;
 
 
@@ -52,7 +58,6 @@ public class LoginController {
         if (StringUtils.isNotBlank ( RefID )) {
             RefID = RefID.replaceAll ( "[^A-Za-z0-9]", "" );
         }
-        System.out.println ( RefID );
         String base_url = "https://localhost:9031";
         String pickupLocation = base_url + "/ext/ref/pickup?REF=" + RefID;
         LOG.debug ( pickupLocation );
@@ -72,14 +77,23 @@ public class LoginController {
             JSONObject spUserAttributes = (JSONObject) parser.parse(streamReader);
 
             String username = spUserAttributes.get( "subject" ).toString ();
-            System.out.println ( username );
-
             if (username != null) {
-                username = username.toLowerCase ();
+                //register user when user can't be found in pingid
+                User user = new User (spUserAttributes);
+                PingIdProperties pingIdProperties = new PingIdProperties();
+                pingIdProperties.setProperties ( 0 );
+                Operation operation = new Operation(pingIdProperties.getOrgAlias(), pingIdProperties.getPingid_token(), pingIdProperties.getPingid_use_base64_key(), pingIdProperties.getApi_url());
+                operation.setTargetUser(username);
+                JSONObject userDetails = pingIdOperationService.getUserDetails(operation);
+                if (userDetails == null){
+                    pingIdOperationService.addUser (user, false, operation);
+
+                }
+
+
+                //username = username.toLowerCase ();
                 try {
-                    User user = new User (spUserAttributes);
                     final String token = jwtTokenUtil.generateToken (user);
-                    System.out.println ( token );
                     return new ApiResponse<> ( 200, "success", new AuthToken ( token, username ) );
                 } catch (Exception ex) {
                     LOG.error ( "", ex );
