@@ -16,6 +16,8 @@ import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -51,7 +53,7 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/authenticate", method = RequestMethod.GET)
-    public Object authenticate(
+    public ResponseEntity<AuthToken> authenticate(
             @RequestParam(name = "REF") String RefID
     ) throws IOException {
 
@@ -75,7 +77,9 @@ public class LoginController {
 
             JSONParser parser = new JSONParser();
             JSONObject spUserAttributes = (JSONObject) parser.parse(streamReader);
-
+            if(spUserAttributes.size () == 0) {
+                return ResponseEntity.badRequest ().body ( new AuthToken (  ) );
+            }
             String username = spUserAttributes.get( "subject" ).toString ();
             if (username != null) {
                 //register user when user can't be found in pingid
@@ -94,7 +98,8 @@ public class LoginController {
                 //username = username.toLowerCase ();
                 try {
                     final String token = jwtTokenUtil.generateToken (user);
-                    return new ApiResponse<> ( 200, "success", new AuthToken ( token, username ) );
+                    return ResponseEntity.status ( HttpStatus.OK ).body ( new AuthToken ( token, username ) );
+//                    return new ApiResponse<> ( 200, "success", new AuthToken ( token, username ) );
                 } catch (Exception ex) {
                     LOG.error ( "", ex );
                     return HelperUtil.handleException ( ex );
