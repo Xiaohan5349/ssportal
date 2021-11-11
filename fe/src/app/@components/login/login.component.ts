@@ -23,6 +23,7 @@ export class LoginComponent implements OnInit {
   serverPath = AppConst.SERVER_PATH;
   errorMsg;
   REF;
+  RES;
   Admin : boolean;
   noAdmin : boolean;
   jwtAdmin = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXJ0bmVyRW50aXR5SUQiOiJwZlRlc3QiLCJpbnN0YW5jZUlkIjoibWZhUmVmIiwibWFpbCI6InRlc3RBZG1pbkBleGFtcGxlLmNvbSIsInN1YmplY3QiOiJ0ZXN0dXNlciIsImF1dGhuQ3R4IjoidXJuOm9hc2lzOm5hbWVzOnRjOlNBTUw6Mi4wOmFjOmNsYXNzZXM6dW5zcGVjaWZpZWQiLCJzZXNzaW9uaWQiOiI2NTQzMjEiLCJhdXRobkluc3QiOiIyMDIxLTA5LTI5IDE0OjM3OjQ3LTA0MDAiLCJhZG1pbiI6InRydWUifQ.pBRsi9n13MG0UgMwXBRZwjwo7ZEOGXEqjoTOfQqQm0M';
@@ -127,8 +128,12 @@ onRedirect(){
       this.REF = this.REF.REF;
       console.log(this.REF);
       this.http.get(`${environment.apiURL}/authenticate?REF=${this.REF}`).subscribe(res => {
-        console.log(res),
-        this.jwtAuth.setToken(res['result'].token);
+        console.log(res);
+        this.RES=res;
+        console.log(this.RES);
+        console.log(this.RES.token);
+        this.ls.setItem('RES',this.RES);
+        this.jwtAuth.setToken(this.RES.token);
         this.router.navigate(['/home']);
         // const httpOptions = {
         //   headers: new HttpHeaders({'Authorization': 'Bearer ' + res['result'].token})
