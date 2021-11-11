@@ -127,6 +127,7 @@ onRedirect(){
       this.REF = this.REF.REF;
       console.log(this.REF);
       this.http.get(`${environment.apiURL}/authenticate?REF=${this.REF}`).subscribe(res => {
+        console.log(res),
         this.jwtAuth.setToken(res['result'].token);
         this.router.navigate(['/home']);
         // const httpOptions = {
