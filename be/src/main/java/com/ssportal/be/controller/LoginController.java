@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -63,53 +64,67 @@ public class LoginController {
         String base_url = "https://localhost:9031";
         String pickupLocation = base_url + "/ext/ref/pickup?REF=" + RefID;
         LOG.debug ( pickupLocation );
-        URL pickUrl = new URL ( pickupLocation );
-        HttpURLConnection httpURLConn = (HttpURLConnection) pickUrl.openConnection ();
-        httpURLConn.setRequestProperty ( "ping.uname", "admin" );
-        httpURLConn.setRequestProperty ( "ping.pwd", "Password1!!" );
-        // ping.instanceId is optional and only needs to be specified if multiple instances of ReferenceId adapter are configured.
-        httpURLConn.setRequestProperty ( "ping.instanceId", "ssoSPadapter" );
-        String encoding = httpURLConn.getContentEncoding ();
+        java.util.Properties prop = new java.util.Properties ();
+        String propFileName = "application.properties";
+        try (InputStream inputStream = getClass ().getClassLoader ().getResourceAsStream ( propFileName )) {
+            if (inputStream != null) {
+                prop.load ( inputStream );
+            } else {
+                throw new FileNotFoundException ( "property file '" + propFileName + "' not found in the classpath" );
+            }
+
+            String ping_uname, rping_pwd, instance_id;
+            ping_uname = prop.getProperty ( "refid_user" );
+            rping_pwd = prop.getProperty ( "refid_pwd" );
+            instance_id = prop.getProperty ( "ssoSPadapter" );
+            URL pickUrl = new URL ( pickupLocation );
+            HttpURLConnection httpURLConn = (HttpURLConnection) pickUrl.openConnection ();
+            httpURLConn.setRequestProperty ( "ping.uname", ping_uname );
+            httpURLConn.setRequestProperty ( "ping.pwd", rping_pwd );
+            // ping.instanceId is optional and only needs to be specified if multiple instances of ReferenceId adapter are configured.
+            httpURLConn.setRequestProperty ( "ping.instanceId", instance_id );
+            String encoding = httpURLConn.getContentEncoding ();
 
 //        PF Part
-        try (InputStream is = httpURLConn.getInputStream()) {
-            InputStreamReader streamReader = new InputStreamReader(is, encoding != null ? encoding : "UTF-8");
+            try (InputStream is = httpURLConn.getInputStream ()) {
+                InputStreamReader streamReader = new InputStreamReader ( is, encoding != null ? encoding : "UTF-8" );
 
-            JSONParser parser = new JSONParser();
-            JSONObject spUserAttributes = (JSONObject) parser.parse(streamReader);
-            if(spUserAttributes.size () == 0) {
-                return ResponseEntity.badRequest ().body ( new AuthToken (  ) );
-            }
-            String username = spUserAttributes.get( "subject" ).toString ();
-            if (username != null) {
-                //register user when user can't be found in pingid
-                User user = new User (spUserAttributes);
-                PingIdProperties pingIdProperties = new PingIdProperties();
-                pingIdProperties.setProperties ( 0 );
-                Operation operation = new Operation(pingIdProperties.getOrgAlias(), pingIdProperties.getPingid_token(), pingIdProperties.getPingid_use_base64_key(), pingIdProperties.getApi_url());
-                operation.setTargetUser(username);
-                JSONObject userDetails = pingIdOperationService.getUserDetails(operation);
-                if (userDetails == null){
-                    pingIdOperationService.addUser (user, false, operation);
-
+                JSONParser parser = new JSONParser ();
+                JSONObject spUserAttributes = (JSONObject) parser.parse ( streamReader );
+                if (spUserAttributes.size () == 0) {
+                    return ResponseEntity.badRequest ().body ( new AuthToken () );
                 }
+                String username = spUserAttributes.get ( "subject" ).toString ();
+                if (username != null) {
+                    //register user when user can't be found in pingid
+                    User user = new User ( spUserAttributes );
+                    PingIdProperties pingIdProperties = new PingIdProperties ();
+                    pingIdProperties.setProperties ( 0 );
+                    Operation operation = new Operation ( pingIdProperties.getOrgAlias (), pingIdProperties.getPingid_token (), pingIdProperties.getPingid_use_base64_key (), pingIdProperties.getApi_url () );
+                    operation.setTargetUser ( username );
+                    JSONObject userDetails = pingIdOperationService.getUserDetails ( operation );
+                    if (userDetails == null) {
+                        pingIdOperationService.addUser ( user, false, operation );
+
+                    }
 
 
-                //username = username.toLowerCase ();
-                try {
-                    final String token = jwtTokenUtil.generateToken (user);
-                    return ResponseEntity.status ( HttpStatus.OK ).body ( new AuthToken ( token, username ) );
+                    //username = username.toLowerCase ();
+                    try {
+                        final String token = jwtTokenUtil.generateToken ( user );
+                        return ResponseEntity.status ( HttpStatus.OK ).body ( new AuthToken ( token, username ) );
 //                    return new ApiResponse<> ( 200, "success", new AuthToken ( token, username ) );
-                } catch (Exception ex) {
-                    LOG.error ( "", ex );
-                    return HelperUtil.handleException ( ex );
+                    } catch (Exception ex) {
+                        LOG.error ( "", ex );
+                        return HelperUtil.handleException ( ex );
+                    }
                 }
+            } catch (ParseException e) {
+                System.out.println ( "Certificate Error!!" );
+                LOG.error ( "Error processing user details, Please contact Administrator", e );
             }
-        } catch (ParseException e) {
-            System.out.println ( "Certificate Error!!" );
-            LOG.error("Error processing user details, Please contact Administrator", e);
+            return null;
         }
-        return null;
     }
 }
 
