@@ -2,28 +2,9 @@
   <h1 id="title" *ngIf="!errorMsg" class="title">Redirecting...</h1>
   <nb-alert *ngIf="errorMsg" status="warning">{{errorMsg}}</nb-alert>
   <div>
-    <!-- <input nbInput class="mb-1" [(ngModel)]="credential.username"
-           fullWidth name="username"
-           id="input-username"
-           placeholder="Username" (keyup.enter)="onLogin()">
-    <input nbInput class="mb-1" [(ngModel)]="credential.password"
-           fullWidth name="password"
-           id="input-password"
-           type="password"
-           placeholder="Password" (keyup.enter)="onLogin()">
-    -->
     <button *ngIf="errorMsg" nbButton fullWidth status="primary" size="large" 
             (click)="onRedirect()">
       Log In
     </button> 
-<!--    <button nbButton fullWidth status="primary" size="large" 
-    (click)="testAdm()">
-    Test Adm
-    </button>
-    <button nbButton fullWidth status="primary" size="large" 
-    (click)="testNoAdmin()">
-    Test noAdm
-    </button>
--->
   </div>
 </div>

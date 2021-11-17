@@ -14,13 +14,6 @@ export class UserService {
     private http: HttpClient
   ) { }
 
-  // getUserDetails() {
-  //   const url = this.BACKEND_URL + '/pingid/getUserDetails';
-  //   const httpOptions = {
-  //     headers: new HttpHeaders({'Content-Type': 'application/json'})
-  //   };
-  //   return this.http.get(url, httpOptions);
-  // }
 
   getUserDetailsByUsername(username) {
     const url = this.BACKEND_URL + '/pingid/getUserDetailsByUsername';
@@ -33,11 +26,4 @@ export class UserService {
     return this.http.post(url, payload, httpOptions);
   }
 
-  // addUser(user: User): Observable<any> {
-  //   const url = this.BACKEND_URL + '/users';
-  //   const httpOptions = {
-  //     headers: new HttpHeaders({'Content-Type': 'application/json'})
-  //   };
-  //   return this.http.post(url, JSON.stringify(user), httpOptions);
-  // }
 }

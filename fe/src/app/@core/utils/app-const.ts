@@ -1,6 +1,6 @@
 export class AppConst {
   public static SERVER_PATH = 'http://localhost:8080/sso';
-  public static LOGIN_PATH = 'https://localhost:9031/idp/startSSO.ping?PartnerSpId=PFsaml';
+  public static LOGIN_PATH = 'https://ssoqa.bedbath.com/idp/startSSO.ping?PartnerSpId=MFASSO';
 
 
   public static JWT_STORAGE_NAME = 'SSPORTAL_JWT_TOKEN'
