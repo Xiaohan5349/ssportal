@@ -7,6 +7,7 @@ import org.json.simple.JSONObject;
 
 public interface PingIdOperationService {
     JSONObject addUser(User user, Boolean activateUser, Operation operation);
+    JSONObject editUser(User user, Boolean activateUser, Operation operation);
     JSONObject getUserDetails(Operation operation);
     JSONObject unpairDevice(String deviceId, Operation operation);
     String getActivationCode(String type, Operation operation);

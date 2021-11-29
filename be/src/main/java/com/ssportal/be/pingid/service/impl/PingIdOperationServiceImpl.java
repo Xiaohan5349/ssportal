@@ -67,6 +67,38 @@ public class PingIdOperationServiceImpl implements PingIdOperationService {
         return response;
     }
 
+    // public methods
+    public JSONObject editUser(User user, Boolean activateUser, Operation operation) {
+        //Operation operation = new Operation();
+
+        operation.setName("EditUser");
+        operation.setEndpoint(operation.getApiUrl() + "/rest/4/edituser/do");
+
+        JSONObject reqBody = new JSONObject();
+        reqBody.put("activateUser", activateUser);
+        if (user.getEmail () != null) {
+            reqBody.put("email", user.getEmail ());
+        }
+        if (user.getFirstName () != null) {
+            reqBody.put("fName", user.getFirstName ());
+        }
+        if (user.getLastName () != null) {
+            reqBody.put("lName", user.getLastName ());
+        }
+        reqBody.put("userName", user.getUsername ());
+        reqBody.put("role", user.getUserRoles ());
+        reqBody.put("clientData", operation.getClientData());
+
+        operation.setRequestToken(OperationHelpers.buildRequestToken(reqBody, operation));
+        OperationHelpers.sendRequest(operation);
+        JSONObject response = OperationHelpers.parseResponse(operation);
+        operation.getValues().clear();
+        if (activateUser) {
+            operation.setLastActivationCode((String) response.get("activationCode"));
+        }
+        return response;
+    }
+
     @SuppressWarnings("unchecked")
     public JSONObject getUserDetails(Operation operation) {
         operation.setName("GetUserDetails");
