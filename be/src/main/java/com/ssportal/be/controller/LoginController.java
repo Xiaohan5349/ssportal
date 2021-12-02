@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.HttpsURLConnection;
 import java.io.FileNotFoundException;
@@ -30,6 +32,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.Socket;
 import java.net.URL;
 
 @RestController
@@ -64,8 +67,8 @@ public class LoginController {
         }
 
         ///bbb
-        String base_url = "https://ssoqa.bedbath.com";
-//        String base_url = "https://localhost:9031";
+//        String base_url = "https://ssoqa.bedbath.com";
+        String base_url = "https://localhost:9031";
         String pickupLocation = base_url + "/ext/ref/pickup?REF=" + RefID;
         java.util.Properties prop = new java.util.Properties ();
         String propFileName = "application.properties";
@@ -84,7 +87,6 @@ public class LoginController {
             URL pickUrl = new URL ( pickupLocation );
             HttpsURLConnection httpsURLConn = (HttpsURLConnection) pickUrl.openConnection ();
 
-//            httpsURLConn.setSSLSocketFactory (socketFactory);
             httpsURLConn.setRequestProperty ( "ping.uname", ping_uname );
             httpsURLConn.setRequestProperty ( "ping.pwd", rping_pwd );
             // ping.instanceId is optional and only needs to be specified if multiple instances of ReferenceId adapter are configured.
@@ -134,6 +136,7 @@ public class LoginController {
             }
             return null;
         }
+
     }
 }
 
