@@ -34,6 +34,10 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.Socket;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 public class LoginController {
@@ -65,10 +69,9 @@ public class LoginController {
         if (StringUtils.isNotBlank ( RefID )) {
             RefID = RefID.replaceAll ( "[^A-Za-z0-9]", "" );
         }
-
         ///bbb
-//        String base_url = "https://ssoqa.bedbath.com";
-        String base_url = "https://localhost:9031";
+        String base_url = "https://ssoqa.bedbath.com";
+//        String base_url = "https://localhost:9031";
         String pickupLocation = base_url + "/ext/ref/pickup?REF=" + RefID;
         java.util.Properties prop = new java.util.Properties ();
         String propFileName = "application.properties";
@@ -82,16 +85,18 @@ public class LoginController {
             String ping_uname, rping_pwd, instance_id;
             ping_uname = prop.getProperty ( "refid_user" );
             rping_pwd = prop.getProperty ( "refid_pwd" );
-            instance_id = prop.getProperty ( "ssoSPadapter" );
-            System.out.println ( instance_id );
+            instance_id = prop.getProperty ( "instance_id" );
             URL pickUrl = new URL ( pickupLocation );
-            HttpsURLConnection httpsURLConn = (HttpsURLConnection) pickUrl.openConnection ();
+            HttpURLConnection httpsURLConn = (HttpURLConnection) pickUrl.openConnection ();
 
             httpsURLConn.setRequestProperty ( "ping.uname", ping_uname );
             httpsURLConn.setRequestProperty ( "ping.pwd", rping_pwd );
             // ping.instanceId is optional and only needs to be specified if multiple instances of ReferenceId adapter are configured.
-            httpsURLConn.setRequestProperty ( "ping.instanceId", instance_id );
+            httpsURLConn.setRequestProperty ( "ping.instanceId", instance_id);
+
             String encoding = httpsURLConn.getContentEncoding ();
+
+
 
 //        PF Part
             try (InputStream is = httpsURLConn.getInputStream ()) {
@@ -99,10 +104,12 @@ public class LoginController {
 
                 JSONParser parser = new JSONParser ();
                 JSONObject spUserAttributes = (JSONObject) parser.parse ( streamReader );
+
                 if (spUserAttributes.size () == 0) {
                     return ResponseEntity.badRequest ().body ( new AuthToken () );
                 }
                 String username = spUserAttributes.get ( "subject" ).toString ();
+
                 if (username != null) {
                     //register user when user can't be found in pingid
                     User user = new User ( spUserAttributes );
@@ -115,7 +122,6 @@ public class LoginController {
                         pingIdOperationService.addUser ( user, false, operation );
 
                     }else{
-                        System.out.println ( user.getFirstName () );
                         pingIdOperationService.editUser ( user, false, operation );
                     }
 

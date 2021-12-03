@@ -267,8 +267,4 @@ public class PingIdOperationServiceImpl implements PingIdOperationService {
         return operation.getRequestToken();
     }
 
-
-
-
-
 }

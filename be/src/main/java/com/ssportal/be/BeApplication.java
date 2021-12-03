@@ -24,7 +24,6 @@ public class BeApplication extends SpringBootServletInitializer{
 
         SpringApplication.run(BeApplication.class, args);
 
-        System.out.println ( "----------------just test---------------" );
     }
 
 //    @Override
