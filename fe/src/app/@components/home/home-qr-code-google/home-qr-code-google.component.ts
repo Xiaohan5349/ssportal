@@ -10,7 +10,7 @@ import {PingIdService} from "../../../@core/services/pingid.service";
   templateUrl: './home-qr-code-google.component.html',
   styleUrls: ['./home-qr-code-google.component.scss']
 })
-export class HomeQrCodeGoogleComponent implements OnInit, OnDestroy {
+export class HomeQrCodeGoogleComponent implements OnInit {
   title;
   message;
   qrcode;
@@ -37,7 +37,6 @@ export class HomeQrCodeGoogleComponent implements OnInit, OnDestroy {
         const result: any = res;
         console.log(result);
         if (result.errorId == "200") {
-          this.pairingStatusSubscription.unsubscribe();
           this.devicePaired = true;
         }
       }, error => {
@@ -52,7 +51,4 @@ export class HomeQrCodeGoogleComponent implements OnInit, OnDestroy {
 
   
 
-  ngOnDestroy() {
-    this.pairingStatusSubscription.unsubscribe();
-  }
 }
