@@ -29,6 +29,8 @@ export class HomeComponent implements OnInit {
   mfaErrMsg;
   postUrl;
   ppmRequest;
+  pairingKeyUri;
+  pairingKey;
   orgUuid = 'dffd9656-dfb8-4a0b-bb35-8590e62984e4';
   idpAccountId
 
