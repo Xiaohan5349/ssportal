@@ -87,6 +87,7 @@ export class HomeComponent implements OnInit {
             title: 'Register ' + type + ' Device',
             message: 'Please scan the QR code with your PingID ' + type + ' app or input paring code manually.',
             code: this.activationCode,
+            qrcode: 'https://idpxnyl3m.pingidentity.com/pingid/QRRedirection?' + btoa(this.activationCode),
             user: this.sessionUser
           },
           hasBackdrop: true,
@@ -102,30 +103,32 @@ export class HomeComponent implements OnInit {
     )
   }
 
-//    AuthenticatorAppStartPairing(type) {
-//       this.pingidService.AuthenticatorAppStartPairing(this.sessionUser.sub).subscribe(
-//         res => {
-//           const result: any = res;
-//           this.activationCode = result.activationCode;
-//           this.dialogService.open(HomeQrCodeComponent, {
-//             context: {
-//               title: 'Register ' + ' Authenticator',
-//               message: 'Please scan the QR code with your Authenticator ' + ' app or input paring code manually.',
-//               code: this.activationCode,
-//               user: this.sessionUser
-//             },
-//             hasBackdrop: true,
-//             closeOnBackdropClick: false
-//           }).onClose.subscribe(res => {
-//             if (res) {
-//               this.ngOnInit();
-//             }
-//           });
-//         }, error => {
-//           console.log(error);
-//         }
-//       )
-//     }
+   AuthenticatorAppStartPairing(type) {
+      this.pingidService.AuthenticatorAppStartPairing(this.sessionUser.sub).subscribe(
+        res => {
+          const result: any = res;
+          this.pairingKeyUri = result.pairingKeyUri;
+          this.pairingKey = result.pairingKey;
+          this.dialogService.open(HomeQrCodeComponent, {
+            context: {
+              title: 'Register ' + ' Authenticator',
+              message: 'Please scan the QR code with your Authenticator ' + ' app or input paring code manually.',
+              qrcode: this.pairingKeyUri,
+              code: this.pairingKey,
+              user: this.sessionUser
+            },
+            hasBackdrop: true,
+            closeOnBackdropClick: false
+          }).onClose.subscribe(res => {
+            if (res) {
+              this.ngOnInit();
+            }
+          });
+        }, error => {
+          console.log(error);
+        }
+      )
+    }
 
   makeDevicePrimary (device) {
     this.dialogService.open(HomeDialogComponent, {

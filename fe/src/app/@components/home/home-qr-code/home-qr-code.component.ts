@@ -13,6 +13,7 @@ import {PingIdService} from "../../../@core/services/pingid.service";
 export class HomeQrCodeComponent implements OnInit, OnDestroy {
   title;
   message;
+  qrcode;
   code;
   qrText;
   pairingStatusSubscription: Subscription;
@@ -27,7 +28,9 @@ export class HomeQrCodeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.qrText = 'https://idpxnyl3m.pingidentity.com/pingid/QRRedirection?' + btoa(this.code);
+
+
+    this.qrText = this.qrcode;
 
     this.pairingStatusSubscription = timer(0, 3000).pipe(
       switchMap(() => this.pingidService.checkPairingStatus(this.code, this.user.username))
@@ -41,6 +44,7 @@ export class HomeQrCodeComponent implements OnInit, OnDestroy {
       console.log(error)
     });
   }
+
 
   ngOnDestroy() {
     this.pairingStatusSubscription.unsubscribe();
