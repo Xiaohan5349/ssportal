@@ -30,9 +30,12 @@ export class HomeQrCodeGoogleComponent implements OnInit, OnDestroy {
   }
 
   pairDevice() {
+    console.log(this.otp);
+    console.log(this.sessionId);
     this.pingidService.AuthenticatorAppFinishPairing(this.sessionId, this.otp).subscribe(
       res => {
         const result: any = res;
+        console.log(result);
         if (result.errorMsg == "200") {
           this.pairingStatusSubscription.unsubscribe();
           this.devicePaired = true;
