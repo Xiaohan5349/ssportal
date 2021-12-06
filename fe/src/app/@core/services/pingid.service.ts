@@ -40,14 +40,29 @@ export class PingIdService {
   AuthenticatorAppStartPairing(username) {
     const url = this.BACKEND_URL + '/pingid/AuthenticatorAppStartPairing';
     const payload = {
-      username: username;
+      username: username
 
     }
     const httpOptions = {
-     headers new HttpHeaders({'Content-Type': 'application/json'})
+     headers: new HttpHeaders({'Content-Type': 'application/json'})
     };
     return this.http.post(url, payload, httpOptions);
   }
+
+  AuthenticatorAppFinishPairing(sessionId, otp) {
+    const url = this.BACKEND_URL + '/pingid/AuthenticatorAppFinishPairing';
+    const payload = {
+      sessionId: sessionId,
+      otp: otp
+
+    }
+    const httpOptions = {
+     headers: new HttpHeaders({'Content-Type': 'application/json'})
+    };
+    return this.http.post(url, payload, httpOptions);
+  }
+
+
 
   checkPairingStatus(activationCode, username) {
     const url = this.BACKEND_URL + '/pingid/getPairingStatus';

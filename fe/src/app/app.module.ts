@@ -38,6 +38,7 @@ import {HomeDialogComponent} from './@components/home/home-dialog/home-dialog.co
 import {HomeQrCodeComponent} from './@components/home/home-qr-code/home-qr-code.component';
 import {NgxKjuaModule} from "ngx-kjua";
 import { ServicesComponent } from './@components/services/services.component';
+import { HomeQrCodeGoogleComponent } from './@components/home/home-qr-code-google/home-qr-code-google.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { ServicesComponent } from './@components/services/services.component';
     LogoutComponent,
     HomeDialogComponent,
     HomeQrCodeComponent,
-    ServicesComponent
+    ServicesComponent,
+    HomeQrCodeGoogleComponent
   ],
   imports: [
     BrowserModule,

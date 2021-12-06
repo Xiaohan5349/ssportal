@@ -9,6 +9,7 @@ import {Subscription, timer} from "rxjs";
 import {switchMap} from 'rxjs/operators';
 import {JwtAuthService} from "../../@core/services/jwt-auth.service";
 import {NgForm} from "@angular/forms";
+import {HomeQrCodeGoogleComponent} from "./home-qr-code-google/home-qr-code-google.component";
 
 @Component({
   selector: 'app-home',
@@ -31,6 +32,7 @@ export class HomeComponent implements OnInit {
   ppmRequest;
   pairingKeyUri;
   pairingKey;
+  sessionId;
   orgUuid = 'dffd9656-dfb8-4a0b-bb35-8590e62984e4';
   idpAccountId
 
@@ -111,12 +113,14 @@ export class HomeComponent implements OnInit {
           const result: any = res;
           this.pairingKeyUri = result.pairingKeyUri;
           this.pairingKey = result.pairingKey;
-          this.dialogService.open(HomeQrCodeComponent, {
+          this.sessionId = result.sessionId;
+          this.dialogService.open(HomeQrCodeGoogleComponent, {
             context: {
               title: 'Register ' + ' Authenticator',
               message: 'Please scan the QR code with your Authenticator ' + ' app or input paring code manually.',
               qrcode: this.pairingKeyUri,
               code: this.pairingKey,
+              sessionId: this.sessionId,
               user: this.sessionUser
             },
             hasBackdrop: true,
