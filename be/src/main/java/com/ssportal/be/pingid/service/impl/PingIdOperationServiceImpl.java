@@ -1,5 +1,6 @@
 package com.ssportal.be.pingid.service.impl;
 
+import com.cedarsoftware.util.io.JsonObject;
 import com.ssportal.be.model.User;
 import com.ssportal.be.pingid.model.Application;
 import com.ssportal.be.pingid.model.DeviceDetail;
@@ -7,6 +8,7 @@ import com.ssportal.be.pingid.model.Operation;
 import com.ssportal.be.pingid.model.PingIdUser;
 import com.ssportal.be.pingid.service.PingIdOperationService;
 import com.ssportal.be.pingid.utils.OperationHelpers;
+import jdk.internal.net.http.common.OperationTrackers;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.jose4j.base64url.Base64;
@@ -19,6 +21,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Service;
+import sun.tools.jconsole.inspector.XOperations;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -166,6 +169,42 @@ public class PingIdOperationServiceImpl implements PingIdOperationService {
     }
 
     @SuppressWarnings("unchecked")
+    public JSONObject AuthenticatorAppStartPairing(Operation operation){
+        operation.setName ( "AuthenticatorAppStartPairing" );
+        operation.setEndpoint ( operation.getApiUrl ()+"/rest/4/authenticatorappstartpairing/do" );
+
+        JSONObject reqBody = new JSONObject (  );
+        reqBody.put ( "username", operation.getPingIdUser ().getUserName () );
+        reqBody.put ( "pairingType", "TOTP" );
+        operation.setRequestToken ( OperationHelpers.buildRequestToken ( reqBody, operation ) );
+
+        OperationHelpers.sendRequest ( operation );
+        JSONObject response = OperationHelpers.parseResponse ( operation );
+        operation.getValues ().clear ();
+        operation.setPairingKey(response.get ( "pairingKey" ).toString ().replaceAll ( "\\s+", "" ));
+        JSONObject authenticator = new JSONObject (  );
+        authenticator.put ( "sessionId", response.get ( "sessionId" ));
+        authenticator.put ( "pairingKeyUri", response.get ( "pairingKeyUri" ) );
+        authenticator.put ( "pairingKey", operation.getPairingKey () );
+        return authenticator;
+    }
+
+    public JSONObject AuthenticatorAppFinishPairing(Operation operation, String sessionId, String otp){
+
+        JSONObject repBody = new JSONObject (  );
+        repBody.put ( "sessionId", sessionId );
+        repBody.put ( "otp", otp );
+        operation.setRequestToken ( OperationHelpers.buildRequestToken ( repBody, operation ));
+
+        OperationHelpers.sendRequest ( operation );
+        JSONObject response = OperationHelpers.parseResponse ( operation );
+        operation.getValues ().clear ();
+
+        return response;
+
+    }
+
+    @SuppressWarnings("unchecked")
     public JSONObject getPairingStatus(String activationCode, Operation operation) {
 
         operation.setName("GetPairingStatus");
@@ -266,5 +305,6 @@ public class PingIdOperationServiceImpl implements PingIdOperationService {
 
         return operation.getRequestToken();
     }
+
 
 }

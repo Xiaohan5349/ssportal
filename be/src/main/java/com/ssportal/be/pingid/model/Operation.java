@@ -21,6 +21,9 @@ public class Operation {
     private String useBase64Key;
     private String apiUrl;
     private String lastActivationCode;
+
+
+    private String PairingKey;
     private String lastSessionId;
     private Map<String, Object> values;
 
@@ -83,6 +86,15 @@ public class Operation {
 
     public String getUniqueMsgId() {
         return uniqueMsgId;
+    }
+
+
+    public String getPairingKey() {
+        return PairingKey;
+    }
+
+    public void setPairingKey(String pairingKey) {
+        PairingKey = pairingKey;
     }
 
     public Map<String, Object> getReturnValues() {

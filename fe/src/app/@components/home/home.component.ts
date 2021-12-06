@@ -102,6 +102,31 @@ export class HomeComponent implements OnInit {
     )
   }
 
+//    AuthenticatorAppStartPairing(type) {
+//       this.pingidService.AuthenticatorAppStartPairing(this.sessionUser.sub).subscribe(
+//         res => {
+//           const result: any = res;
+//           this.activationCode = result.activationCode;
+//           this.dialogService.open(HomeQrCodeComponent, {
+//             context: {
+//               title: 'Register ' + ' Authenticator',
+//               message: 'Please scan the QR code with your Authenticator ' + ' app or input paring code manually.',
+//               code: this.activationCode,
+//               user: this.sessionUser
+//             },
+//             hasBackdrop: true,
+//             closeOnBackdropClick: false
+//           }).onClose.subscribe(res => {
+//             if (res) {
+//               this.ngOnInit();
+//             }
+//           });
+//         }, error => {
+//           console.log(error);
+//         }
+//       )
+//     }
+
   makeDevicePrimary (device) {
     this.dialogService.open(HomeDialogComponent, {
       context: {

@@ -92,6 +92,27 @@ public class PingIdController {
         return response;
     }
 
+    @RequestMapping(value = "/AuthenticatorAppStartPairing", method = RequestMethod.POST)
+    public JSONObject AuthenticatorAppStartPairing(@RequestBody HashMap<String, String> mapper) {
+        String username = mapper.get("username");
+        Operation operation = new Operation(pingIdProperties.getOrgAlias(), pingIdProperties.getPingid_token(), pingIdProperties.getPingid_use_base64_key(), pingIdProperties.getApi_url());
+        operation.setTargetUser ( username );
+
+        JSONObject response = pingIdOperationService.AuthenticatorAppStartPairing ( operation );
+
+        return response;
+    }
+
+    @RequestMapping(value = "/AuthenticatorAppFinishPairing", method = RequestMethod.POST)
+    public JSONObject AuthenticatorAppFinishPairing(@RequestBody HashMap<String, String> mapper){
+        String sessionId = mapper.get ( "sessionId" );
+        String otp = mapper.get ( "otp" );
+        Operation operation = new Operation(pingIdProperties.getOrgAlias(), pingIdProperties.getPingid_token(), pingIdProperties.getPingid_use_base64_key(), pingIdProperties.getApi_url());
+        JSONObject response = pingIdOperationService.AuthenticatorAppFinishPairing ( operation, sessionId, otp );
+
+        return response;
+    }
+
     @RequestMapping(value = "/getPairingStatus", method = RequestMethod.POST)
     public JSONObject getPairingStatus(@RequestBody HashMap<String, String> mapper) {
         String activationCode = mapper.get("activationCode");
