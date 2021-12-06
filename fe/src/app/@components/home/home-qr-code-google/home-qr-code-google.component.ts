@@ -36,7 +36,7 @@ export class HomeQrCodeGoogleComponent implements OnInit, OnDestroy {
       res => {
         const result: any = res;
         console.log(result);
-        if (result.errorMsg == "200") {
+        if (result.errorId == "200") {
           this.pairingStatusSubscription.unsubscribe();
           this.devicePaired = true;
         }
