@@ -13,6 +13,7 @@ public interface PingIdOperationService {
     String getActivationCode(String type, Operation operation);
     JSONObject AuthenticatorAppStartPairing(Operation operation);
     JSONObject AuthenticatorAppFinishPairing(Operation operation, String sessionId, String otp);
+    JSONObject ToggleUserBypass(Operation operation);
     JSONObject getPairingStatus(String activationCode, Operation operation);
     JSONObject authenticateOnline(Application application, String authType, String deviceId, Operation operation);
     JSONObject makeDevicePrimary(String deviceID, Operation operation);

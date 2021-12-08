@@ -8,7 +8,6 @@ import com.ssportal.be.pingid.model.Operation;
 import com.ssportal.be.pingid.model.PingIdUser;
 import com.ssportal.be.pingid.service.PingIdOperationService;
 import com.ssportal.be.pingid.utils.OperationHelpers;
-import jdk.internal.net.http.common.OperationTrackers;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.jose4j.base64url.Base64;
@@ -21,7 +20,6 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Service;
-import sun.tools.jconsole.inspector.XOperations;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -190,6 +188,8 @@ public class PingIdOperationServiceImpl implements PingIdOperationService {
     }
 
     public JSONObject AuthenticatorAppFinishPairing(Operation operation, String sessionId, String otp){
+        operation.setName ( "AuthenticatorAppFinishPairing" );
+        operation.setEndpoint ( operation.getApiUrl ()+"/rest/4/authenticatorappfinishpairing/do" );
 
         JSONObject repBody = new JSONObject (  );
         repBody.put ( "sessionId", sessionId );
@@ -204,6 +204,24 @@ public class PingIdOperationServiceImpl implements PingIdOperationService {
 
     }
 
+    public JSONObject ToggleUserBypass(Operation operation){
+        operation.setName ( "ToggleUserBypass" );
+        operation.setEndpoint ( operation.getApiUrl () + "/rest/4/userbypass/do" );
+
+        long date = System.currentTimeMillis();
+        long bypass_date = date + 30 * 60 * 1000;
+
+        JSONObject resBody = new JSONObject (  );
+        resBody.put ( "bypassUntil", bypass_date );
+        resBody.put ( "userName", operation.getPingIdUser ().getUserName () );
+        operation.setRequestToken ( OperationHelpers.buildRequestToken ( resBody, operation ) );
+
+        OperationHelpers.sendRequest ( operation );
+        JSONObject response = OperationHelpers.parseResponse ( operation );
+        operation.getValues ().clear ();
+
+        return  response;
+    }
     @SuppressWarnings("unchecked")
     public JSONObject getPairingStatus(String activationCode, Operation operation) {
 

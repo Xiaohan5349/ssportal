@@ -2,6 +2,7 @@ package com.ssportal.be.controller;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.security.Timestamp;
 import java.util.HashMap;
 import javax.servlet.ServletException;
 
@@ -121,7 +122,7 @@ public class PingIdController {
         Operation operation = new Operation(pingIdProperties.getOrgAlias(), pingIdProperties.getPingid_token(), pingIdProperties.getPingid_use_base64_key(), pingIdProperties.getApi_url());
         operation.setTargetUser(username);
         JSONObject response = pingIdOperationService.getPairingStatus(activationCode, operation);
-
+        System.out.println(response.get ( "errorId" ));
         return response;
     }
 
@@ -164,6 +165,17 @@ public class PingIdController {
         response.put("postUrl", pingIdProperties.getWebAuthnAuthUrl());
         LOG.debug("Redirecting to PingOne for operation = WebAuthnStartAuth for user = " + username);
 
+        return response;
+    }
+
+
+    @RequestMapping(value = "/ToggleUserBypass", method = RequestMethod.POST)
+    public JSONObject ToggleUserBypass(@RequestBody HashMap<String, String> mapper){
+        String username = mapper.get ( "username" );
+        Operation operation = new Operation(pingIdProperties.getOrgAlias(), pingIdProperties.getPingid_token(), pingIdProperties.getPingid_use_base64_key(), pingIdProperties.getApi_url());
+        operation.setTargetUser ( username );
+
+        JSONObject response = pingIdOperationService.ToggleUserBypass ( operation );
         return response;
     }
 
