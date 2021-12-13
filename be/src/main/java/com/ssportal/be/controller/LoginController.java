@@ -70,8 +70,8 @@ public class LoginController {
             RefID = RefID.replaceAll ( "[^A-Za-z0-9]", "" );
         }
         ///bbb
-//        String base_url = "https://ssoqa.bedbath.com";
-        String base_url = "https://localhost:9031";
+        String base_url = "https://ssoqa.bedbath.com";
+//        String base_url = "https://localhost:9031";
         String pickupLocation = base_url + "/ext/ref/pickup?REF=" + RefID;
         java.util.Properties prop = new java.util.Properties ();
         String propFileName = "application.properties";
