@@ -9,7 +9,6 @@ import com.ssportal.be.pingid.model.PingIdUser;
 import com.ssportal.be.pingid.service.PingIdOperationService;
 import com.ssportal.be.pingid.utils.OperationHelpers;
 import org.apache.commons.io.IOUtils;
-import org.apache.log4j.Logger;
 import org.jose4j.base64url.Base64;
 import org.jose4j.jws.AlgorithmIdentifiers;
 import org.jose4j.jws.JsonWebSignature;
@@ -34,7 +33,6 @@ import java.util.UUID;
 
 @Service
 public class PingIdOperationServiceImpl implements PingIdOperationService {
-    private static final Logger LOG = Logger.getLogger(PingIdOperationServiceImpl.class);
 
     // public methods
     public JSONObject addUser(User user, Boolean activateUser, Operation operation) {
@@ -112,11 +110,9 @@ public class PingIdOperationServiceImpl implements PingIdOperationService {
         OperationHelpers.sendRequest(operation);
         operation.getValues().clear();
         JSONObject response = OperationHelpers.parseResponse(operation);
-        LOG.debug("API response from operation = GetUserDetails for user = " + operation.getPingIdUser().getUserName() + ": " + response);
 
         JSONObject userDetails = (JSONObject) response.get("userDetails");
         if (userDetails == null) {
-            LOG.warn("User not found.");
             return null;
         }
 
