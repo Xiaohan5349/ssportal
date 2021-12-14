@@ -1,7 +1,6 @@
 package com.ssportal.be.ldaps;
 
 import com.pingidentity.access.DataSourceAccessor;
-import org.apache.log4j.Logger;
 import org.sourceid.saml20.domain.datasource.info.LdapInfo;
 
 import javax.naming.Context;
@@ -16,7 +15,6 @@ import java.util.Hashtable;
 public class LdapOperation {
 
     private final LdapProperties props;
-    private static final Logger LOG = Logger.getLogger(LdapOperation.class);
     private final LdapInfo ldapInfo;
 
     public LdapOperation() throws IOException {
@@ -50,7 +48,6 @@ public class LdapOperation {
         NamingEnumeration<SearchResult> results = context.search(props.getSearchBaseDN(), ldapFilter, controls);
         SearchResult result = null;
         if (results.hasMoreElements()) {
-            LOG.info(eisId + " found in LDAP. Fetching user attributes " + Arrays.asList(returnAttr));
             result = (SearchResult) results.next();
             if (result.getAttributes() != null) {
                 user = new LdapUser();
@@ -118,11 +115,9 @@ public class LdapOperation {
         }
         ModificationItem[] mods = new ModificationItem[1];
         if (isGroupMember && !present) {
-            LOG.info("User not found in group. Adding user " + userDN);
             mods[0] = new ModificationItem(DirContext.ADD_ATTRIBUTE, new BasicAttribute("member", userDN));
             context.modifyAttributes(this.props.getMfaGroupDN(), mods);
         } else if (!isGroupMember && present) {
-            LOG.info("User found in group. Removing user " + userDN);
             mods[0] = new ModificationItem(DirContext.REMOVE_ATTRIBUTE, new BasicAttribute("member", userDN));
             context.modifyAttributes(this.props.getMfaGroupDN(), mods);
         }

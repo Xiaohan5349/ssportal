@@ -3,7 +3,6 @@ package com.ssportal.be.controller;
 
 import com.ssportal.be.ldaps.LdapOperation;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
 import org.springframework.boot.autoconfigure.web.reactive.function.client.WebClientAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
@@ -25,7 +24,6 @@ public class AcsController {
 
     @RequestMapping(value = "/saml-acs", method = RequestMethod.GET)
     public String getRefID(@RequestParam(name = "REF") String RefID, RedirectAttributes attr, Model model) {
-        Logger LOG = Logger.getLogger( LdapOperation.class);
         if (StringUtils.isNotBlank ( RefID )) {
             RefID = RefID.replaceAll ( "[^A-Za-z0-9]", "" );
         }

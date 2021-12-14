@@ -2,7 +2,6 @@ package com.ssportal.be.pingid.utils;
 
 import com.ssportal.be.pingid.model.Operation;
 import org.apache.commons.io.IOUtils;
-import org.apache.log4j.Logger;
 import org.jose4j.base64url.Base64;
 import org.jose4j.jws.AlgorithmIdentifiers;
 import org.jose4j.jws.JsonWebSignature;
@@ -22,7 +21,6 @@ import java.util.Date;
 import java.util.TimeZone;
 
 public class OperationHelpers {
-    public static final Logger LOG = Logger.getLogger(OperationHelpers.class);
 
     @SuppressWarnings("unchecked")
     public static String buildRequestToken(JSONObject requestBody, Operation operation) {
@@ -49,7 +47,6 @@ public class OperationHelpers {
         try {
             jwsCompactSerialization = jws.getCompactSerialization();
         } catch (JoseException e) {
-            LOG.error(e.getMessage());
         }
         // Signed request token
         operation.setRequestToken(jwsCompactSerialization);
@@ -116,7 +113,6 @@ public class OperationHelpers {
                 urlConnection.disconnect();
             }
         } catch (IOException ex) {
-            LOG.error(ex.getMessage());
             operation.setResponseCode(500);
             operation.setWasSuccessful(false);
         } finally {
@@ -124,7 +120,6 @@ public class OperationHelpers {
                 try {
                     outputStreamWriter.close();
                 } catch (IOException ex) {
-                    LOG.error(ex.getMessage());
                 }
             }
         }
@@ -150,7 +145,6 @@ public class OperationHelpers {
             }
 
         } catch (JoseException | ParseException e) {
-            LOG.error(e.getMessage());
         }
 
         if (responsePayloadJSON != null) {
@@ -186,7 +180,6 @@ public class OperationHelpers {
         try {
             jwsCompactSerialization = jws.getCompactSerialization();
         } catch (JoseException e) {
-            LOG.error(e.getMessage());
         }
         // Signed request token
         operation.setRequestToken(jwsCompactSerialization);
