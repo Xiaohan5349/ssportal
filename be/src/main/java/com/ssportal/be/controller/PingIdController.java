@@ -11,7 +11,8 @@ import com.ssportal.be.pingid.model.Operation;
 import com.ssportal.be.pingid.model.PingIdProperties;
 import com.ssportal.be.pingid.model.PingIdUser;
 import com.ssportal.be.pingid.service.PingIdOperationService;
-import org.graalvm.compiler.nodes.calc.IntegerDivRemNode;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/pingid")
 public class PingIdController {
+    private static final Logger LOG = LogManager.getLogger(PingIdController.class);
     private PingIdProperties pingIdProperties;
 
     public PingIdController() throws IOException {
@@ -162,6 +164,7 @@ public class PingIdController {
         response.put("idpAccountId", pingIdProperties.getOrgAlias());
         response.put("ppm", pingIdOperationService.webAuthnAuthentication(deviceId, pingIdProperties.getAppUrl(), operation));
         response.put("postUrl", pingIdProperties.getWebAuthnAuthUrl());
+        LOG.debug("Redirecting to PingOne for operation = WebAuthnStartAuth for user = " + username);
 
         return response;
     }

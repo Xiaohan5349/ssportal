@@ -16,16 +16,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+
 import java.net.URL;
 import javax.servlet.http.HttpSession;
 
 import com.ssportal.be.pingid.model.PingIdProperties;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+
+import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 public class SamlParser extends HttpServlet {
 
+    private static final Logger LOG = LogManager.getLogger(SamlParser.class);
 
     /**
      * @param request
@@ -50,6 +55,7 @@ public class SamlParser extends HttpServlet {
 
             // Call back to PF to get the attributes associated with the reference
             String pickupLocation = base_url + "/ext/ref/pickup?REF=" + referenceValue;
+            LOG.debug(pickupLocation);
             URL pickUrl = new URL(pickupLocation);
             HttpURLConnection httpURLConn = (HttpURLConnection) pickUrl.openConnection();
             httpURLConn.setRequestProperty("ping.uname", pingidprops.getRefidUser());
@@ -68,6 +74,7 @@ public class SamlParser extends HttpServlet {
                 JSONObject spUserAttributes = (JSONObject) parser.parse(streamReader);
             }
         } catch (Exception e) {
+            LOG.error("|" + (StringUtils.isBlank(request.getHeader(pingidprops.getClientIP())) ? request.getRemoteAddr() : request.getHeader(pingidprops.getClientIP())) + "|" + e.getMessage());
             request.setAttribute("ErrorDescription", "Error processing user details, Please contact Administrator.");
             //how can we achieve request forward between spring boot and angular
             final RequestDispatcher dispatcher = request.getRequestDispatcher("userportal/error.jsp");

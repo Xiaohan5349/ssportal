@@ -3,7 +3,6 @@ package com.ssportal.be.pingid.service;
 import com.ssportal.be.model.User;
 import com.ssportal.be.pingid.model.Application;
 import com.ssportal.be.pingid.model.Operation;
-import org.graalvm.compiler.nodes.calc.IntegerDivRemNode;
 import org.json.simple.JSONObject;
 
 public interface PingIdOperationService {
