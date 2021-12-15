@@ -218,6 +218,41 @@ public class PingIdOperationServiceImpl implements PingIdOperationService {
 
         return  response;
     }
+
+    public JSONObject SuspendUser(Operation operation){
+        operation.setName ( "SuspendUser" );
+        operation.setEndpoint ( operation.getApiUrl () + "/rest/4/suspenduser/do" );
+
+        JSONObject resBody = new JSONObject ( );
+        resBody.put ( "userName", operation.getPingIdUser ().getUserName () );
+        resBody.put ( "clientData", "suspend the user" );
+        operation.setRequestToken ( OperationHelpers.buildRequestToken ( resBody, operation ) );
+
+        OperationHelpers.sendRequest ( operation );
+        JSONObject response = OperationHelpers.parseResponse ( operation );
+        operation.getValues ().clear ();
+
+        return response;
+    }
+
+
+    public JSONObject ActivateUser(Operation operation){
+        operation.setName ( "ActivateUser" );
+        operation.setEndpoint ( operation.getApiUrl ()+ "/rest/4/activateuser/do" );
+
+        JSONObject resBody = new JSONObject (  );
+        resBody.put ( "userName", operation.getPingIdUser ().getUserName () );
+        resBody.put ( "clientData", "active this user" );
+        operation.setRequestToken ( OperationHelpers.buildRequestToken ( resBody, operation ) );
+
+        OperationHelpers.sendRequest ( operation );
+        JSONObject response = OperationHelpers.parseResponse ( operation );
+        operation.getValues ().clear ();
+
+        return response;
+    }
+
+
     @SuppressWarnings("unchecked")
     public JSONObject getPairingStatus(String activationCode, Operation operation) {
 

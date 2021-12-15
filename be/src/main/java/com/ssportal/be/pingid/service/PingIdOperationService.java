@@ -3,6 +3,7 @@ package com.ssportal.be.pingid.service;
 import com.ssportal.be.model.User;
 import com.ssportal.be.pingid.model.Application;
 import com.ssportal.be.pingid.model.Operation;
+import org.graalvm.compiler.nodes.calc.IntegerDivRemNode;
 import org.json.simple.JSONObject;
 
 public interface PingIdOperationService {
@@ -17,6 +18,8 @@ public interface PingIdOperationService {
     JSONObject getPairingStatus(String activationCode, Operation operation);
     JSONObject authenticateOnline(Application application, String authType, String deviceId, Operation operation);
     JSONObject makeDevicePrimary(String deviceID, Operation operation);
+    JSONObject SuspendUser(Operation operation);
+    JSONObject ActivateUser(Operation operation);
     String webAuthnAuthentication(String deviceId,  String returnUrl, Operation operation);
 
 }

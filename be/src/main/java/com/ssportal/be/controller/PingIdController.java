@@ -11,6 +11,7 @@ import com.ssportal.be.pingid.model.Operation;
 import com.ssportal.be.pingid.model.PingIdProperties;
 import com.ssportal.be.pingid.model.PingIdUser;
 import com.ssportal.be.pingid.service.PingIdOperationService;
+import org.graalvm.compiler.nodes.calc.IntegerDivRemNode;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -175,6 +176,27 @@ public class PingIdController {
         JSONObject response = pingIdOperationService.ToggleUserBypass ( operation );
         return response;
     }
+
+    @RequestMapping(value = "/SuspendUser", method = RequestMethod.POST)
+    public JSONObject SuspendUser(@RequestBody HashMap<String, String> mapper){
+        String username = mapper.get ( "username" );
+        Operation operation = new Operation(pingIdProperties.getOrgAlias(), pingIdProperties.getPingid_token(), pingIdProperties.getPingid_use_base64_key(), pingIdProperties.getApi_url());
+        operation.setTargetUser ( username );
+
+        JSONObject response = pingIdOperationService.SuspendUser ( operation );
+        return response;
+    }
+
+    @RequestMapping(value = "/ActivateUser", method = RequestMethod.POST)
+    public JSONObject ActivateUser(@RequestBody HashMap<String, String> mapper){
+        String username = mapper.get("username");
+        Operation operation = new Operation(pingIdProperties.getOrgAlias(), pingIdProperties.getPingid_token(), pingIdProperties.getPingid_use_base64_key(), pingIdProperties.getApi_url());
+        operation.setTargetUser ( username );
+
+        JSONObject response = pingIdOperationService.ActivateUser ( operation );
+        return response;
+    }
+
 
 //    @RequestMapping(value = "/pairYubiKey", method = RequestMethod.POST)
 //    public void pairYubiKey(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
