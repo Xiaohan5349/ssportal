@@ -33,6 +33,7 @@ export class HomeComponent implements OnInit {
   pairingKeyUri;
   pairingKey;
   sessionId;
+  globalAdmin;
   orgUuid = 'dffd9656-dfb8-4a0b-bb35-8590e62984e4';
   idpAccountId
 
@@ -158,6 +159,53 @@ export class HomeComponent implements OnInit {
 
   }
 
+  ActivateUser() {
+    this.pingidService.ActivateUser(this.sessionUser.sub).subscribe(
+      res => {
+        const result: any = res;
+        if (result.errorId == "200") {
+          this.ngOnInit
+        } else {
+          this.mfaErrMsg = result.errorMsg;
+        }
+      }, error => {
+        console.log(error);
+      }
+    )
+  }
+
+  SuspendUser() {
+    this.pingidService.SuspendUser(this.sessionUser.sub).subscribe(
+      res => {
+        const result: any = res;
+        if (result.errorId == "200") {
+          this.ngOnInit
+        } else {
+          this.mfaErrMsg = result.errorMsg;
+        }
+      }, error => {
+        console.log(error);
+      }
+    )
+  }
+
+  ToggleUserBypass() {
+    this.pingidService.ToggleUserBypass(this.sessionUser.sub).subscribe(
+      res => {
+        const result: any = res;
+        if (result.errorId == "200") {
+          this.ngOnInit;
+          console.log("userBypassed")
+        } else {
+          this.mfaErrMsg = result.errorMsg;
+        }
+      }, error => {
+        console.log(error);
+      }
+    )
+  }
+
+
   testMFA() {
     for (let i = 0; i < this.deviceList.length; i++) {
       if (this.deviceList[i].deviceRole.toLowerCase() === 'primary') {
@@ -219,6 +267,9 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUserDetails();
-    console.log(this.sessionUser.sub);
+    // this.globalAdmin = this.jwtAuth.getAdmin();
+    // console.log(this.globalAdmin);
+    // console.log(this.sessionUser.sub);
   }
+
 }

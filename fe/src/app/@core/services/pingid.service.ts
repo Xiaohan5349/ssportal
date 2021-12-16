@@ -114,4 +114,44 @@ export class PingIdService {
     };
     return this.http.post(url, payload, httpOptions);
   }
+
+  ToggleUserBypass(username) {
+    const url = this.BACKEND_URL + '/pingid/ToggleUserBypass';
+    const payload = {
+      username: username
+
+    }
+    const httpOptions = {
+     headers: new HttpHeaders({'Content-Type': 'application/json'})
+    };
+    return this.http.post(url, payload, httpOptions);
+  }
+
+  SuspendUser(username) {
+    const url = this.BACKEND_URL + '/pingid/SuspendUser';
+    const payload = {
+      username: username
+
+    }
+    const httpOptions = {
+     headers: new HttpHeaders({'Content-Type': 'application/json'})
+    };
+    return this.http.post(url, payload, httpOptions);
+  }
+
+  ActivateUser(username) {
+    const url = this.BACKEND_URL + '/pingid/ActivateUser';
+    const payload = {
+      username: username
+
+    }
+    const httpOptions = {
+     headers: new HttpHeaders({'Content-Type': 'application/json'})
+    };
+    return this.http.post(url, payload, httpOptions);
+  }
+
+
+
+
 }
