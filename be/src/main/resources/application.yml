@@ -23,3 +23,13 @@ logging:
   file:
     name: name=logs/ssportal.log
     max-size: 20MB
+
+
+
+# monitor
+management:
+  endpoints:
+    web:
+      base-path: /monitor
+      path-mapping:
+        health: heartbeat

@@ -1,7 +1,8 @@
 package com.ssportal.be.ldaps;
 
 import com.pingidentity.access.DataSourceAccessor;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.sourceid.saml20.domain.datasource.info.LdapInfo;
 
 import javax.naming.Context;
@@ -16,7 +17,7 @@ import java.util.Hashtable;
 public class LdapOperation {
 
     private final LdapProperties props;
-    private static final Logger LOG = Logger.getLogger(LdapOperation.class);
+    private static final Logger LOG = LogManager.getLogger(LdapOperation.class);
     private final LdapInfo ldapInfo;
 
     public LdapOperation() throws IOException {

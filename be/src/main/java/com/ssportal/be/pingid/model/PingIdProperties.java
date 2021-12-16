@@ -23,7 +23,7 @@ public class PingIdProperties {
     private boolean desktopEnabled;
     private boolean mfaBypassEnabled;
     private boolean activateUserEnabled;
-    private int bypassDuration;
+    private long bypassDuration;
     private String webAuthnRegUrl;
     private String webAuthnAuthUrl;
 
@@ -164,7 +164,7 @@ public class PingIdProperties {
         return mfaBypassEnabled;
     }
 
-    public int getBypassDuration() {
+    public long getBypassDuration() {
         return bypassDuration;
     }
 
@@ -292,7 +292,7 @@ public class PingIdProperties {
         this.activateUserEnabled = activateUserEnabled;
     }
 
-    public void setBypassDuration(int bypassDuration) {
+    public void setBypassDuration(long bypassDuration) {
         this.bypassDuration = bypassDuration;
     }
 

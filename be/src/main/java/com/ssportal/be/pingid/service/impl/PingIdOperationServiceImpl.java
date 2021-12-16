@@ -9,7 +9,8 @@ import com.ssportal.be.pingid.model.PingIdUser;
 import com.ssportal.be.pingid.service.PingIdOperationService;
 import com.ssportal.be.pingid.utils.OperationHelpers;
 import org.apache.commons.io.IOUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jose4j.base64url.Base64;
 import org.jose4j.jws.AlgorithmIdentifiers;
 import org.jose4j.jws.JsonWebSignature;
@@ -34,8 +35,7 @@ import java.util.UUID;
 
 @Service
 public class PingIdOperationServiceImpl implements PingIdOperationService {
-    private static final Logger LOG = Logger.getLogger(PingIdOperationServiceImpl.class);
-
+    private static final Logger LOG = LogManager.getLogger(PingIdOperationServiceImpl.class);
     // public methods
     public JSONObject addUser(User user, Boolean activateUser, Operation operation) {
         //Operation operation = new Operation();
@@ -222,6 +222,41 @@ public class PingIdOperationServiceImpl implements PingIdOperationService {
 
         return  response;
     }
+
+    public JSONObject SuspendUser(Operation operation){
+        operation.setName ( "SuspendUser" );
+        operation.setEndpoint ( operation.getApiUrl () + "/rest/4/suspenduser/do" );
+
+        JSONObject resBody = new JSONObject ( );
+        resBody.put ( "userName", operation.getPingIdUser ().getUserName () );
+        resBody.put ( "clientData", "suspend the user" );
+        operation.setRequestToken ( OperationHelpers.buildRequestToken ( resBody, operation ) );
+
+        OperationHelpers.sendRequest ( operation );
+        JSONObject response = OperationHelpers.parseResponse ( operation );
+        operation.getValues ().clear ();
+
+        return response;
+    }
+
+
+    public JSONObject ActivateUser(Operation operation){
+        operation.setName ( "ActivateUser" );
+        operation.setEndpoint ( operation.getApiUrl ()+ "/rest/4/activateuser/do" );
+
+        JSONObject resBody = new JSONObject (  );
+        resBody.put ( "userName", operation.getPingIdUser ().getUserName () );
+        resBody.put ( "clientData", "active this user" );
+        operation.setRequestToken ( OperationHelpers.buildRequestToken ( resBody, operation ) );
+
+        OperationHelpers.sendRequest ( operation );
+        JSONObject response = OperationHelpers.parseResponse ( operation );
+        operation.getValues ().clear ();
+
+        return response;
+    }
+
+
     @SuppressWarnings("unchecked")
     public JSONObject getPairingStatus(String activationCode, Operation operation) {
 

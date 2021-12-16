@@ -11,7 +11,8 @@ import com.ssportal.be.pingid.model.Operation;
 import com.ssportal.be.pingid.model.PingIdProperties;
 import com.ssportal.be.pingid.model.PingIdUser;
 import com.ssportal.be.pingid.service.PingIdOperationService;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/pingid")
 public class PingIdController {
-    private static final Logger LOG = Logger.getLogger(PingIdController.class);
+    private static final Logger LOG = LogManager.getLogger(PingIdController.class);
     private PingIdProperties pingIdProperties;
 
     public PingIdController() throws IOException {
@@ -178,6 +179,27 @@ public class PingIdController {
         JSONObject response = pingIdOperationService.ToggleUserBypass ( operation );
         return response;
     }
+
+    @RequestMapping(value = "/SuspendUser", method = RequestMethod.POST)
+    public JSONObject SuspendUser(@RequestBody HashMap<String, String> mapper){
+        String username = mapper.get ( "username" );
+        Operation operation = new Operation(pingIdProperties.getOrgAlias(), pingIdProperties.getPingid_token(), pingIdProperties.getPingid_use_base64_key(), pingIdProperties.getApi_url());
+        operation.setTargetUser ( username );
+
+        JSONObject response = pingIdOperationService.SuspendUser ( operation );
+        return response;
+    }
+
+    @RequestMapping(value = "/ActivateUser", method = RequestMethod.POST)
+    public JSONObject ActivateUser(@RequestBody HashMap<String, String> mapper){
+        String username = mapper.get("username");
+        Operation operation = new Operation(pingIdProperties.getOrgAlias(), pingIdProperties.getPingid_token(), pingIdProperties.getPingid_use_base64_key(), pingIdProperties.getApi_url());
+        operation.setTargetUser ( username );
+
+        JSONObject response = pingIdOperationService.ActivateUser ( operation );
+        return response;
+    }
+
 
 //    @RequestMapping(value = "/pairYubiKey", method = RequestMethod.POST)
 //    public void pairYubiKey(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {

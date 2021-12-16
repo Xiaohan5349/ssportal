@@ -1,6 +1,7 @@
 package com.ssportal.be.pingid.model;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONObject;
 
 import java.text.ParseException;
@@ -23,8 +24,8 @@ public class DeviceDetail {
     private final Boolean pushEnabled;
     private final String type;
     private final String nickname;
-    private static final Logger LOG = Logger.getLogger(DeviceDetail.class);
-    
+    private static final Logger LOG = LogManager.getLogger(DeviceDetail.class);
+
     public DeviceDetail() {
         
         appVersion = "";

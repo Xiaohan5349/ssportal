@@ -1,6 +1,8 @@
 package com.ssportal.be.pingid.model;
 
-import org.apache.log4j.Logger;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,7 +33,7 @@ public class Operation {
     private PingIdUser pingIdUser;
 
     private final String apiVersion = "4.9";
-    private static final Logger LOG = Logger.getLogger(Operation.class);
+    private static final Logger LOG = LogManager.getLogger(Operation.class);
 
     public Operation() {
     }

@@ -16,18 +16,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+
 import java.net.URL;
 import javax.servlet.http.HttpSession;
 
 import com.ssportal.be.pingid.model.PingIdProperties;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+
+import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 public class SamlParser extends HttpServlet {
 
-    private static final Logger LOG = Logger.getLogger(SamlParser.class);
+    private static final Logger LOG = LogManager.getLogger(SamlParser.class);
 
     /**
      * @param request

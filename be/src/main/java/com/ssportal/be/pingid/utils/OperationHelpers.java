@@ -2,7 +2,8 @@ package com.ssportal.be.pingid.utils;
 
 import com.ssportal.be.pingid.model.Operation;
 import org.apache.commons.io.IOUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jose4j.base64url.Base64;
 import org.jose4j.jws.AlgorithmIdentifiers;
 import org.jose4j.jws.JsonWebSignature;
@@ -22,7 +23,7 @@ import java.util.Date;
 import java.util.TimeZone;
 
 public class OperationHelpers {
-    public static final Logger LOG = Logger.getLogger(OperationHelpers.class);
+    public static final Logger LOG = LogManager.getLogger(OperationHelpers.class);
 
     @SuppressWarnings("unchecked")
     public static String buildRequestToken(JSONObject requestBody, Operation operation) {
