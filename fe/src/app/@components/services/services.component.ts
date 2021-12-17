@@ -5,6 +5,7 @@ import {PingIdService} from "../../@core/services/pingid.service";
 import {HttpClient} from "@angular/common/http";
 import {HomeDialogComponent} from "../home/home-dialog/home-dialog.component";
 import {HomeQrCodeComponent} from "../home/home-qr-code/home-qr-code.component";
+import {HomeQrCodeGoogleComponent} from "../home/home-qr-code-google/home-qr-code-google.component";
 
 @Component({
   selector: 'app-services',
@@ -146,6 +147,7 @@ export class ServicesComponent implements OnInit {
         this.deviceList = this.user.devicesDetails;
         this.userFound = true;
       }, error => {
+        this.ngOnInit();      
         this.userNotFound = true;
         console.log(error);
         this.errMsg = error.error;

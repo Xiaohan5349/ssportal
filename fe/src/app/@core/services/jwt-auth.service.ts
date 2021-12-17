@@ -116,7 +116,7 @@ export class JwtAuthService {
         return !!this.getJwtToken();
     }
     isAdmin(): Boolean {
-        if (this.getAdmin() == "true"){
+        if (this.getAdmin() == "helpdesk" || this.getAdmin() == "admin"){
             return true
         }else{
             return false
@@ -140,7 +140,8 @@ export class JwtAuthService {
 
     setAdmin(){
         const jwt = this.ls.getItem(this.JWT_TOKEN);
-        console.log(jwt);
+        console.log(this.JWT_TOKEN);
+        console.log("setAdmin" + jwt);
         //add check JWT method with BE
         this.parseJwt(jwt);
         const user = this.ls.getItem(this.APP_USER);
@@ -150,6 +151,7 @@ export class JwtAuthService {
 
     setToken(token: String) {
         this.ls.setItem(this.JWT_TOKEN, token);
+        console.log("settoken method" + token);
     }
 
     setUserAndToken(token: String, user: User, isAuthenticated: Boolean) {
@@ -162,11 +164,15 @@ export class JwtAuthService {
     }
 
     parseJwt (jwt) {
+        console.log(jwt);
         const base64Url = jwt.split('.')[1];
+        console.log(base64Url);
         const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        console.log(base64);
         const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
       return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
         }).join(''));
+        console.log(jsonPayload);
         const jwtOut = JSON.parse(jsonPayload);
         this.ls.setItem(this.APP_USER, jwtOut);
         console.log(jwtOut);

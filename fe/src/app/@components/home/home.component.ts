@@ -33,7 +33,7 @@ export class HomeComponent implements OnInit {
   pairingKeyUri;
   pairingKey;
   sessionId;
-  globalAdmin;
+  AdminStatus;
   orgUuid = 'dffd9656-dfb8-4a0b-bb35-8590e62984e4';
   idpAccountId
 
@@ -267,9 +267,9 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUserDetails();
-    // this.globalAdmin = this.jwtAuth.getAdmin();
-    // console.log(this.globalAdmin);
-    // console.log(this.sessionUser.sub);
+    this.AdminStatus = this.jwtAuth.getAdmin();
+    console.log(this.AdminStatus);
+    console.log(this.sessionUser.sub);
   }
 
 }
