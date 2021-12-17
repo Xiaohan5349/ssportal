@@ -48,18 +48,18 @@ onRedirect(){
 
 
 ngOnInit(): void {
-    // this.route.queryParams.subscribe(p => {
-    //   this.REF = p;
-    //   this.REF = this.REF.REF;
-    //   this.http.get(`${environment.apiURL}/authenticate?REF=${this.REF}`).subscribe(res => {
-    //     this.RES=res;
-    //     this.jwtAuth.setToken(this.RES.token);
-    //     this.router.navigate(['/home']);
-    //     }, err => {
-    //       this.errorMsg = 'Please Login';
-    //     })
-    // });
-  this.jwtAuth.setToken(this.adminJwt);
-  this.router.navigate(['/home']);
+    this.route.queryParams.subscribe(p => {
+      this.REF = p;
+      this.REF = this.REF.REF;
+      this.http.get(`${environment.apiURL}/authenticate?REF=${this.REF}`).subscribe(res => {
+        this.RES=res;
+        this.jwtAuth.setToken(this.RES.token);
+        this.router.navigate(['/home']);
+        }, err => {
+          this.errorMsg = 'Please Login';
+        })
+    });
+  // this.jwtAuth.setToken(this.adminJwt);
+  // this.router.navigate(['/home']);
   }
 }
