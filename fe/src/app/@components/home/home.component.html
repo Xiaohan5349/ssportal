@@ -54,26 +54,26 @@
           </table>
       <button nbButton outline status="primary" (click)="getActivationCode('MOBILE')" class="mr-1" size="small">
         <nb-icon icon="smartphone" outline status="primary" class="mr-1" ></nb-icon>
-        Register Mobile Device</button>
-      <button nbButton outline status="info" (click)="getActivationCode('DESKTOP')" class="mr-1" size="small">
+        Register PingID </button>
+      <button hidden nbButton outline status="info" (click)="getActivationCode('DESKTOP')" class="mr-1" size="small">
         <nb-icon icon="monitor" outline status="info" class="mr-1" ></nb-icon>
         Register Desktop Device</button>
       <button nbButton outline status="info" (click)="AuthenticatorAppStartPairing('DESKTOP')" class="mr-1" size="small">
         <nb-icon icon="monitor" outline status="info" class="mr-1" ></nb-icon>
-        Register Google Authenticator Device</button>
-      <button nbButton outline status="success" (click)="testMFA()" class="mr-1" [disabled]="!deviceList" size="small">
+        Register Google Authenticator </button>
+      <button hidden nbButton outline status="success" (click)="testMFA()" class="mr-1" [disabled]="!deviceList" size="small">
         <nb-icon icon="smartphone" outline status="success" class="mr-1" ></nb-icon>
         Test MFA</button>
       <button hidden nbButton outline status="warning" (click)="testWebMFA()" class="mr-1" [disabled]="!deviceList" size="small">
         <nb-icon icon="browser" outline status="warning" class="mr-1" ></nb-icon>
         Test Web MFA</button>
-      <button nbButton outline status="warning" (click)="ToggleUserBypass()" class="mr-1" size="small">
+      <button *ngIf="AdminStatus=='admin'" nbButton outline status="warning" (click)="ToggleUserBypass()" class="mr-1" size="small">
         <nb-icon icon="browser" outline status="warning" class="mr-1" ></nb-icon>
         ByPass MFA</button>
-      <button nbButton outline status="warning" (click)="ActivateUser()" class="mr-1" size="small">
+      <button *ngIf="AdminStatus=='admin'" nbButton outline status="warning" (click)="ActivateUser()" class="mr-1" size="small">
         <nb-icon icon="browser" outline status="warning" class="mr-1" ></nb-icon>
         Enable User</button>
-      <button nbButton outline status="warning" (click)="SuspendUser()" class="mr-1"  size="small">
+      <button *ngIf="AdminStatus=='admin'" nbButton outline status="warning" (click)="SuspendUser()" class="mr-1"  size="small">
         <nb-icon icon="browser" outline status="warning" class="mr-1" ></nb-icon>
         Disable User</button>
 

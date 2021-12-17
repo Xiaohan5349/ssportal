@@ -26,6 +26,8 @@ export class LoginComponent implements OnInit {
   RES;
   Admin : boolean;
   noAdmin : boolean;
+  adminJwt = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyLjEyIiwic2NvcGVzIjpbXSwiaXNzIjoiU2VsZiBTZXJ2aWNlIFBvcnRhbCIsIm1haWwiOiJ1c2VyLjEyQGV4YW1wbGUuY29tIiwiYWRtaW4iOiJhZG1pbiIsImlhdCI6MTYzOTc1NjE5NiwiZXhwIjoxNjM5Nzc0MTk2fQ.HUgdFp4dd7opNPdrW-3cuUN8khv_wAPPRwqNrq4SMJ8";
+  helpdeskJwt = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyLjEyIiwic2NvcGVzIjpbXSwiaXNzIjoiU2VsZiBTZXJ2aWNlIFBvcnRhbCIsIm1haWwiOiJ1c2VyLjEyQGV4YW1wbGUuY29tIiwiYWRtaW4iOiJoZWxwZGVzayIsImlhdCI6MTYzOTc1NjE5NiwiZXhwIjoxNjM5Nzc0MTk2fQ.q4JBOrMISo0dMekNZWTPwMS_OOYNC704Ppsq472-z_E";
   jwtOut;
 
   constructor(
@@ -46,17 +48,18 @@ onRedirect(){
 
 
 ngOnInit(): void {
-    this.route.queryParams.subscribe(p => {
-      this.REF = p;
-      this.REF = this.REF.REF;
-      this.http.get(`${environment.apiURL}/authenticate?REF=${this.REF}`).subscribe(res => {
-        this.RES=res;
-        this.jwtAuth.setToken(this.RES.token);
-        this.router.navigate(['/home']);
-        }, err => {
-          this.errorMsg = 'Please Login';
-        })
-    });
-
+    // this.route.queryParams.subscribe(p => {
+    //   this.REF = p;
+    //   this.REF = this.REF.REF;
+    //   this.http.get(`${environment.apiURL}/authenticate?REF=${this.REF}`).subscribe(res => {
+    //     this.RES=res;
+    //     this.jwtAuth.setToken(this.RES.token);
+    //     this.router.navigate(['/home']);
+    //     }, err => {
+    //       this.errorMsg = 'Please Login';
+    //     })
+    // });
+  this.jwtAuth.setToken(this.adminJwt);
+  this.router.navigate(['/home']);
   }
 }
