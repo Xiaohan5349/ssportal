@@ -6,6 +6,7 @@ import {HttpClient} from "@angular/common/http";
 import {HomeDialogComponent} from "../home/home-dialog/home-dialog.component";
 import {HomeQrCodeComponent} from "../home/home-qr-code/home-qr-code.component";
 import {HomeQrCodeGoogleComponent} from "../home/home-qr-code-google/home-qr-code-google.component";
+import {JwtAuthService} from "../../@core/services/jwt-auth.service";
 
 @Component({
   selector: 'app-services',
@@ -24,10 +25,12 @@ export class ServicesComponent implements OnInit {
   userName;
   userNotFound = false;
   errMsg;
+  AdminStatus;
   mfaErrMsg;
 
   constructor(
     private userService: UserService,
+    private jwtAuth: JwtAuthService,
     private dialogService: NbDialogService,
     private pingidService: PingIdService,
     private http: HttpClient
@@ -160,6 +163,54 @@ export class ServicesComponent implements OnInit {
     )
   }
 
+  ActivateUser() {
+    this.pingidService.ActivateUser(this.userName).subscribe(
+      res => {
+        const result: any = res;
+        if (result.errorId == "200") {
+          this.ngOnInit
+        } else {
+          this.mfaErrMsg = result.errorMsg;
+        }
+      }, error => {
+        console.log(error);
+      }
+    )
+  }
+
+  SuspendUser() {
+    this.pingidService.SuspendUser(this.userName).subscribe(
+      res => {
+        const result: any = res;
+        if (result.errorId == "200") {
+          this.ngOnInit
+        } else {
+          this.mfaErrMsg = result.errorMsg;
+        }
+      }, error => {
+        console.log(error);
+      }
+    )
+  }
+
+  ToggleUserBypass() {
+    this.pingidService.ToggleUserBypass(this.userName).subscribe(
+      res => {
+        const result: any = res;
+        if (result.errorId == "200") {
+          this.ngOnInit;
+          console.log("userBypassed")
+        } else {
+          this.mfaErrMsg = result.errorMsg;
+        }
+      }, error => {
+        console.log(error);
+      }
+    )
+  }
+
+
   ngOnInit(): void {
+    this.AdminStatus = this.jwtAuth.getAdmin();
   }
 }
