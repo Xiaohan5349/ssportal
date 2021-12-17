@@ -92,14 +92,14 @@ public class LoginController {
             httpsURLConn.setRequestProperty ( "ping.uname", ping_uname );
             httpsURLConn.setRequestProperty ( "ping.pwd", rping_pwd );
             // ping.instanceId is optional and only needs to be specified if multiple instances of ReferenceId adapter are configured.
-            httpsURLConn.setRequestProperty ( "ping.instanceId", instance_id);
+           // httpsURLConn.setRequestProperty ( "ping.instanceId", instance_id);
 
             String encoding = httpsURLConn.getContentEncoding ();
 
-
+            InputStream is = httpsURLConn.getInputStream ();
 
 //        PF Part
-            try (InputStream is = httpsURLConn.getInputStream ()) {
+            try  {
                 InputStreamReader streamReader = new InputStreamReader ( is, encoding != null ? encoding : "UTF-8" );
 
                 JSONParser parser = new JSONParser ();
