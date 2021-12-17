@@ -147,8 +147,8 @@ export class ServicesComponent implements OnInit {
         this.deviceList = this.user.devicesDetails;
         this.userFound = true;
       }, error => {
-        this.ngOnInit();      
         this.userNotFound = true;
+        this.userFound = false;
         console.log(error);
         this.errMsg = error.error;
         setTimeout(() =>
