@@ -54,6 +54,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/authenticate"
                 ).permitAll()
                 .antMatchers("/api-docs",
+                        "/saml-acs/**",
+                        "/login/**",
+                        "/**.js",
+                        "/**.css",
                         "/configuration/ui",
                         "/swagger-resources/**",
                         "/configuration/security",
