@@ -169,7 +169,7 @@ export class ServicesComponent implements OnInit {
         title: 'Activate User',
         message: 'Are you sure you want to activate this user?'
       },
-      hasBackdrop: false,
+      hasBackdrop: true,
     }).onClose.subscribe(res => {
       if (res) {
       this.pingidService.ActivateUser(this.userName).subscribe(
@@ -195,7 +195,7 @@ export class ServicesComponent implements OnInit {
         title: 'Suspend User',
         message: 'Are you sure you want to suspend this user?'
       },
-      hasBackdrop: false,
+      hasBackdrop: true,
     }).onClose.subscribe(res => {
       if (res) {
     this.pingidService.SuspendUser(this.userName).subscribe(
@@ -222,7 +222,7 @@ export class ServicesComponent implements OnInit {
         title: 'Bypass User MFA',
         message: 'Are you sure you want to bypass MFA for this user?'
       },
-      hasBackdrop: false,
+      hasBackdrop: true,
     }).onClose.subscribe(res => {
       if (res) {
     this.pingidService.ToggleUserBypass(this.userName).subscribe(
