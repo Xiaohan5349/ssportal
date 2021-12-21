@@ -164,7 +164,15 @@ export class ServicesComponent implements OnInit {
   }
 
   ActivateUser() {
-    this.pingidService.ActivateUser(this.userName).subscribe(
+    this.dialogService.open(HomeDialogComponent, {
+      context: {
+        title: 'Activate User',
+        message: 'Are you sure you want to activate this user?'
+      },
+      hasBackdrop: false,
+    }).onClose.subscribe(res => {
+      if (res) {
+      this.pingidService.ActivateUser(this.userName).subscribe(
       res => {
         const result: any = res;
         if (result.errorId == "200") {
@@ -174,11 +182,22 @@ export class ServicesComponent implements OnInit {
         }
       }, error => {
         console.log(error);
+        }
+       )
       }
+     }
     )
-  }
+   }
 
   SuspendUser() {
+    this.dialogService.open(HomeDialogComponent, {
+      context: {
+        title: 'Suspend User',
+        message: 'Are you sure you want to suspend this user?'
+      },
+      hasBackdrop: false,
+    }).onClose.subscribe(res => {
+      if (res) {
     this.pingidService.SuspendUser(this.userName).subscribe(
       res => {
         const result: any = res;
@@ -189,11 +208,23 @@ export class ServicesComponent implements OnInit {
         }
       }, error => {
         console.log(error);
-      }
-    )
+       }
+      )
+     }
+    }
+   )
   }
 
+
   ToggleUserBypass() {
+    this.dialogService.open(HomeDialogComponent, {
+      context: {
+        title: 'Bypass User MFA',
+        message: 'Are you sure you want to bypass MFA for this user?'
+      },
+      hasBackdrop: false,
+    }).onClose.subscribe(res => {
+      if (res) {
     this.pingidService.ToggleUserBypass(this.userName).subscribe(
       res => {
         const result: any = res;
@@ -205,8 +236,11 @@ export class ServicesComponent implements OnInit {
         }
       }, error => {
         console.log(error);
-      }
-    )
+       }
+      )
+     }
+    }
+   )
   }
 
 
