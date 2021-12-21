@@ -13,7 +13,7 @@ public class MailForm {
 
     public MailForm(){
         this.from = "testSender@gmail.com";
-        this.cc = "lixiaohan5349@outlook.com";
+        this.cc = "chaopeng.hu@authright.com";
     }
     public Map<String, Object> getModel() {
         return model;
