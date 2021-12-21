@@ -163,34 +163,67 @@ export class HomeComponent implements OnInit {
   }
 
   ActivateUser() {
-    this.pingidService.ActivateUser(this.sessionUser.sub).subscribe(
+    this.dialogService.open(HomeDialogComponent, {
+      context: {
+        title: 'Enable User',
+        message: 'Are you sure you want to enable this user?'
+      },
+      hasBackdrop: true,
+    }).onClose.subscribe(res => {
+      if (res) {
+      this.pingidService.ActivateUser(this.sessionUser.sub).subscribe(
       res => {
         const result: any = res;
         if (result.errorId == "200") {
+          this.ngOnInit()
         } else {
           this.mfaErrMsg = result.errorMsg;
         }
       }, error => {
         console.log(error);
+        }
+       )
       }
+     }
     )
-  }
+   }
 
   SuspendUser() {
+    this.dialogService.open(HomeDialogComponent, {
+      context: {
+        title: 'Disable User',
+        message: 'Are you sure you want to disable this user?'
+      },
+      hasBackdrop: true,
+    }).onClose.subscribe(res => {
+      if (res) {
     this.pingidService.SuspendUser(this.sessionUser.sub).subscribe(
       res => {
         const result: any = res;
         if (result.errorId == "200") {
+          this.ngOnInit()
         } else {
           this.mfaErrMsg = result.errorMsg;
         }
       }, error => {
         console.log(error);
-      }
-    )
+       }
+      )
+     }
+    }
+   )
   }
 
+
   ToggleUserBypass() {
+    this.dialogService.open(HomeDialogComponent, {
+      context: {
+        title: 'Bypass User MFA',
+        message: 'Are you sure you want to bypass MFA for this user?'
+      },
+      hasBackdrop: true,
+    }).onClose.subscribe(res => {
+      if (res) {
     this.pingidService.ToggleUserBypass(this.sessionUser.sub).subscribe(
       res => {
         const result: any = res;
@@ -202,8 +235,11 @@ export class HomeComponent implements OnInit {
         }
       }, error => {
         console.log(error);
-      }
-    )
+       }
+      )
+     }
+    }
+   )
   }
 
 
