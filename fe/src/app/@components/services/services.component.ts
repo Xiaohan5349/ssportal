@@ -7,6 +7,7 @@ import {HomeDialogComponent} from "../home/home-dialog/home-dialog.component";
 import {HomeQrCodeComponent} from "../home/home-qr-code/home-qr-code.component";
 import {HomeQrCodeGoogleComponent} from "../home/home-qr-code-google/home-qr-code-google.component";
 import {JwtAuthService} from "../../@core/services/jwt-auth.service";
+import {NbMenuService} from '@nebular/theme';
 
 @Component({
   selector: 'app-services',
@@ -27,13 +28,15 @@ export class ServicesComponent implements OnInit {
   errMsg;
   AdminStatus;
   mfaErrMsg;
+  items = [{ title: 'ByPass MFA' }, { title: 'Enable User' }, { title: 'Disable User' }];
 
   constructor(
     private userService: UserService,
     private jwtAuth: JwtAuthService,
     private dialogService: NbDialogService,
     private pingidService: PingIdService,
-    private http: HttpClient
+    private http: HttpClient,
+    private menuService: NbMenuService
   ) {
   }
 
@@ -166,8 +169,8 @@ export class ServicesComponent implements OnInit {
   ActivateUser() {
     this.dialogService.open(HomeDialogComponent, {
       context: {
-        title: 'Activate User',
-        message: 'Are you sure you want to activate this user?'
+        title: 'Enable User',
+        message: 'Are you sure you want to enable this user?'
       },
       hasBackdrop: true,
     }).onClose.subscribe(res => {
@@ -176,7 +179,7 @@ export class ServicesComponent implements OnInit {
       res => {
         const result: any = res;
         if (result.errorId == "200") {
-          this.ngOnInit
+          this.ngOnInit()
         } else {
           this.mfaErrMsg = result.errorMsg;
         }
@@ -192,8 +195,8 @@ export class ServicesComponent implements OnInit {
   SuspendUser() {
     this.dialogService.open(HomeDialogComponent, {
       context: {
-        title: 'Suspend User',
-        message: 'Are you sure you want to suspend this user?'
+        title: 'Disable User',
+        message: 'Are you sure you want to disable this user?'
       },
       hasBackdrop: true,
     }).onClose.subscribe(res => {
@@ -202,7 +205,7 @@ export class ServicesComponent implements OnInit {
       res => {
         const result: any = res;
         if (result.errorId == "200") {
-          this.ngOnInit
+          this.ngOnInit()
         } else {
           this.mfaErrMsg = result.errorMsg;
         }
@@ -229,7 +232,7 @@ export class ServicesComponent implements OnInit {
       res => {
         const result: any = res;
         if (result.errorId == "200") {
-          this.ngOnInit;
+          this.ngOnInit();
           console.log("userBypassed")
         } else {
           this.mfaErrMsg = result.errorMsg;
@@ -246,5 +249,20 @@ export class ServicesComponent implements OnInit {
 
   ngOnInit(): void {
     this.AdminStatus = this.jwtAuth.getAdmin();
+    this.menuService.onItemClick().subscribe((event) => {
+      if (event.item.title === 'ByPass MFA') {
+        this.ToggleUserBypass();
+        console.log('ByPass MFA clicked');
+      }
+      if (event.item.title === 'Enable User') {
+        this.ActivateUser();
+        console.log('Enable User clicked');
+      }
+      if (event.item.title === 'Disable User') {
+        this.SuspendUser();
+        console.log('Disable User clicked');
+      }
+    });
+
   }
 }

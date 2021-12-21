@@ -10,6 +10,7 @@ import {switchMap} from 'rxjs/operators';
 import {JwtAuthService} from "../../@core/services/jwt-auth.service";
 import {NgForm} from "@angular/forms";
 import {HomeQrCodeGoogleComponent} from "./home-qr-code-google/home-qr-code-google.component";
+import {NbMenuService} from '@nebular/theme';
 
 @Component({
   selector: 'app-home',
@@ -36,6 +37,7 @@ export class HomeComponent implements OnInit {
   AdminStatus;
   orgUuid = 'dffd9656-dfb8-4a0b-bb35-8590e62984e4';
   idpAccountId
+  items = [{ title: 'ByPass MFA' }, { title: 'Enable User' }, { title: 'Disable User' }];
 
 //need modify this page to display correct user info. user info from jwt should consist with user info in PingID
 
@@ -44,7 +46,8 @@ export class HomeComponent implements OnInit {
     private dialogService: NbDialogService,
     private pingidService: PingIdService,
     private http: HttpClient,
-    private jwtAuth: JwtAuthService
+    private jwtAuth: JwtAuthService,
+    private menuService: NbMenuService
   ) {
     this.sessionUser = jwtAuth.getUser();
   }
@@ -164,7 +167,6 @@ export class HomeComponent implements OnInit {
       res => {
         const result: any = res;
         if (result.errorId == "200") {
-          this.ngOnInit
         } else {
           this.mfaErrMsg = result.errorMsg;
         }
@@ -179,7 +181,6 @@ export class HomeComponent implements OnInit {
       res => {
         const result: any = res;
         if (result.errorId == "200") {
-          this.ngOnInit
         } else {
           this.mfaErrMsg = result.errorMsg;
         }
@@ -194,7 +195,7 @@ export class HomeComponent implements OnInit {
       res => {
         const result: any = res;
         if (result.errorId == "200") {
-          this.ngOnInit;
+          this.ngOnInit();
           console.log("userBypassed")
         } else {
           this.mfaErrMsg = result.errorMsg;
@@ -265,7 +266,25 @@ export class HomeComponent implements OnInit {
     this.mfaTriggered = false;
   }
 
+  test(){
+    console.log("test1")
+  }
+
   ngOnInit(): void {
+    this.menuService.onItemClick().subscribe((event) => {
+      if (event.item.title === 'ByPass MFA') {
+        this.ToggleUserBypass();
+        console.log('ByPass MFA clicked');
+      }
+      if (event.item.title === 'Enable User') {
+        this.ActivateUser();
+        console.log('Enable User clicked');
+      }
+      if (event.item.title === 'Disable User') {
+        this.SuspendUser();
+        console.log('Disable User clicked');
+      }
+    });
     this.getUserDetails();
     this.AdminStatus = this.jwtAuth.getAdmin();
     console.log(this.AdminStatus);
