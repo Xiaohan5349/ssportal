@@ -77,7 +77,7 @@
         <button nbButton outline status="info" (click)="getActivationCode('DESKTOP')" class="mr-1" size="small">
           <nb-icon icon="monitor" outline status="info" class="mr-1" ></nb-icon>
           Register Desktop Device</button>
-        <button nbButton outline status="success" (click)="testMFA()" class="mr-1" [disabled]="!deviceList" size="small">
+        <button hidden nbButton outline status="success" (click)="testMFA()" class="mr-1" [disabled]="!deviceList" size="small">
           <nb-icon icon="smartphone" outline status="success" class="mr-1" ></nb-icon>
           Test MFA</button>
         <button *ngIf="AdminStatus=='admin'" [nbContextMenu]="items" nbButton outline status="warning" class="mr-1" size="small">Admin Control</button>    
