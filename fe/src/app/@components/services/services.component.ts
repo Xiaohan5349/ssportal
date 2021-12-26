@@ -28,6 +28,12 @@ export class ServicesComponent implements OnInit {
   errMsg;
   AdminStatus;
   mfaErrMsg;
+  pairingKeyUri;
+  pairingKey;
+  sessionId;
+  userActivat = false;
+  userSuspend = false;
+  userBypassed = false;
   items = [{ title: 'ByPass MFA' }, { title: 'Enable User' }, { title: 'Disable User' }];
 
   constructor(
@@ -108,6 +114,36 @@ export class ServicesComponent implements OnInit {
 
   }
 
+  AuthenticatorAppStartPairing() {
+    this.pingidService.AuthenticatorAppStartPairing(this.user.userName).subscribe(
+      res => {
+        const result: any = res;
+        this.pairingKeyUri = result.pairingKeyUri;
+        this.pairingKey = result.pairingKey;
+        this.sessionId = result.sessionId;
+        this.dialogService.open(HomeQrCodeGoogleComponent, {
+          context: {
+            title: 'Register ' + ' Authenticator',
+            message: 'Please scan the QR code with your Authenticator ' + ' app or input paring code manually.',
+            qrcode: this.pairingKeyUri,
+            code: this.pairingKey,
+            sessionId: this.sessionId,
+            user: this.user
+          },
+          hasBackdrop: true,
+          closeOnBackdropClick: false
+        }).onClose.subscribe(res => {
+          if (res) {
+            this.ngOnInit();
+          }
+        });
+      }, error => {
+        console.log(error);
+      }
+    )
+  }
+
+
   testMFA() {
     for (let i = 0; i < this.deviceList.length; i++) {
       if (this.deviceList[i].deviceRole.toLowerCase() === 'primary') {
@@ -179,7 +215,8 @@ export class ServicesComponent implements OnInit {
       res => {
         const result: any = res;
         if (result.errorId == "200") {
-          this.ngOnInit()
+          this.ngOnInit();
+          this.userActivat = true;
         } else {
           this.mfaErrMsg = result.errorMsg;
         }
@@ -205,7 +242,8 @@ export class ServicesComponent implements OnInit {
       res => {
         const result: any = res;
         if (result.errorId == "200") {
-          this.ngOnInit()
+          this.ngOnInit();
+          this.userSuspend = true;
         } else {
           this.mfaErrMsg = result.errorMsg;
         }
@@ -234,6 +272,7 @@ export class ServicesComponent implements OnInit {
         if (result.errorId == "200") {
           this.ngOnInit();
           console.log("userBypassed")
+          this.userBypassed = true;
         } else {
           this.mfaErrMsg = result.errorMsg;
         }

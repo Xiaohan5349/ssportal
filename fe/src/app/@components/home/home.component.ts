@@ -111,7 +111,7 @@ export class HomeComponent implements OnInit {
     )
   }
 
-   AuthenticatorAppStartPairing(type) {
+   AuthenticatorAppStartPairing() {
       this.pingidService.AuthenticatorAppStartPairing(this.sessionUser.sub).subscribe(
         res => {
           const result: any = res;

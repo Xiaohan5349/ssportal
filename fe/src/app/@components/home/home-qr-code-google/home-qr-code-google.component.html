@@ -15,13 +15,13 @@
         <br>
         <h5 *ngIf="!devicePaired">{{code}}</h5>
       </div>
-      <div>
+      <div *ngIf="!devicePaired">
         <input nbInput class="mb-1" [(ngModel)]="otp"
                fullWidth name="OTP"
                id="input-otp"
                placeholder="OTP">
       </div>
-      <div class="text-center mt-4">
+      <div *ngIf="!devicePaired" class="text-center mt-4">
         <button nbButton (click)="pairDevice()">Pair Device</button>
       </div>
       <div class="text-center mt-4">
