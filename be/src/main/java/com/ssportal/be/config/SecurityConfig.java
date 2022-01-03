@@ -66,6 +66,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/v3/api-docs/**",
                         "/webjars/**",
                         "/mail/**",
+                        "/monitor/**",
+                        "/home/**",
                         "/assets/**"
                 ).permitAll()
 //                .antMatchers("/", "/**").permitAll()

@@ -61,6 +61,12 @@ public class LoginController {
         this.userService = userService;
     }
 
+
+    @RequestMapping(value = "/monitor/heartbeat")
+    public String heartbeat(){
+        return "{\"status\":\"UP\"}";
+    }
+
     @RequestMapping(value = "/authenticate", method = RequestMethod.GET)
     public ResponseEntity<AuthToken> authenticate(
             @RequestParam(name = "REF") String RefID
@@ -70,8 +76,8 @@ public class LoginController {
             RefID = RefID.replaceAll ( "[^A-Za-z0-9]", "" );
         }
         ///bbb
-//        String base_url = "https://ssoqa.bedbath.com";
-        String base_url = "https://localhost:9031";
+        String base_url = "https://ssoqa.bedbath.com";
+//        String base_url = "https://localhost:9031";
         String pickupLocation = base_url + "/ext/ref/pickup?REF=" + RefID;
         java.util.Properties prop = new java.util.Properties ();
         String propFileName = "application.properties";

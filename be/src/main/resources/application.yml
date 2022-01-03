@@ -28,9 +28,15 @@ logging:
 
 # monitor
 management:
+  security:
+    enabled: false
   endpoints:
+    health:
+      show-details: always
+    healthy:
+      sensative: false
     web:
-      base-path: /monitor
+      base-path: /actuator
       path-mapping:
         health: heartbeat
 
