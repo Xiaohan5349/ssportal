@@ -69,6 +69,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/monitor/**",
                         "/actuator/**",
                         "/home/**",
+                        "/services/**",
+                        "/logout",
                         "/assets/**"
                 ).permitAll()
 //                .antMatchers("/", "/**").permitAll()
