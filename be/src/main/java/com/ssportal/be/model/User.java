@@ -21,6 +21,9 @@ public class User implements Serializable, UserDetails {
     private String lastName;
     private String email;
     private String role;
+    private String hardToken;
+    private String softToken;
+    private String desktopToken;
 
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
     private Date joinDate;
@@ -47,6 +50,9 @@ public class User implements Serializable, UserDetails {
         this.admin = userAttributes.get ( "admin" ).toString ();
         this.firstName = userAttributes.get ( "firstName" ).toString ();
         this.lastName = userAttributes.get ( "lastName" ).toString ();
+        this.hardToken = userAttributes.get ( "hardToken" ).toString ();
+        this.softToken = userAttributes.get ( "softToken" ).toString ();
+        this.desktopToken = userAttributes.get ( "desktopToken" ).toString ();
     }
     public Long getId() {
         return id;
@@ -160,6 +166,29 @@ public class User implements Serializable, UserDetails {
         this.admin = admin;
     }
 
+    public String getHardToken() {
+        return hardToken;
+    }
+
+    public void setHardToken(String hardToken) {
+        this.hardToken = hardToken;
+    }
+
+    public String getSoftToken() {
+        return softToken;
+    }
+
+    public void setSoftToken(String softToken) {
+        this.softToken = softToken;
+    }
+
+    public String getDesktopToken() {
+        return desktopToken;
+    }
+
+    public void setDesktopToken(String desktopToken) {
+        this.desktopToken = desktopToken;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
