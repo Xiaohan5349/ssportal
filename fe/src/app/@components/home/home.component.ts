@@ -35,6 +35,9 @@ export class HomeComponent implements OnInit {
   pairingKey;
   sessionId;
   AdminStatus;
+  softToken: string = "false";
+  hardToken: string = "false";
+  desktopToken: string = "false";
   orgUuid = 'dffd9656-dfb8-4a0b-bb35-8590e62984e4';
   idpAccountId
   items = [{ title: 'ByPass MFA' }, { title: 'Enable User' }, { title: 'Disable User' }];
@@ -112,33 +115,50 @@ export class HomeComponent implements OnInit {
   }
 
    AuthenticatorAppStartPairing() {
-      this.pingidService.AuthenticatorAppStartPairing(this.sessionUser.sub).subscribe(
-        res => {
-          const result: any = res;
-          this.pairingKeyUri = result.pairingKeyUri;
-          this.pairingKey = result.pairingKey;
-          this.sessionId = result.sessionId;
-          this.dialogService.open(HomeQrCodeGoogleComponent, {
-            context: {
-              title: 'Register ' + ' Authenticator',
-              message: 'Please scan the QR code with your Authenticator ' + ' app or input paring code manually.',
-              qrcode: this.pairingKeyUri,
-              code: this.pairingKey,
-              sessionId: this.sessionId,
-              user: this.sessionUser
-            },
-            hasBackdrop: true,
-            closeOnBackdropClick: false
-          }).onClose.subscribe(res => {
-            if (res) {
-              this.ngOnInit();
-            }
-          });
-        }, error => {
-          console.log(error);
-        }
-      )
-    }
+    //   this.pingidService.AuthenticatorAppStartPairing(this.sessionUser.sub).subscribe(
+    //     res => {
+    //       const result: any = res;
+    //       this.pairingKeyUri = result.pairingKeyUri;
+    //       this.pairingKey = result.pairingKey;
+    //       this.sessionId = result.sessionId;
+    //       this.dialogService.open(HomeQrCodeGoogleComponent, {
+    //         context: {
+    //           title: 'Register ' + ' Authenticator',
+    //           message: 'Please scan the QR code with your Authenticator ' + ' app or input paring code manually.',
+    //           qrcode: this.pairingKeyUri,
+    //           code: this.pairingKey,
+    //           sessionId: this.sessionId,
+    //           user: this.sessionUser
+    //         },
+    //         hasBackdrop: true,
+    //         closeOnBackdropClick: false
+    //       }).onClose.subscribe(res => {
+    //         if (res) {
+    //           this.ngOnInit();
+    //         }
+    //       });
+    //     }, error => {
+    //       console.log(error);
+    //     }
+    //   )
+    // }
+    this.dialogService.open(HomeQrCodeGoogleComponent, {
+      context: {
+        title: 'Register ' + ' Authenticator',
+        message: 'Please scan the QR code with your Authenticator ' + ' app or input paring code manually.',
+        qrcode: this.pairingKeyUri,
+        code: this.pairingKey,
+        sessionId: this.sessionId,
+        user: this.sessionUser
+      },
+      hasBackdrop: true,
+      closeOnBackdropClick: false
+    }).onClose.subscribe(res => {
+      if (res) {
+        this.ngOnInit();
+      }
+    })
+  }
 
   makeDevicePrimary (device) {
     this.dialogService.open(HomeDialogComponent, {
@@ -323,8 +343,12 @@ export class HomeComponent implements OnInit {
     });
     this.getUserDetails();
     this.AdminStatus = this.jwtAuth.getAdmin();
+    this.softToken = this.sessionUser.softToken;
+    this.hardToken = this.sessionUser.hardToken;
+    this.desktopToken = this.sessionUser.desktopToken;
     console.log(this.AdminStatus);
     console.log(this.sessionUser.sub);
+
   }
 
 }

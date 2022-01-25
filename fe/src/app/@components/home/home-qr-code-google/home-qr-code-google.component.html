@@ -22,10 +22,10 @@
                placeholder="OTP">
       </div>
       <div *ngIf="!devicePaired" class="text-center mt-4">
-        <button nbButton (click)="pairDevice()">Pair Device</button>
+        <button nbButton status="success" (click)="pairDevice()">Pair Device</button>
       </div>
       <div class="text-center mt-4">
-        <button nbButton status="success" (click)="closeDialog(devicePaired)">Close</button>
+        <button nbButton status="danger" (click)="closeDialog(devicePaired)">Close</button>
       </div>
     </nb-card-body>
   </nb-card>

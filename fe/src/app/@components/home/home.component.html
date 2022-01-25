@@ -52,15 +52,18 @@
             </tr>
             </tbody>
           </table>
-      <button nbButton outline status="primary" (click)="getActivationCode('MOBILE')" class="mr-1" size="small">
+      <button nbButton *ngIf="softToken=='true'" outline status="primary" (click)="getActivationCode('MOBILE')" class="mr-1" size="small">
         <nb-icon icon="smartphone" outline status="primary" class="mr-1" ></nb-icon>
         Register PingID </button>
-      <button hidden nbButton outline status="info" (click)="getActivationCode('DESKTOP')" class="mr-1" size="small">
+      <button nbButton *ngIf="softToken=='true'" outline status="primary" (click)="AuthenticatorAppStartPairing()" class="mr-1" size="small">
+        <nb-icon icon="smartphone" outline status="info" class="mr-1" ></nb-icon>
+        Register Google Authenticator </button>  
+      <button nbButton *ngIf="desktopToken=='true'" outline status="primary" (click)="getActivationCode('DESKTOP')" class="mr-1" size="small">
         <nb-icon icon="monitor" outline status="info" class="mr-1" ></nb-icon>
         Register Desktop Device</button>
-      <button nbButton outline status="info" (click)="AuthenticatorAppStartPairing()" class="mr-1" size="small">
-        <nb-icon icon="monitor" outline status="info" class="mr-1" ></nb-icon>
-        Register Google Authenticator </button>
+      <button nbButton *ngIf="hardToken=='true'" outline status="primary"  class="mr-1" size="small">
+        <nb-icon icon="hard-drive" outline status="info" class="mr-1" ></nb-icon>
+        Register YubiKey </button>
       <button hidden nbButton outline status="success" (click)="testMFA()" class="mr-1" [disabled]="!deviceList" size="small">
         <nb-icon icon="smartphone" outline status="success" class="mr-1" ></nb-icon>
         Test MFA</button>
