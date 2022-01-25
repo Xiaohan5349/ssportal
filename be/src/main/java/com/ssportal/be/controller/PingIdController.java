@@ -114,7 +114,11 @@ public class PingIdController {
 
         return response;
     }
+    @RequestMapping(value = "/pairYubiKey", method = RequestMethod.POST)
+    public JSONObject pairYubiKey(@RequestBody HashMap<String, String> mapper) throws IOException, ServletException {
 
+
+    }
     @RequestMapping(value = "/getPairingStatus", method = RequestMethod.POST)
     public JSONObject getPairingStatus(@RequestBody HashMap<String, String> mapper) {
         String activationCode = mapper.get("activationCode");
@@ -201,10 +205,6 @@ public class PingIdController {
     }
 
 
-//    @RequestMapping(value = "/pairYubiKey", method = RequestMethod.POST)
-//    public void pairYubiKey(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-//    }
-//
 
 //
 //    @RequestMapping(value = "/authenticateOffline", method = RequestMethod.POST)

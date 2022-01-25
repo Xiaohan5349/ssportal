@@ -19,6 +19,7 @@ public interface PingIdOperationService {
     JSONObject makeDevicePrimary(String deviceID, Operation operation);
     JSONObject SuspendUser(Operation operation);
     JSONObject ActivateUser(Operation operation);
+    JSONObject pairYubiKey(String otp, Operation operation);
     String webAuthnAuthentication(String deviceId,  String returnUrl, Operation operation);
 
 }

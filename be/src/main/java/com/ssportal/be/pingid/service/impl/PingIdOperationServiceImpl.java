@@ -128,6 +128,23 @@ public class PingIdOperationServiceImpl implements PingIdOperationService {
         return userDetails;
     }
 
+    public JSONObject pairYubiKey(String otp, Operation operation){
+        operation.setName ( "pairYubiKey" );
+        operation.setEndpoint ( operation.getApiUrl () + "/rest/4/pairyubikey/do " );
+
+        JSONObject resBody = new JSONObject (  );
+        resBody.put ( "otp", otp );
+        resBody.put ( "userName", operation.getPingIdUser ().getUserName () );
+
+        operation.setRequestToken ( OperationHelpers.buildRequestToken ( resBody, operation ) );
+
+        OperationHelpers.sendRequest ( operation );
+        JSONObject response = OperationHelpers.parseResponse ( operation );
+        operation.getValues ().clear ();
+        return response;
+
+    }
+
     @SuppressWarnings("unchecked")
     public JSONObject unpairDevice(String deviceId, Operation operation) {
 
@@ -255,6 +272,7 @@ public class PingIdOperationServiceImpl implements PingIdOperationService {
 
         return response;
     }
+
 
 
     @SuppressWarnings("unchecked")
