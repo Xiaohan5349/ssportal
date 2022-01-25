@@ -327,6 +327,30 @@ public class PingIdOperationServiceImpl implements PingIdOperationService {
     }
 
 
+    public JSONObject authenticationOffline(String sessionId, String otp, Operation operation){
+        operation.setName ( "AuthenticationOffline" );
+        operation.setEndpoint ( operation.getApiUrl () + "/rest/4/authoffline/do" );
+
+        JSONObject reqBody = new JSONObject();
+        reqBody.put ( "spAlias", "web" );
+        reqBody.put ( "otp", otp );
+        reqBody.put ( "userName", operation.getPingIdUser ().getUserName () );
+        reqBody.put ( "sessionId", sessionId );
+
+        operation.setRequestToken ( OperationHelpers.buildRequestToken ( reqBody, operation ) );
+        OperationHelpers.sendRequest ( operation );
+
+        JSONObject response = OperationHelpers.parseResponse ( operation );
+
+        if ((int)response.get ( "errorId" ) == 200){
+            operation.getValues ().clear ();
+        }
+
+        return response;
+    }
+
+
+
     public JSONObject makeDevicePrimary(String deviceID, Operation operation) {
         operation.setName("UpdateDeviceAttributes");
         operation.setEndpoint(operation.getApiUrl() + "/rest/4/updatedeviceattr/do");

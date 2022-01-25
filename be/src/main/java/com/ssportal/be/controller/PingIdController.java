@@ -147,6 +147,21 @@ public class PingIdController {
         return response;
     }
 
+    @RequestMapping(value = "/authenticationOffline", method = RequestMethod.POST)
+    public JSONObject authenticationOffline(@RequestBody HashMap<String, String> mapper){
+        String otp = mapper.get("otp");
+        String sessionId = mapper.get("sessionId");
+        String username = mapper.get("username");
+
+        Operation operation = new Operation(pingIdProperties.getOrgAlias(), pingIdProperties.getPingid_token(), pingIdProperties.getPingid_use_base64_key(), pingIdProperties.getApi_url());
+        operation.setTargetUser ( username );
+        JSONObject response = pingIdOperationService.authenticationOffline ( sessionId, otp, operation);
+
+        return response;
+
+    }
+
+
     @RequestMapping(value = "/makeDevicePrimary", method = RequestMethod.POST)
     public JSONObject makeDevicePrimary(@RequestBody HashMap<String, String> mapper) {
         String deviceId = mapper.get("deviceId");
