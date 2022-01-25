@@ -116,7 +116,11 @@ public class PingIdController {
     }
     @RequestMapping(value = "/pairYubiKey", method = RequestMethod.POST)
     public JSONObject pairYubiKey(@RequestBody HashMap<String, String> mapper) throws IOException, ServletException {
+        String otp = mapper.get ( "otp" );
+        Operation operation = new Operation ( pingIdProperties.getOrgAlias(), pingIdProperties.getPingid_token(), pingIdProperties.getPingid_use_base64_key(), pingIdProperties.getApi_url());
+        JSONObject response = pingIdOperationService.pairYubiKey ( otp, operation );
 
+        return response;
 
     }
     @RequestMapping(value = "/getPairingStatus", method = RequestMethod.POST)
