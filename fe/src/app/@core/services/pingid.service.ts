@@ -62,6 +62,18 @@ export class PingIdService {
     return this.http.post(url, payload, httpOptions);
   }
 
+  yubikeyPairing(username, otp) {
+    const url = this.BACKEND_URL + '/pingid/pairYubiKey';
+    const payload = {
+      username: username,
+      otp: otp
+
+    }
+    const httpOptions = {
+     headers: new HttpHeaders({'Content-Type': 'application/json'})
+    };
+    return this.http.post(url, payload, httpOptions);
+  }
 
 
   checkPairingStatus(activationCode, username) {

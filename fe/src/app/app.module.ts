@@ -39,6 +39,7 @@ import {HomeQrCodeComponent} from './@components/home/home-qr-code/home-qr-code.
 import {NgxKjuaModule} from "ngx-kjua";
 import { ServicesComponent } from './@components/services/services.component';
 import { HomeQrCodeGoogleComponent } from './@components/home/home-qr-code-google/home-qr-code-google.component';
+import { HomeYubikeyInputComponent } from './@components/home/home-yubikey-input/home-yubikey-input.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { HomeQrCodeGoogleComponent } from './@components/home/home-qr-code-googl
     HomeDialogComponent,
     HomeQrCodeComponent,
     ServicesComponent,
-    HomeQrCodeGoogleComponent
+    HomeQrCodeGoogleComponent,
+    HomeYubikeyInputComponent
   ],
   imports: [
     BrowserModule,

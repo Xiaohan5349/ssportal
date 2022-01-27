@@ -1,3 +1,4 @@
+import { HomeYubikeyInputComponent } from './home-yubikey-input/home-yubikey-input.component';
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {UserService} from "../../@core/services/user.service";
 import {NbDialogService} from "@nebular/theme";
@@ -115,50 +116,65 @@ export class HomeComponent implements OnInit {
   }
 
    AuthenticatorAppStartPairing() {
-    //   this.pingidService.AuthenticatorAppStartPairing(this.sessionUser.sub).subscribe(
-    //     res => {
-    //       const result: any = res;
-    //       this.pairingKeyUri = result.pairingKeyUri;
-    //       this.pairingKey = result.pairingKey;
-    //       this.sessionId = result.sessionId;
-    //       this.dialogService.open(HomeQrCodeGoogleComponent, {
-    //         context: {
-    //           title: 'Register ' + ' Authenticator',
-    //           message: 'Please scan the QR code with your Authenticator ' + ' app or input paring code manually.',
-    //           qrcode: this.pairingKeyUri,
-    //           code: this.pairingKey,
-    //           sessionId: this.sessionId,
-    //           user: this.sessionUser
-    //         },
-    //         hasBackdrop: true,
-    //         closeOnBackdropClick: false
-    //       }).onClose.subscribe(res => {
-    //         if (res) {
-    //           this.ngOnInit();
-    //         }
-    //       });
-    //     }, error => {
-    //       console.log(error);
-    //     }
-    //   )
-    // }
-    this.dialogService.open(HomeQrCodeGoogleComponent, {
-      context: {
-        title: 'Register ' + ' Authenticator',
-        message: 'Please scan the QR code with your Authenticator ' + ' app or input paring code manually.',
-        qrcode: this.pairingKeyUri,
-        code: this.pairingKey,
-        sessionId: this.sessionId,
-        user: this.sessionUser
-      },
-      hasBackdrop: true,
-      closeOnBackdropClick: false
-    }).onClose.subscribe(res => {
-      if (res) {
-        this.ngOnInit();
-      }
-    })
+      this.pingidService.AuthenticatorAppStartPairing(this.sessionUser.sub).subscribe(
+        res => {
+          const result: any = res;
+          this.pairingKeyUri = result.pairingKeyUri;
+          this.pairingKey = result.pairingKey;
+          this.sessionId = result.sessionId;
+          this.dialogService.open(HomeQrCodeGoogleComponent, {
+            context: {
+              title: 'Register ' + ' Authenticator',
+              message: 'Please scan the QR code with your Authenticator ' + ' app or input paring code manually.',
+              qrcode: this.pairingKeyUri,
+              code: this.pairingKey,
+              sessionId: this.sessionId,
+              user: this.sessionUser
+            },
+            hasBackdrop: true,
+            closeOnBackdropClick: false
+          }).onClose.subscribe(res => {
+            if (res) {
+              this.ngOnInit();
+            }
+          });
+        }, error => {
+          console.log(error);
+        }
+      )
+    // this.dialogService.open(HomeQrCodeGoogleComponent, {
+    //   context: {
+    //     title: 'Register ' + ' Authenticator',
+    //     message: 'Please scan the QR code with your Authenticator ' + ' app or input paring code manually.',
+    //     qrcode: this.pairingKeyUri,
+    //     code: this.pairingKey,
+    //     sessionId: this.sessionId,
+    //     user: this.sessionUser
+    //   },
+    //   hasBackdrop: true,
+    //   closeOnBackdropClick: false
+    // }).onClose.subscribe(res => {
+    //   if (res) {
+    //     this.ngOnInit();
+    //   }
+    // })
   }
+
+  yubikeyStartPairing() {
+        this.dialogService.open(HomeYubikeyInputComponent, {
+          context: {
+            title: 'Register ' + ' Authenticator',
+            message: 'Please input paring code manually.',
+            user: this.sessionUser
+          },
+          hasBackdrop: true,
+          closeOnBackdropClick: false
+        }).onClose.subscribe(res => {
+          if (res) {
+            this.ngOnInit();
+          }
+        });
+      }
 
   makeDevicePrimary (device) {
     this.dialogService.open(HomeDialogComponent, {

@@ -1,0 +1,30 @@
+<nb-card style="min-width: 500px;">
+    <nb-card-header>
+      {{title}}
+    </nb-card-header>
+    <nb-card-body>
+      <span *ngIf="!devicePaired">{{message}}</span>
+      <div class="mt-4 text-center">
+        <div *ngIf="devicePaired">
+          <h2 ><span status="info">Pairing Success</span></h2>
+          <img  class="img-fluid mt-1" src="assets/images/success.png" style="width:200px;">
+        </div>
+        <br>
+        <h5 *ngIf="!devicePaired">{{code}}</h5>
+      </div>
+      <div *ngIf="!devicePaired">
+        <input nbInput class="mb-1" [(ngModel)]="otp"
+               fullWidth name="OTP"
+               id="input-otp"
+               placeholder="OTP">
+      </div>
+      <div *ngIf="!devicePaired" class="text-center mt-4">
+        <button nbButton status="success" (click)="pairYubikey()">Pair Device</button>
+      </div>
+      <div class="text-center mt-4">
+        <button nbButton status="danger" (click)="closeDialog(devicePaired)">Close</button>
+      </div>
+    </nb-card-body>
+  </nb-card>
+  
+
