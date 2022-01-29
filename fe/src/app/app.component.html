@@ -8,7 +8,7 @@
     <div class="header-container" *ngIf="loggedIn">
       <nb-actions size="small">
         <nb-action class="user-action">
-          <nb-user [nbContextMenu]="userMenu" [name]="sessionUser?.sub">
+          <nb-user [nbContextMenu]="userMenu" [name]="sessionUser?.sub" picture="assets/images/user.png">
           </nb-user>
         </nb-action>
       </nb-actions>
