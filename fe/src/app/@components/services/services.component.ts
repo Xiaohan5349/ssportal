@@ -221,6 +221,7 @@ export class ServicesComponent implements OnInit {
         const result: any = res;
         if (result.errorId == "200") {
           this.userActivat = true;
+          this.searchUser();
         } else {
           this.mfaErrMsg = result.errorMsg;
         }
@@ -247,6 +248,7 @@ export class ServicesComponent implements OnInit {
         const result: any = res;
         if (result.errorId == "200") {
           this.userSuspend = true;
+          this.searchUser();
         } else {
           this.mfaErrMsg = result.errorMsg;
         }
@@ -275,6 +277,7 @@ export class ServicesComponent implements OnInit {
         if (result.errorId == "200") {
           console.log("userBypassed")
           this.userBypassed = true;
+          this.searchUser();
         } else {
           this.mfaErrMsg = result.errorMsg;
         }
