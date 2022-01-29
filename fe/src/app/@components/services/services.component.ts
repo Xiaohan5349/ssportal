@@ -137,7 +137,6 @@ export class ServicesComponent implements OnInit {
           closeOnBackdropClick: false
         }).onClose.subscribe(res => {
           if (res) {
-            this.ngOnInit();
           }
         });
       }, error => {
@@ -221,7 +220,6 @@ export class ServicesComponent implements OnInit {
       res => {
         const result: any = res;
         if (result.errorId == "200") {
-          this.ngOnInit();
           this.userActivat = true;
         } else {
           this.mfaErrMsg = result.errorMsg;
@@ -248,7 +246,6 @@ export class ServicesComponent implements OnInit {
       res => {
         const result: any = res;
         if (result.errorId == "200") {
-          this.ngOnInit();
           this.userSuspend = true;
         } else {
           this.mfaErrMsg = result.errorMsg;
@@ -276,7 +273,6 @@ export class ServicesComponent implements OnInit {
       res => {
         const result: any = res;
         if (result.errorId == "200") {
-          this.ngOnInit();
           console.log("userBypassed")
           this.userBypassed = true;
         } else {
@@ -297,15 +293,15 @@ export class ServicesComponent implements OnInit {
     this.menuService.onItemClick().subscribe((event) => {
       if (event.item.title === 'ByPass MFA') {
         this.ToggleUserBypass();
-        console.log('ByPass MFA clicked');
+        console.log('ByPass MFA clicked service');
       }
       if (event.item.title === 'Enable User') {
         this.ActivateUser();
-        console.log('Enable User clicked');
+        console.log('Enable User clicked service');
       }
       if (event.item.title === 'Disable User') {
         this.SuspendUser();
-        console.log('Disable User clicked');
+        console.log('Disable User clicked service');
       }
     });
 

@@ -68,7 +68,6 @@ export class HomeComponent implements OnInit {
         console.log(res);
         this.pingidService.unpairDevice(device.deviceId, this.sessionUser.sub).subscribe(
           res => {
-            this.ngOnInit();
           }, error => {
             console.log(error);
           }
@@ -106,7 +105,6 @@ export class HomeComponent implements OnInit {
           closeOnBackdropClick: false
         }).onClose.subscribe(res => {
           if (res) {
-            this.ngOnInit();
           }
         });
       }, error => {
@@ -135,7 +133,6 @@ export class HomeComponent implements OnInit {
             closeOnBackdropClick: false
           }).onClose.subscribe(res => {
             if (res) {
-              this.ngOnInit();
             }
           });
         }, error => {
@@ -171,7 +168,6 @@ export class HomeComponent implements OnInit {
           closeOnBackdropClick: false
         }).onClose.subscribe(res => {
           if (res) {
-            this.ngOnInit();
           }
         });
       }
@@ -187,7 +183,6 @@ export class HomeComponent implements OnInit {
       if (res) {
         this.pingidService.makeDevicePrimary(device.deviceId, this.sessionUser.sub).subscribe(
           res => {
-            this.ngOnInit();
           }, error => {
             console.log(error);
           }
@@ -211,7 +206,6 @@ export class HomeComponent implements OnInit {
       res => {
         const result: any = res;
         if (result.errorId == "200") {
-          this.ngOnInit()
         } else {
           this.mfaErrMsg = result.errorMsg;
         }
@@ -237,7 +231,6 @@ export class HomeComponent implements OnInit {
       res => {
         const result: any = res;
         if (result.errorId == "200") {
-          this.ngOnInit()
         } else {
           this.mfaErrMsg = result.errorMsg;
         }
@@ -264,7 +257,6 @@ export class HomeComponent implements OnInit {
       res => {
         const result: any = res;
         if (result.errorId == "200") {
-          this.ngOnInit();
           console.log("userBypassed")
         } else {
           this.mfaErrMsg = result.errorMsg;
