@@ -1,10 +1,13 @@
 package com.ssportal.be.config;
 
+import com.ssportal.be.controller.LoginController;
 import com.ssportal.be.model.User;
 import com.ssportal.be.utilility.Constants;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -16,6 +19,7 @@ import java.util.function.Function;
 
 @Component
 public class JwtTokenUtil implements Serializable {
+    private static final Logger LOG = LoggerFactory.getLogger ( LoginController.class );
 
     public String getUsernameFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);
@@ -61,17 +65,26 @@ public class JwtTokenUtil implements Serializable {
 
     private String doGenerateToken(User user) {
         user.getUsername ();
+        String admin;
         Claims claims = Jwts.claims().setSubject(user.getUsername());
 
         Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
         claims.put("scopes", authorities);
+        LOG.info ( "Check User details from Saml assertion:" );
+        if(user.getEmail () == null) LOG.error ( "User doesn't have email" );
+        if (user.getAdmin () != null) {
+            admin = user.getAdmin ();
+        } else {
+            admin = "regular";
+        }
 
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuer("Self Service Portal")
                 .claim ( "mail", user.getEmail () )
-                .claim ( "admin", user.getAdmin () )
+                .claim ( "admin", admin )
                 .claim ( "hardToken", user.getHardToken () )
+                .claim ("otpToken", user.getOtpToken () )
                 .claim ( "softToken", user.getSoftToken () )
                 .claim ( "desktopToken", user.getDesktopToken ())
                 .setIssuedAt(new Date(System.currentTimeMillis()))

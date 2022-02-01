@@ -25,6 +25,8 @@ public class User implements Serializable, UserDetails {
     private String softToken;
     private String desktopToken;
 
+    private String otpToken;
+
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
     private Date joinDate;
     private String password;
@@ -53,6 +55,7 @@ public class User implements Serializable, UserDetails {
         this.hardToken = userAttributes.get ( "hardToken" ).toString ();
         this.softToken = userAttributes.get ( "softToken" ).toString ();
         this.desktopToken = userAttributes.get ( "desktopToken" ).toString ();
+        this.otpToken = userAttributes.get("otpToken").toString ();
     }
     public Long getId() {
         return id;
@@ -189,6 +192,11 @@ public class User implements Serializable, UserDetails {
     public void setDesktopToken(String desktopToken) {
         this.desktopToken = desktopToken;
     }
+
+
+    public String getOtpToken() { return otpToken; }
+
+    public void setOtpToken(String otpToken) { this.otpToken = otpToken; }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
