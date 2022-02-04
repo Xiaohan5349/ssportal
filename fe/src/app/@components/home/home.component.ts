@@ -39,6 +39,7 @@ export class HomeComponent implements OnInit {
   softToken: string = "false";
   hardToken: string = "false";
   desktopToken: string = "false";
+  otpToken: string = "false";
   orgUuid = 'dffd9656-dfb8-4a0b-bb35-8590e62984e4';
   idpAccountId
   items = [{ title: 'ByPass MFA' }, { title: 'Enable User' }, { title: 'Disable User' }];
@@ -354,6 +355,7 @@ export class HomeComponent implements OnInit {
     this.softToken = this.sessionUser.softToken;
     this.hardToken = this.sessionUser.hardToken;
     this.desktopToken = this.sessionUser.desktopToken;
+    this.otpToken = this.sessionUser.otpToken;
     console.log(this.AdminStatus);
     console.log(this.sessionUser.sub);
 
