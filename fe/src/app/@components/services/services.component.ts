@@ -35,9 +35,10 @@ export class ServicesComponent implements OnInit {
   userSuspend = false;
   userBypassed = false;
   items = [{ title: 'ByPass MFA' }, { title: 'Enable User' }, { title: 'Disable User' }];
-  softToken: string = "false";
+  softToken: string = "true";
   hardToken: string = "false";
   desktopToken: string = "false";
+  otpToken: string = "true";
 
   constructor(
     private userService: UserService,
