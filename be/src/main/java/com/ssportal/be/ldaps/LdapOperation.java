@@ -31,16 +31,13 @@ public class LdapOperation {
         }
     }
 
-    public LdapUser searchUser(String eisId, String userDN, boolean serviceDesk) throws GeneralSecurityException, IOException, NamingException {
+    public LdapUser searchUser(String bbbyId, String userDN, boolean serviceDesk) throws GeneralSecurityException, IOException, NamingException {
         DirContext context = getContext();
         LdapUser user = null;
         // Configure filter
         String ldapFilter = null;
-        if (serviceDesk) {
-            ldapFilter = this.props.getServiceDeskFilter().replaceAll("_username", eisId);
-        } else {
-            ldapFilter = this.props.getSearchFilter().replaceAll("_username", eisId).replaceAll("_manager", userDN);
-        }
+
+        ldapFilter = this.props.getServiceDeskFilter().replaceAll("_username", bbbyId);
         // Fetch following fields from LDAP
         String[] returnAttr = new String[]{
             this.props.getFirstName(), this.props.getLastName(), this.props.getMail(), this.props.getMemberOf()
@@ -51,7 +48,7 @@ public class LdapOperation {
         NamingEnumeration<SearchResult> results = context.search(props.getSearchBaseDN(), ldapFilter, controls);
         SearchResult result = null;
         if (results.hasMoreElements()) {
-            LOG.info(eisId + " found in LDAP. Fetching user attributes " + Arrays.asList(returnAttr));
+            LOG.info(bbbyId + " found in LDAP. Fetching user attributes " + Arrays.asList(returnAttr));
             result = (SearchResult) results.next();
             if (result.getAttributes() != null) {
                 user = new LdapUser();
@@ -65,7 +62,7 @@ public class LdapOperation {
                 if (resultAttributes.get(this.props.getMail()) != null) {
                     user.setEmailAddress((String) resultAttributes.get(this.props.getMail()).get());
                 }
-                user.setUsername(eisId);
+                user.setUsername(bbbyId);
                 if (resultAttributes.get(this.props.getMemberOf()) != null) {
                     NamingEnumeration ne = resultAttributes.get(this.props.getMemberOf()).getAll();
                     while (ne.hasMore()) {
