@@ -81,6 +81,7 @@ export class ServicesComponent implements OnInit {
             title: 'Register ' + type + ' Device',
             message: 'Please scan the QR code with your PingID ' + type + ' app or input paring code manually.',
             code: this.activationCode,
+            qrcode: 'https://idpxnyl3m.pingidentity.com/pingid/QRRedirection?' + btoa(this.activationCode),
             user: this.user
           },
           hasBackdrop: true,
@@ -203,9 +204,9 @@ export class ServicesComponent implements OnInit {
           5000);
       }
     )
-    this.softToken = this.user.softToken;
-    this.hardToken = this.user.hardToken;
-    this.desktopToken = this.user.desktopToken;
+    //this.softToken = this.user.softToken;
+    //this.hardToken = this.user.hardToken;
+    //this.desktopToken = this.user.desktopToken;
   }
 
   ActivateUser() {
