@@ -1,5 +1,6 @@
 package com.ssportal.be.service.impl;
 
+import com.ssportal.be.model.User;
 import com.ssportal.be.pingid.model.MailForm;
 import com.ssportal.be.service.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.validation.constraints.Email;
+import java.util.HashMap;
 import java.util.Map;
 import freemarker.template.Configuration;
 
@@ -41,6 +43,73 @@ public class MailServiceImpl implements MailService {
         } catch (MessagingException e) {
             e.printStackTrace ();
         }
+    }
+
+    public MailForm buildForm(){
+        MailForm mailForm = new MailForm ();
+        String to = "lixiaohan5349@gmail.com";
+        String subject = "test template";
+        HashMap<String, Object> model = new HashMap<> (  );
+        model.put ( "firstName", "Xiaohan" );
+        model.put ( "lastName", "Li" );
+
+
+        mailForm.setTo ( to );
+        mailForm.setSubject ( subject );
+        mailForm.setModel ( model );
+
+        return mailForm;
+
+    }
+
+    public MailForm buildFormForEnableMFABypass(User adminUser, User user){
+        MailForm mailForm = new MailForm ();
+        String to = user.getEmail ();
+        HashMap<String, Object> model = new HashMap<> (  );
+        model.put ( "firstName", "Xiaohan" );
+        model.put ( "lastName", "Li" );
+
+
+        mailForm.setTo ( to );
+        mailForm.setSubject ( "SECURITY ALERT: MFA Bypass enabled for"+user.getFirstName ()+" "+user.getLastName ());
+        mailForm.setModel ( model );
+
+        return mailForm;
+
+    }
+
+    public MailForm buildFormForRegister(User adminUser, User user, String activationCode){
+        MailForm mailForm = new MailForm ();
+        String to = user.getEmail ();
+        HashMap<String, Object> model = new HashMap<> (  );
+        model.put ("activationCode", activationCode);
+        model.put ( "firstName", "Xiaohan" );
+        model.put ( "lastName", "Li" );
+
+
+        mailForm.setTo ( to );
+        mailForm.setSubject ( );
+        mailForm.setModel ( model );
+
+        return mailForm;
+
+    }
+
+    public MailForm buildFormForUnregister(User adminUser, User user ){
+        MailForm mailForm = new MailForm ();
+        String to = user.getEmail ();
+        HashMap<String, Object> model = new HashMap<> (  );
+        model.put ("activationCode", activationCode);
+        model.put ( "firstName", "Xiaohan" );
+        model.put ( "lastName", "Li" );
+
+
+        mailForm.setTo ( to );
+        mailForm.setSubject ( subject );
+        mailForm.setModel ( model );
+
+        return mailForm;
+
     }
 
     public String getContentFromTemplate(Map<String, Object> model) {

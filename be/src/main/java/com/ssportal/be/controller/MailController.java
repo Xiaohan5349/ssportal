@@ -21,21 +21,8 @@ public class MailController {
 
     @RequestMapping(value = "/mail", method = RequestMethod.GET)
     public String sendMail(){
-        MailForm mailForm = new MailForm ();
-        String to = "lixiaohan5349@gmail.com";
-        String subject = "test template";
-        HashMap<String, Object> model = new HashMap<> (  );
-        model.put ( "firstName", "Xiaohan" );
-        model.put ( "lastName", "Li" );
-
-
-        mailForm.setTo ( to );
-        mailForm.setSubject ( subject );
-        mailForm.setModel ( model );
-
+        MailForm mailForm = mailService.buildForm ();
         mailService.sendEmail ( mailForm );
-
-
 
         return "test";
 
