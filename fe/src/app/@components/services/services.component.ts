@@ -148,15 +148,9 @@ export class ServicesComponent implements OnInit {
   }
 
 
-  testMFA() {
-    for (let i = 0; i < this.deviceList.length; i++) {
-      if (this.deviceList[i].deviceRole.toLowerCase() === 'primary') {
-        this.primaryDevice = this.deviceList[i];
-      }
-    }
-
+  testMFA(testDevice) {
     this.mfaTriggered = true;
-    this.pingidService.testMFA(this.primaryDevice.deviceId, this.user.userName).subscribe(
+    this.pingidService.testMFA(testDevice.deviceId, this.user.sub).subscribe(
       res => {
         const result: any = res;
         if (result.errorMsg) {
@@ -178,6 +172,38 @@ export class ServicesComponent implements OnInit {
       }
     )
   }
+
+/*  testMFA() {
+    for (let i = 0; i < this.deviceList.length; i++) {
+      if (this.deviceList[i].deviceRole.toLowerCase() === 'primary') {
+        this.primaryDevice = this.deviceList[i];
+      }
+    }
+
+    this.mfaTriggered = true;
+    this.pingidService.testMFA(this.primaryDevice.deviceId, this.sessionUser.sub).subscribe(
+      res => {
+        const result: any = res;
+        if (result.errorMsg) {
+          this.mfaRejected = true;
+          this.mfaErrMsg = result.errorMsg;
+          this.mfaTriggered = false;
+        } else {
+          this.mfaApproved = true;
+          this.mfaTriggered = false;
+        }
+
+        setTimeout(() =>
+          {
+            this.clearAlerts();
+          },
+          5000);
+      }, error => {
+        console.log(error);
+      }
+    )
+  }
+*/
 
   clearAlerts() {
     this.mfaRejected = false;

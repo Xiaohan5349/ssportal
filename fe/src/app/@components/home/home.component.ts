@@ -83,6 +83,7 @@ export class HomeComponent implements OnInit {
         this.user = res;
         this.deviceList = this.user.devicesDetails;
         console.log(this.user);
+        console.log(this.deviceList);
       }, error => {
         console.log(error);
       }
@@ -272,7 +273,32 @@ export class HomeComponent implements OnInit {
   }
 
 
-  testMFA() {
+  testMFA(testDevice) {
+    this.mfaTriggered = true;
+    this.pingidService.testMFA(testDevice.deviceId, this.sessionUser.sub).subscribe(
+      res => {
+        const result: any = res;
+        if (result.errorMsg) {
+          this.mfaRejected = true;
+          this.mfaErrMsg = result.errorMsg;
+          this.mfaTriggered = false;
+        } else {
+          this.mfaApproved = true;
+          this.mfaTriggered = false;
+        }
+
+        setTimeout(() =>
+          {
+            this.clearAlerts();
+          },
+          5000);
+      }, error => {
+        console.log(error);
+      }
+    )
+  }
+
+/*  testMFA() {
     for (let i = 0; i < this.deviceList.length; i++) {
       if (this.deviceList[i].deviceRole.toLowerCase() === 'primary') {
         this.primaryDevice = this.deviceList[i];
@@ -302,6 +328,7 @@ export class HomeComponent implements OnInit {
       }
     )
   }
+*/
 
   testWebMFA() {
     for (let i = 0; i < this.deviceList.length; i++) {

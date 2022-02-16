@@ -15,8 +15,8 @@
         <div class="col">
           <p>Status: <strong>{{user?.status}}</strong></p>
           <p>User Enabled: <strong>{{user?.userEnabled}}</strong></p>
-          <p>Last Login: <strong>{{user?.lastLogin | date:'medium'}}</strong></p>
-          <p>User Bypass: <strong>{{user?.userInBypass}}</strong></p>
+         <!--  <p>Last Login: <strong>{{user?.lastLogin | date:'medium'}}</strong></p>
+          <p>User Bypass: <strong>{{user?.userInBypass}}</strong></p> -->
         </div>
       </div>
     </nb-card-body>
@@ -48,6 +48,7 @@
 <!--                <nb-icon icon="trash" class="action-icon" (click)="unpairDevice(deviceDetail)"></nb-icon>-->
                 <button nbButton outline status="danger" size="small" (click)="unpairDevice(deviceDetail)" class="mr-1">Unpair</button>
                 <button [hidden]="deviceDetail?.deviceRole?.toLowerCase() === 'primary'" nbButton outline status="primary" size="small" (click)="makeDevicePrimary(deviceDetail)" class="mr-1">Make Primary</button>
+                <button nbButton outline status="warning" size="small" (click)="testMFA(deviceDetail)" class="mr-1">Test MFA</button>
               </td>
             </tr>
             </tbody>
@@ -64,12 +65,14 @@
       <button nbButton *ngIf="hardToken=='true'" outline status="primary"  (click)="yubikeyStartPairing()"class="mr-1" size="small">
         <nb-icon icon="hard-drive" outline status="info" class="mr-1" ></nb-icon>
         Register YubiKey </button>
+<!--      
       <button hidden nbButton outline status="success" (click)="testMFA()" class="mr-1" [disabled]="!deviceList" size="small">
         <nb-icon icon="smartphone" outline status="success" class="mr-1" ></nb-icon>
         Test MFA</button>
       <button hidden nbButton outline status="warning" (click)="testWebMFA()" class="mr-1" [disabled]="!deviceList" size="small">
         <nb-icon icon="browser" outline status="warning" class="mr-1" ></nb-icon>
         Test Web MFA</button>
+--> 
       <button hidden *ngIf="AdminStatus=='admin'" nbButton outline status="warning" (click)="ToggleUserBypass()" class="mr-1" size="small">
         <nb-icon icon="browser" outline status="warning" class="mr-1" ></nb-icon>
         ByPass MFA</button>
