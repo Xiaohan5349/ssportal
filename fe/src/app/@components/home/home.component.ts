@@ -95,6 +95,7 @@ export class HomeComponent implements OnInit {
       res => {
         const result: any = res;
         this.activationCode = result.activationCode;
+        console.log(this.activationCode);
         this.dialogService.open(HomeQrCodeComponent, {
           context: {
             title: 'Register ' + type + ' Device',
