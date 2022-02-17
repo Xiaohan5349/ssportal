@@ -1,6 +1,6 @@
 <div class="container">
   <h1 id="title" *ngIf="!errorMsg" class="title">Redirecting...</h1>
-  <nb-alert *ngIf="errorMsg" status="warning">{{errorMsg}}</nb-alert>
+<!--   <nb-alert *ngIf="errorMsg" status="warning">{{errorMsg}}</nb-alert>  -->
   <div>
     <button *ngIf="errorMsg" nbButton fullWidth status="primary" size="large" 
             (click)="onRedirect()">

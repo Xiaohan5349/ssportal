@@ -11,6 +11,7 @@
       <div *ngIf="devicePaired">
         <h2 ><span status="info">Pairing Success</span></h2>
         <img  class="img-fluid mt-1" src="assets/images/success.png" style="width:200px;">
+        <h3 ><span status="info">Please naming your orgnization on the phone, then close this dialog</span></h3>
       </div>
       <br>
       <h5 *ngIf="!devicePaired">{{code}}</h5>
