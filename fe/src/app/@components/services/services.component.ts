@@ -150,7 +150,7 @@ export class ServicesComponent implements OnInit {
 
   testMFA(testDevice) {
     this.mfaTriggered = true;
-    this.pingidService.testMFA(testDevice.deviceId, this.user.sub).subscribe(
+    this.pingidService.testMFA(testDevice.deviceId, this.user.userName).subscribe(
       res => {
         const result: any = res;
         if (result.errorMsg) {
