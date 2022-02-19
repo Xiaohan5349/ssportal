@@ -69,7 +69,7 @@ import { HomeYubikeyInputComponent } from './@components/home/home-yubikey-input
     NbDialogModule.forRoot(),
     NbSidebarModule.forRoot(),
     NbMenuModule.forRoot(),
-    NbThemeModule.forRoot(),
+    NbThemeModule.forRoot({name: 'corporate'}),
     NbInputModule,
     NbButtonModule,
     NbLayoutModule,
