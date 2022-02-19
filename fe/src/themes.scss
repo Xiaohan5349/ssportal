@@ -1,9 +1,11 @@
 @import '~@nebular/theme/styles/theming';
 @import '~@nebular/theme/styles/themes/corporate';
 
+
 $nb-themes: nb-register-theme((
 
   // add your variables here like:
+  footer-background-color: background-alternative-color-1,
   background-alternative-color-1: #ffffff,
   text-alternative-color: #222b45,
   //background-basic-color-2: #598bff,
@@ -24,6 +26,8 @@ $nb-themes: nb-register-theme((
 
   // add your variables here like:
   //background-basic-color-2: #598bff,
+  footer-background-color: background-alternative-color-1,
+  footer-text-color: text-alternative-color,
   background-alternative-color-1: #598bff,
   text-alternative-color: #ffffff,
   //color-basic-100: #598bff,
