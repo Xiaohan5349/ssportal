@@ -56,6 +56,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api-docs",
                         "/saml-acs/**",
                         "/login/**",
+                        "/*.jpg",
                         "/**.js",
                         "/**.css",
                         "/configuration/ui",

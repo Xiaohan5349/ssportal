@@ -3,17 +3,19 @@ package com.ssportal.be.pingid.model;
 import java.util.Map;
 
 public class MailForm {
-    String to;
+    String[] to;
     String from;
-    String cc;
-    String bcc;
+    String[] cc;
+    String[] bcc;
     String subject;
     String content;
+    String name;
+    String templateName;
 
 
     public MailForm(){
         this.from = "testSender@gmail.com";
-        this.cc = "chaopeng.hu@authright.com";
+        this.cc = new String[]{"chaopeng.hu@authright.com"};
     }
     public Map<String, Object> getModel() {
         return model;
@@ -26,11 +28,11 @@ public class MailForm {
     private Map<String, Object> model;
 
 
-    public String getTo() {
+    public String[] getTo() {
         return to;
     }
 
-    public void setTo(String to) {
+    public void setTo(String[] to) {
         this.to = to;
     }
 
@@ -42,19 +44,19 @@ public class MailForm {
         this.from = from;
     }
 
-    public String getCc() {
+    public String[] getCc() {
         return cc;
     }
 
-    public void setCc(String cc) {
+    public void setCc(String[] cc) {
         this.cc = cc;
     }
 
-    public String getBcc() {
+    public String[] getBcc() {
         return bcc;
     }
 
-    public void setBcc(String bcc) {
+    public void setBcc(String[] bcc) {
         this.bcc = bcc;
     }
 
@@ -72,6 +74,23 @@ public class MailForm {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+
+    public String getTemplateName() {
+        return templateName;
+    }
+
+    public void setTemplateName(String templateName) {
+        this.templateName = templateName;
     }
 
 }
