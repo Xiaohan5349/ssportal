@@ -42,7 +42,7 @@ export class HomeComponent implements OnInit {
   otpToken: string = "false";
   orgUuid = 'dffd9656-dfb8-4a0b-bb35-8590e62984e4';
   idpAccountId
-  items = [{ title: 'ByPass MFA' }, { title: 'Enable User' }, { title: 'Disable User' }];
+//  items = [{ title: 'ByPass MFA' }, { title: 'Enable User' }, { title: 'Disable User' }];
 
 //need modify this page to display correct user info. user info from jwt should consist with user info in PingID
 
@@ -364,20 +364,20 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.menuService.onItemClick().subscribe((event) => {
-      if (event.item.title === 'ByPass MFA') {
-        this.ToggleUserBypass();
-        console.log('ByPass MFA clicked');
-      }
-      if (event.item.title === 'Enable User') {
-        this.ActivateUser();
-        console.log('Enable User clicked');
-      }
-      if (event.item.title === 'Disable User') {
-        this.SuspendUser();
-        console.log('Disable User clicked');
-      }
-    });
+    // this.menuService.onItemClick().subscribe((event) => {
+    //   if (event.item.title === 'ByPass MFA') {
+    //     this.ToggleUserBypass();
+    //     console.log('ByPass MFA clicked');
+    //   }
+    //   if (event.item.title === 'Enable User') {
+    //     this.ActivateUser();
+    //     console.log('Enable User clicked');
+    //   }
+    //   if (event.item.title === 'Disable User') {
+    //     this.SuspendUser();
+    //     console.log('Disable User clicked');
+    //   }
+    // });
     this.getUserDetails();
     this.AdminStatus = this.jwtAuth.getAdmin();
     this.softToken = this.sessionUser.softToken;
