@@ -48,7 +48,8 @@
 <!--                <nb-icon icon="trash" class="action-icon" (click)="unpairDevice(deviceDetail)"></nb-icon>-->
                 <button nbButton outline status="danger" size="small" (click)="unpairDevice(deviceDetail)" class="mr-1">Unpair</button>
                 <button [hidden]="deviceDetail?.deviceRole?.toLowerCase() === 'primary'" nbButton outline status="primary" size="small" (click)="makeDevicePrimary(deviceDetail)" class="mr-1">Make Primary</button>
-                <button nbButton outline status="warning" size="small" (click)="testMFA(deviceDetail)" class="mr-1">Test MFA</button>
+                <button [hidden]="deviceDetail?.deviceRole?.toLowerCase() === 'android'" nbButton outline status="warning" size="small" (click)="testMFA(deviceDetail)" class="mr-1">Test MFA</button>
+                <button [hidden]="deviceDetail?.deviceRole?.toLowerCase() === 'iphone'" nbButton outline status="warning" size="small" (click)="testMFA(deviceDetail)" class="mr-1">Test MFA</button>
               </td>
             </tr>
             </tbody>
