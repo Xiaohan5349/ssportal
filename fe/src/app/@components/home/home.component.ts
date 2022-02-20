@@ -96,21 +96,35 @@ export class HomeComponent implements OnInit {
         const result: any = res;
         this.activationCode = result.activationCode;
         console.log(this.activationCode);
-        this.dialogService.open(HomeQrCodeComponent, {
-          context: {
-            title: 'Register ' + type + ' Device',
-            message: 'Please scan the QR code with your PingID ' + type + ' app or input paring code manually.',
-            code: this.activationCode,
-            qrcode: 'https://idpxnyl3m.pingidentity.com/pingid/QRRedirection?' + btoa(this.activationCode),
-            user: this.sessionUser
-          },
-          hasBackdrop: true,
-          closeOnBackdropClick: false
-        }).onClose.subscribe(res => {
-          if (res) {
-          }
-        });
-      }, error => {
+        if (this.activationCode) {
+          this.dialogService.open(HomeQrCodeComponent, {
+            context: {
+              title: 'Register ' + type + ' Device',
+              message: 'Please scan the QR code with your PingID ' + type + ' app or input paring code manually.',
+              code: this.activationCode,
+              qrcode: 'https://idpxnyl3m.pingidentity.com/pingid/QRRedirection?' + btoa(this.activationCode),
+              user: this.sessionUser
+            },
+            hasBackdrop: true,
+            closeOnBackdropClick: false
+          }).onClose.subscribe(res => {
+            if (res) {
+            }
+          });
+        } else {
+          this.dialogService.open(HomeDialogComponent, {
+            context: {
+              title: 'Max Number of Device',
+              message: 'You have reach MAX number of device'
+            },
+            hasBackdrop: true,
+          }).onClose.subscribe(res => {
+            if (res) {
+                }
+              }
+              )
+        }
+        }, error => {
         console.log(error);
       }
     )
@@ -123,6 +137,8 @@ export class HomeComponent implements OnInit {
           this.pairingKeyUri = result.pairingKeyUri;
           this.pairingKey = result.pairingKey;
           this.sessionId = result.sessionId;
+          console.log(this.pairingKey);
+          if(this.pairingKey){
           this.dialogService.open(HomeQrCodeGoogleComponent, {
             context: {
               title: 'Register ' + ' Authenticator',
@@ -138,6 +154,19 @@ export class HomeComponent implements OnInit {
             if (res) {
             }
           });
+        } else {
+          this.dialogService.open(HomeDialogComponent, {
+            context: {
+              title: 'Max Number of Device',
+              message: 'You have reach MAX number of device'
+            },
+            hasBackdrop: true,
+          }).onClose.subscribe(res => {
+            if (res) {
+                }
+              }
+              )
+        }
         }, error => {
           console.log(error);
         }
