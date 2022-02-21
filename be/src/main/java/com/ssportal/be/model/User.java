@@ -4,10 +4,16 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ssportal.be.model.security.Authority;
 import com.ssportal.be.model.security.UserRole;
+import com.ssportal.be.pingid.model.Operation;
+import com.ssportal.be.pingid.model.PingIdProperties;
+import com.ssportal.be.pingid.service.PingIdOperationService;
+import com.ssportal.be.pingid.service.impl.PingIdOperationServiceImpl;
 import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.*;
 
@@ -27,6 +33,11 @@ public class User implements Serializable, UserDetails {
 
     private String otpToken;
 
+
+    private PingIdOperationService pingIdOperationService;
+    private PingIdProperties pingIdProperties;
+
+
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
     private Date joinDate;
     private String password;
@@ -38,6 +49,7 @@ public class User implements Serializable, UserDetails {
     private String phone;
     private String fax;
     private String username;
+    private String deviceId;
 
 
     private String admin;
@@ -46,6 +58,22 @@ public class User implements Serializable, UserDetails {
     private Date birthday;
 
     public User(){}
+
+    public User(String Username) throws IOException {
+
+        PingIdProperties pingidprops = new PingIdProperties();
+        pingidprops.setProperties ( 0 );
+        pingIdOperationService = new PingIdOperationServiceImpl ();
+        Operation operation = new Operation(pingidprops.getOrgAlias(), pingidprops.getPingid_token(), pingidprops.getPingid_use_base64_key(), pingidprops.getApi_url());
+        operation.setTargetUser(Username);
+        JSONObject userDetails = pingIdOperationService.getUserDetails(operation);
+
+        this.firstName = userDetails.get ( "fname" ).toString ();
+        this.lastName = userDetails.get ( "lname" ).toString ();
+        this.email = userDetails.get ( "email" ).toString ();
+
+
+    }
     public User(JSONObject userAttributes){
         this.username = userAttributes.get ( "subject" ).toString ();
         this.email = userAttributes.get ( "mail" ).toString ();
@@ -197,6 +225,15 @@ public class User implements Serializable, UserDetails {
     public String getOtpToken() { return otpToken; }
 
     public void setOtpToken(String otpToken) { this.otpToken = otpToken; }
+
+
+    public String getDeviceId() {
+        return deviceId;
+    }
+
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

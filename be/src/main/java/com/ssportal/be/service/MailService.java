@@ -12,7 +12,7 @@ public interface MailService {
     public MailForm buildForm();
     public MailForm buildFormForSelfRegister(User user);
     public MailForm buildFormForSelfUnregister(User user);
-    public MailForm buildFormForRegister(User adminUser, User user, String activationCode);
+    public MailForm buildFormForRegister(User adminUser, User user);
     public MailForm buildFormForUnregister(User adminUser, User user );
     public MailForm buildFormForBypass(User adminUser, User user);
     public MailForm buildFormForEnableUser(User adminUser, User user);

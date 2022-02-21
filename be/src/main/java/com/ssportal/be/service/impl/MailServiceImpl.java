@@ -66,7 +66,6 @@ public class MailServiceImpl implements MailService {
         model.put ( "firstName", user.getFirstName () );
         model.put ( "lastName", user.getLastName () );
 
-
         mailForm.setTo ( tos );
         mailForm.setSubject ( mailProperties.getSubjectPairDeviceSelf ());
         mailForm.setModel ( model );
@@ -97,7 +96,7 @@ public class MailServiceImpl implements MailService {
 
 
     @Override
-    public MailForm buildFormForRegister(User adminUser, User user, String activationCode){
+    public MailForm buildFormForRegister(User adminUser, User user){
         MailForm mailForm = new MailForm ();
         mailForm.setName ( "pairdevice" );
         mailForm.setTemplateName ( "pairdevice.html" );
@@ -215,7 +214,6 @@ public class MailServiceImpl implements MailService {
             mimeMessageHelper.setSubject ( mail.getSubject () );
             mimeMessageHelper.setFrom ( mail.getFrom () );
             mimeMessageHelper.setTo ( mail.getTo () );
-            mimeMessageHelper.setCc ( mail.getCc () );
 
 
             mail.setContent ( getContentFromTemplate ( mail.getModel (), mail.getTemplateName () ));

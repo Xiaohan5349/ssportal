@@ -14,8 +14,7 @@ public class MailForm {
 
 
     public MailForm(){
-        this.from = "testSender@gmail.com";
-        this.cc = new String[]{"chaopeng.hu@authright.com"};
+        this.from = "pingtest@gmail.com";
     }
     public Map<String, Object> getModel() {
         return model;
