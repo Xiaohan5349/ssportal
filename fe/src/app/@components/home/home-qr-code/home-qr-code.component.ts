@@ -1,3 +1,4 @@
+import {mailService} from './../../../@core/services/mail.service';
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NbDialogRef} from "@nebular/theme";
 import {HttpClient} from "@angular/common/http";
@@ -5,7 +6,6 @@ import {Subscription, timer} from "rxjs";
 import {switchMap} from "rxjs/operators";
 import {PingIdService} from "../../../@core/services/pingid.service";
 import {environment} from "../../../../environments/environment";
-
 
 @Component({
   selector: 'app-home-qr-code',
@@ -22,8 +22,9 @@ export class HomeQrCodeComponent implements OnInit, OnDestroy {
   devicePaired = false;
   userName;
   mailTask;
+  adminUser;
 
-  constructor(private dialogRef: NbDialogRef<any>, private pingidService: PingIdService, private http: HttpClient) {
+  constructor(private dialogRef: NbDialogRef<any>, private pingidService: PingIdService, private http: HttpClient, private mailService: mailService) {
   }
 
   closeDialog(res) {
@@ -42,12 +43,19 @@ export class HomeQrCodeComponent implements OnInit, OnDestroy {
       if (result.pairingStatus.toLowerCase() === 'paired') {
         this.pairingStatusSubscription.unsubscribe();
         this.devicePaired = true;
-        this.http.get(`${environment.apiURL}/mail/self?user=${this.userName}&task=${this.mailTask}`).subscribe(res => {
-          });
-        console.log(this.userName);
-        console.log(this.mailTask);
-        console.log("email sent");
-        //this.http.get(`http://localhost:8080/sso/mail/self?user=user.12&task=pairdeviceself`)
+        if (this.mailTask=="pairdeviceself") {
+          this.mailService.selfServiceMail(this.userName,this.mailTask);
+        } else if (this.mailTask=="pairdevice"){
+          this.mailService.adminServiceMail(this.userName,this.mailTask,this.adminUser);
+        //   this.http.get(`${environment.apiURL}/mail?user=${this.userName}&task=${this.mailTask}&admin=${this.adminUser}`).subscribe(res => {
+        //   });
+        // console.log(this.userName);
+        // console.log(this.mailTask);
+        // console.log(this.adminUser);
+        // console.log("admin email sent");
+        } else{
+          console.log("Email gose wrong!!");
+        }
       }
     }, error => {
       console.log(error)

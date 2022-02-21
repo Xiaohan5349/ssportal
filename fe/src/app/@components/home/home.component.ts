@@ -1,3 +1,4 @@
+import { mailService } from './../../@core/services/mail.service';
 import { AppConst } from './../../@core/utils/app-const';
 import { environment } from './../../../environments/environment';
 import { HomeYubikeyInputComponent } from './home-yubikey-input/home-yubikey-input.component';
@@ -54,7 +55,8 @@ export class HomeComponent implements OnInit {
     private pingidService: PingIdService,
     private http: HttpClient,
     private jwtAuth: JwtAuthService,
-    private menuService: NbMenuService
+    private menuService: NbMenuService,
+    private mailService: mailService
   ) {
     this.sessionUser = jwtAuth.getUser();
   }
@@ -76,6 +78,8 @@ export class HomeComponent implements OnInit {
           console.log(this.sessionUser.sub);
           console.log(AppConst.MAIL_TASK_selfUnPair);
           console.log("email sent");  
+          // leave this one for testing need to be changed
+          // this.mailService.selfServiceMail(this.sessionUser.sub,AppConst.MAIL_TASK_selfUnPair);
             this.getUserDetails();
           }, error => {
             console.log(error);

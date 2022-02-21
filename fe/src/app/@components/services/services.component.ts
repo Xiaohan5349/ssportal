@@ -1,3 +1,4 @@
+import { mailService } from './../../@core/services/mail.service';
 import { Component, OnInit } from '@angular/core';
 import {UserService} from "../../@core/services/user.service";
 import {NbDialogService} from "@nebular/theme";
@@ -10,7 +11,6 @@ import {JwtAuthService} from "../../@core/services/jwt-auth.service";
 import {NbMenuService} from '@nebular/theme';
 import { AppConst } from './../../@core/utils/app-const';
 import { environment } from './../../../environments/environment';
-
 
 @Component({
   selector: 'app-services',
@@ -39,9 +39,10 @@ export class ServicesComponent implements OnInit {
   userBypassed = false;
   items = [{ title: 'ByPass MFA' }, { title: 'Enable User' }, { title: 'Disable User' }];
   softToken: string = "true";
-  hardToken: string = "false";
+  hardToken: string = "true";
   desktopToken: string = "true";
   otpToken: string = "true";
+  sessionUser;
 
   constructor(
     private userService: UserService,
@@ -49,8 +50,10 @@ export class ServicesComponent implements OnInit {
     private dialogService: NbDialogService,
     private pingidService: PingIdService,
     private http: HttpClient,
-    private menuService: NbMenuService
+    private menuService: NbMenuService,
+    private mailService: mailService
   ) {
+    this.sessionUser = jwtAuth.getUser();
   }
 
   unpairDevice(device) {
@@ -65,11 +68,13 @@ export class ServicesComponent implements OnInit {
         console.log(res);
         this.pingidService.unpairDevice(device.deviceId, this.user.userName).subscribe(
           res => {
-            this.http.get(`${environment.apiURL}/mail/self?user=${this.user.userName}&task=${AppConst.MAIL_TASK_helpDeskUnPair}`).subscribe(res => {
-            });
-          console.log(this.user.userName);
-          console.log(AppConst.MAIL_TASK_helpDeskUnPair);
-          console.log("email sent");  
+            this.mailService.adminServiceMail(this.user.userName,AppConst.MAIL_TASK_helpDeskUnPair,this.sessionUser.sub);
+          //   this.http.get(`${environment.apiURL}/mail?user=${this.user.userName}&task=${AppConst.MAIL_TASK_helpDeskUnPair}&admin=${this.sessionUser.sub}`).subscribe(res => {
+          //   });
+          // console.log(this.user.userName);
+          // console.log(AppConst.MAIL_TASK_helpDeskUnPair);
+          // console.log(this.sessionUser.sub);
+          // console.log("admin email sent");  
             this.searchUser();
           }, error => {
             console.log(error);
@@ -94,6 +99,7 @@ export class ServicesComponent implements OnInit {
             qrcode: 'https://idpxnyl3m.pingidentity.com/pingid/QRRedirection?' + btoa(this.activationCode),
             userName: this.user.userName,
             mailTask: AppConst.MAIL_TASK_helpDeskPair,
+            adminUser: this.sessionUser.sub,
           },
           hasBackdrop: true,
           closeOnBackdropClick: false
@@ -288,11 +294,12 @@ export class ServicesComponent implements OnInit {
         const result: any = res;
         if (result.errorId == "200") {
           this.userActivat = true;
-          this.http.get(`${environment.apiURL}/mail/self?user=${this.user.userName}&task=${AppConst.MAIL_TASK_enable}`).subscribe(res => {
-          });
-        console.log(this.user.userName);
-        console.log(AppConst.MAIL_TASK_enable);
-        console.log("email sent");  
+          this.mailService.adminServiceMail(this.user.userName,AppConst.MAIL_TASK_enable,this.sessionUser.sub);
+        //   this.http.get(`${environment.apiURL}/mail?user=${this.user.userName}&task=${AppConst.MAIL_TASK_enable}&admin=${this.sessionUser.sub}`).subscribe(res => {
+        //   });
+        // console.log(this.user.userName);
+        // console.log(AppConst.MAIL_TASK_enable);
+        // console.log("admin email sent");  
           this.searchUser();
         } else {
           this.mfaErrMsg = result.errorMsg;
@@ -320,11 +327,12 @@ export class ServicesComponent implements OnInit {
         const result: any = res;
         if (result.errorId == "200") {
           this.userSuspend = true;
-          this.http.get(`${environment.apiURL}/mail/self?user=${this.user.userName}&task=${AppConst.MAIL_TASK_disable}`).subscribe(res => {
-          });
-        console.log(this.user.userName);
-        console.log(AppConst.MAIL_TASK_disable);
-        console.log("email sent");  
+          this.mailService.adminServiceMail(this.user.userName,AppConst.MAIL_TASK_disable,this.sessionUser.sub);
+        //   this.http.get(`${environment.apiURL}/mail?user=${this.user.userName}&task=${AppConst.MAIL_TASK_disable}&admin=${this.sessionUser.sub}`).subscribe(res => {
+        //   });
+        // console.log(this.user.userName);
+        // console.log(AppConst.MAIL_TASK_disable);
+        // console.log("admin email sent");  
           this.searchUser();
         } else {
           this.mfaErrMsg = result.errorMsg;
@@ -354,11 +362,12 @@ export class ServicesComponent implements OnInit {
         if (result.errorId == "200") {
           console.log("userBypassed")
           this.userBypassed = true;
-          this.http.get(`${environment.apiURL}/mail/self?user=${this.user.userName}&task=${AppConst.MAIL_TASK_bypass}`).subscribe(res => {
-          });
-        console.log(this.user.userName);
-        console.log(AppConst.MAIL_TASK_bypass);
-        console.log("email sent");  
+          this.mailService.adminServiceMail(this.user.userName,AppConst.MAIL_TASK_bypass,this.sessionUser.sub);
+        //   this.http.get(`${environment.apiURL}/mail?user=${this.user.userName}&task=${AppConst.MAIL_TASK_bypass}&admin=${this.sessionUser.sub}`).subscribe(res => {
+        //   });
+        // console.log(this.user.userName);
+        // console.log(AppConst.MAIL_TASK_bypass);
+        // console.log("admin email sent");  
           this.searchUser();
         } else {
           this.mfaErrMsg = result.errorMsg;
