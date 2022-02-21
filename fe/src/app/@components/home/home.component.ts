@@ -69,6 +69,7 @@ export class HomeComponent implements OnInit {
         console.log(res);
         this.pingidService.unpairDevice(device.deviceId, this.sessionUser.sub).subscribe(
           res => {
+            this.getUserDetails();
           }, error => {
             console.log(error);
           }
@@ -103,7 +104,7 @@ export class HomeComponent implements OnInit {
               message: 'Please scan the QR code with your PingID ' + type + ' app or input paring code manually.',
               code: this.activationCode,
               qrcode: 'https://idpxnyl3m.pingidentity.com/pingid/QRRedirection?' + btoa(this.activationCode),
-              user: this.sessionUser
+              userName: this.sessionUser.sub
             },
             hasBackdrop: true,
             closeOnBackdropClick: false
@@ -153,6 +154,7 @@ export class HomeComponent implements OnInit {
             closeOnBackdropClick: false
           }).onClose.subscribe(res => {
             if (res) {
+              this.getUserDetails();
             }
           });
         } else {
@@ -201,6 +203,7 @@ export class HomeComponent implements OnInit {
           closeOnBackdropClick: false
         }).onClose.subscribe(res => {
           if (res) {
+            this.getUserDetails();
           }
         });
       }
@@ -216,6 +219,7 @@ export class HomeComponent implements OnInit {
       if (res) {
         this.pingidService.makeDevicePrimary(device.deviceId, this.sessionUser.sub).subscribe(
           res => {
+            this.getUserDetails();
           }, error => {
             console.log(error);
           }

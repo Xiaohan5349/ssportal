@@ -84,7 +84,7 @@ export class ServicesComponent implements OnInit {
             message: 'Please scan the QR code with your PingID ' + type + ' app or input paring code manually.',
             code: this.activationCode,
             qrcode: 'https://idpxnyl3m.pingidentity.com/pingid/QRRedirection?' + btoa(this.activationCode),
-            user: this.user
+            userName: this.user.userName
           },
           hasBackdrop: true,
           closeOnBackdropClick: false

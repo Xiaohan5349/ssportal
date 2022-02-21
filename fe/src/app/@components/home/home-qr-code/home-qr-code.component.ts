@@ -20,7 +20,7 @@ export class HomeQrCodeComponent implements OnInit, OnDestroy {
   qrText;
   pairingStatusSubscription: Subscription;
   devicePaired = false;
-  user;
+  userName;
 
   constructor(private dialogRef: NbDialogRef<any>, private pingidService: PingIdService, private http: HttpClient) {
   }
@@ -35,15 +35,15 @@ export class HomeQrCodeComponent implements OnInit, OnDestroy {
     this.qrText = this.qrcode;
 
     this.pairingStatusSubscription = timer(0, 3000).pipe(
-      switchMap(() => this.pingidService.checkPairingStatus(this.code, this.user.username))
+      switchMap(() => this.pingidService.checkPairingStatus(this.code, this.userName))
     ).subscribe(res => {
       const result:any = res;
       if (result.pairingStatus.toLowerCase() === 'paired') {
         this.pairingStatusSubscription.unsubscribe();
         this.devicePaired = true;
-        this.http.get(`${environment.apiURL}/mail/self?user=${this.user.sub}&task=pairdeviceself`).subscribe(res => {
+        this.http.get(`${environment.apiURL}/mail/self?user=${this.userName}&task=pairdeviceself`).subscribe(res => {
           });
-        console.log(this.user.sub);
+        console.log(this.userName);
         console.log("email sent");
         //this.http.get(`http://localhost:8080/sso/mail/self?user=user.12&task=pairdeviceself`)
       }
