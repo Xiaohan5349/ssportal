@@ -4,6 +4,8 @@ import {HttpClient} from "@angular/common/http";
 import {Subscription, timer} from "rxjs";
 import {switchMap} from "rxjs/operators";
 import {PingIdService} from "../../../@core/services/pingid.service";
+import {environment} from "../../../../environments/environment";
+
 
 @Component({
   selector: 'app-home-qr-code',
@@ -39,8 +41,8 @@ export class HomeQrCodeComponent implements OnInit, OnDestroy {
       if (result.pairingStatus.toLowerCase() === 'paired') {
         this.pairingStatusSubscription.unsubscribe();
         this.devicePaired = true;
-        //this.http.get(`${environment.apiURL}/authenticate?REF=${this.REF}`)
-        this.http.get(`http://localhost:8080/sso/mail/self?user=user.12&task=pairdeviceself`)
+        this.http.get(`${environment.apiURL}/mail/self?user=${this.user.sub}&task=pairdeviceself`)
+        //this.http.get(`http://localhost:8080/sso/mail/self?user=user.12&task=pairdeviceself`)
       }
     }, error => {
       console.log(error)
