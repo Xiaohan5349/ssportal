@@ -109,6 +109,7 @@ export class HomeComponent implements OnInit {
             closeOnBackdropClick: false
           }).onClose.subscribe(res => {
             if (res) {
+              this.getUserDetails();
             }
           });
         } else {
