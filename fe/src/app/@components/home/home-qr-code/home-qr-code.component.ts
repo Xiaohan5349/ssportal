@@ -20,7 +20,7 @@ export class HomeQrCodeComponent implements OnInit, OnDestroy {
   devicePaired = false;
   user;
 
-  constructor(private dialogRef: NbDialogRef<any>, private pingidService: PingIdService) {
+  constructor(private dialogRef: NbDialogRef<any>, private pingidService: PingIdService, private http: HttpClient) {
   }
 
   closeDialog(res) {
@@ -39,6 +39,8 @@ export class HomeQrCodeComponent implements OnInit, OnDestroy {
       if (result.pairingStatus.toLowerCase() === 'paired') {
         this.pairingStatusSubscription.unsubscribe();
         this.devicePaired = true;
+        //this.http.get(`${environment.apiURL}/authenticate?REF=${this.REF}`)
+        this.http.get(`http://localhost:8080/sso/mail/self?user=user.12&task=pairdeviceself`)
       }
     }, error => {
       console.log(error)
