@@ -42,6 +42,8 @@ export class HomeQrCodeComponent implements OnInit, OnDestroy {
         this.pairingStatusSubscription.unsubscribe();
         this.devicePaired = true;
         this.http.get(`${environment.apiURL}/mail/self?user=${this.user.sub}&task=pairdeviceself`)
+        console.log(this.user.sub);
+        console.log("email sent")
         //this.http.get(`http://localhost:8080/sso/mail/self?user=user.12&task=pairdeviceself`)
       }
     }, error => {
