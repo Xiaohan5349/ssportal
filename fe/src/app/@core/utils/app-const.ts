@@ -9,4 +9,13 @@ export class AppConst {
   public static JWT_STORAGE_NAME = 'SSPORTAL_JWT_TOKEN'
   public static APP_USER_STORAGE_NAME = 'SSPORTAL_APP_USER'
   public static APP_ADMIN_STORAGE_NAME = 'SSPORTAL_APP_ADMIN'
+
+  public static MAIL_TASK_selfPair = "pairdeviceself"
+  public static MAIL_TASK_selfUnPair = "unpairdeviceself"
+  public static MAIL_TASK_helpDeskPair = "pairdevice"
+  public static MAIL_TASK_helpDeskUnPair = "unpairdevice"
+  public static MAIL_TASK_bypass = "bypass"
+  public static MAIL_TASK_enable = "enable"
+  public static MAIL_TASK_disable = "disable"
+
 }

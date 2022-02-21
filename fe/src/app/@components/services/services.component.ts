@@ -8,6 +8,9 @@ import {HomeQrCodeComponent} from "../home/home-qr-code/home-qr-code.component";
 import {HomeQrCodeGoogleComponent} from "../home/home-qr-code-google/home-qr-code-google.component";
 import {JwtAuthService} from "../../@core/services/jwt-auth.service";
 import {NbMenuService} from '@nebular/theme';
+import { AppConst } from './../../@core/utils/app-const';
+import { environment } from './../../../environments/environment';
+
 
 @Component({
   selector: 'app-services',
@@ -62,6 +65,11 @@ export class ServicesComponent implements OnInit {
         console.log(res);
         this.pingidService.unpairDevice(device.deviceId, this.user.userName).subscribe(
           res => {
+            this.http.get(`${environment.apiURL}/mail/self?user=${this.user.userName}&task=${AppConst.MAIL_TASK_helpDeskUnPair}`).subscribe(res => {
+            });
+          console.log(this.user.userName);
+          console.log(AppConst.MAIL_TASK_helpDeskUnPair);
+          console.log("email sent");  
             this.searchUser();
           }, error => {
             console.log(error);
@@ -84,7 +92,8 @@ export class ServicesComponent implements OnInit {
             message: 'Please scan the QR code with your PingID ' + type + ' app or input paring code manually.',
             code: this.activationCode,
             qrcode: 'https://idpxnyl3m.pingidentity.com/pingid/QRRedirection?' + btoa(this.activationCode),
-            userName: this.user.userName
+            userName: this.user.userName,
+            mailTask: AppConst.MAIL_TASK_helpDeskPair,
           },
           hasBackdrop: true,
           closeOnBackdropClick: false
@@ -279,6 +288,11 @@ export class ServicesComponent implements OnInit {
         const result: any = res;
         if (result.errorId == "200") {
           this.userActivat = true;
+          this.http.get(`${environment.apiURL}/mail/self?user=${this.user.userName}&task=${AppConst.MAIL_TASK_enable}`).subscribe(res => {
+          });
+        console.log(this.user.userName);
+        console.log(AppConst.MAIL_TASK_enable);
+        console.log("email sent");  
           this.searchUser();
         } else {
           this.mfaErrMsg = result.errorMsg;
@@ -306,6 +320,11 @@ export class ServicesComponent implements OnInit {
         const result: any = res;
         if (result.errorId == "200") {
           this.userSuspend = true;
+          this.http.get(`${environment.apiURL}/mail/self?user=${this.user.userName}&task=${AppConst.MAIL_TASK_disable}`).subscribe(res => {
+          });
+        console.log(this.user.userName);
+        console.log(AppConst.MAIL_TASK_disable);
+        console.log("email sent");  
           this.searchUser();
         } else {
           this.mfaErrMsg = result.errorMsg;
@@ -335,6 +354,11 @@ export class ServicesComponent implements OnInit {
         if (result.errorId == "200") {
           console.log("userBypassed")
           this.userBypassed = true;
+          this.http.get(`${environment.apiURL}/mail/self?user=${this.user.userName}&task=${AppConst.MAIL_TASK_bypass}`).subscribe(res => {
+          });
+        console.log(this.user.userName);
+        console.log(AppConst.MAIL_TASK_bypass);
+        console.log("email sent");  
           this.searchUser();
         } else {
           this.mfaErrMsg = result.errorMsg;

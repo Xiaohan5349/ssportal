@@ -1,3 +1,5 @@
+import { AppConst } from './../../@core/utils/app-const';
+import { environment } from './../../../environments/environment';
 import { HomeYubikeyInputComponent } from './home-yubikey-input/home-yubikey-input.component';
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {UserService} from "../../@core/services/user.service";
@@ -69,6 +71,11 @@ export class HomeComponent implements OnInit {
         console.log(res);
         this.pingidService.unpairDevice(device.deviceId, this.sessionUser.sub).subscribe(
           res => {
+            this.http.get(`${environment.apiURL}/mail/self?user=${this.sessionUser.sub}&task=${AppConst.MAIL_TASK_selfUnPair}`).subscribe(res => {
+            });
+          console.log(this.sessionUser.sub);
+          console.log(AppConst.MAIL_TASK_selfUnPair);
+          console.log("email sent");  
             this.getUserDetails();
           }, error => {
             console.log(error);
@@ -104,7 +111,8 @@ export class HomeComponent implements OnInit {
               message: 'Please scan the QR code with your PingID ' + type + ' app or input paring code manually.',
               code: this.activationCode,
               qrcode: 'https://idpxnyl3m.pingidentity.com/pingid/QRRedirection?' + btoa(this.activationCode),
-              userName: this.sessionUser.sub
+              userName: this.sessionUser.sub,
+              mailTask: AppConst.MAIL_TASK_selfPair,
             },
             hasBackdrop: true,
             closeOnBackdropClick: false

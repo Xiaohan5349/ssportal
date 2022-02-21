@@ -21,6 +21,7 @@ export class HomeQrCodeComponent implements OnInit, OnDestroy {
   pairingStatusSubscription: Subscription;
   devicePaired = false;
   userName;
+  mailTask;
 
   constructor(private dialogRef: NbDialogRef<any>, private pingidService: PingIdService, private http: HttpClient) {
   }
@@ -41,9 +42,10 @@ export class HomeQrCodeComponent implements OnInit, OnDestroy {
       if (result.pairingStatus.toLowerCase() === 'paired') {
         this.pairingStatusSubscription.unsubscribe();
         this.devicePaired = true;
-        this.http.get(`${environment.apiURL}/mail/self?user=${this.userName}&task=pairdeviceself`).subscribe(res => {
+        this.http.get(`${environment.apiURL}/mail/self?user=${this.userName}&task=${this.mailTask}`).subscribe(res => {
           });
         console.log(this.userName);
+        console.log(this.mailTask);
         console.log("email sent");
         //this.http.get(`http://localhost:8080/sso/mail/self?user=user.12&task=pairdeviceself`)
       }
