@@ -37,7 +37,7 @@ export class ServicesComponent implements OnInit {
   userActivat = false;
   userSuspend = false;
   userBypassed = false;
-  items = [{ title: 'ByPass MFA' }, { title: 'Enable User' }, { title: 'Disable User' }];
+  //items = [{ title: 'ByPass MFA' }, { title: 'Enable User' }, { title: 'Disable User' }];
   softToken: string = "true";
   hardToken: string = "true";
   desktopToken: string = "true";
@@ -384,20 +384,20 @@ export class ServicesComponent implements OnInit {
 
   ngOnInit(): void {
     this.AdminStatus = this.jwtAuth.getAdmin();
-    this.menuService.onItemClick().subscribe((event) => {
-      if (event.item.title === 'ByPass MFA') {
-        this.ToggleUserBypass();
-        console.log('ByPass MFA clicked service');
-      }
-      if (event.item.title === 'Enable User') {
-        this.ActivateUser();
-        console.log('Enable User clicked service');
-      }
-      if (event.item.title === 'Disable User') {
-        this.SuspendUser();
-        console.log('Disable User clicked service');
-      }
-    });
+    // this.menuService.onItemClick().subscribe((event) => {
+    //   if (event.item.title === 'ByPass MFA') {
+    //     this.ToggleUserBypass();
+    //     console.log('ByPass MFA clicked service');
+    //   }
+    //   if (event.item.title === 'Enable User') {
+    //     this.ActivateUser();
+    //     console.log('Enable User clicked service');
+    //   }
+    //   if (event.item.title === 'Disable User') {
+    //     this.SuspendUser();
+    //     console.log('Disable User clicked service');
+    //   }
+    // });
 
   }
 }
