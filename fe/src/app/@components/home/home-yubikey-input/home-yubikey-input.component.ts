@@ -1,9 +1,11 @@
+import { mailService } from './../../../@core/services/mail.service';
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NbDialogRef} from "@nebular/theme";
 import {HttpClient} from "@angular/common/http";
 import {Subscription, timer} from "rxjs";
 import {switchMap} from "rxjs/operators";
 import {PingIdService} from "../../../@core/services/pingid.service";
+
 
 @Component({
   selector: 'app-home-yubikey-input',
@@ -16,9 +18,12 @@ export class HomeYubikeyInputComponent implements OnInit {
   pairingStatusSubscription: Subscription;
   devicePaired = false;
   user;
+  userName;
   otp;
+  adminUser;
+  mailTask;
 
-  constructor(private dialogRef: NbDialogRef<any>, private pingidService: PingIdService) {
+  constructor(private dialogRef: NbDialogRef<any>, private pingidService: PingIdService, private mailService: mailService) {
   }
 
   closeDialog(res) {
@@ -27,13 +32,20 @@ export class HomeYubikeyInputComponent implements OnInit {
 
   pairYubikey() {
     console.log(this.otp);
-    console.log(this.user.sub);
-    this.pingidService.yubikeyPairing(this.user.sub, this.otp).subscribe(
+    console.log(this.userName);
+    this.pingidService.yubikeyPairing(this.userName, this.otp).subscribe(
       res => {
         const result: any = res;
         console.log(result);
         if (result.errorId == "200") {
           this.devicePaired = true;
+          if (this.mailTask=="pairdeviceself") {
+            this.mailService.selfServiceMail(this.userName,this.mailTask);
+          } else if (this.mailTask=="pairdevice"){
+            this.mailService.adminServiceMail(this.userName,this.mailTask,this.adminUser);
+          } else{
+            console.log("Email gose wrong!!");
+          }  
         }
       }, error => {
         console.log(error)

@@ -160,7 +160,9 @@ export class HomeComponent implements OnInit {
               qrcode: this.pairingKeyUri,
               code: this.pairingKey,
               sessionId: this.sessionId,
-              user: this.sessionUser
+              user: this.sessionUser,
+              userName: this.sessionUser.sub,
+              mailTask: AppConst.MAIL_TASK_selfPair,
             },
             hasBackdrop: true,
             closeOnBackdropClick: false
@@ -209,7 +211,8 @@ export class HomeComponent implements OnInit {
           context: {
             title: 'Register ' + ' Authenticator',
             message: 'Please input paring code manually.',
-            user: this.sessionUser
+            userName: this.sessionUser.sub,
+            mailTask: AppConst.MAIL_TASK_selfPair,
           },
           hasBackdrop: true,
           closeOnBackdropClick: false

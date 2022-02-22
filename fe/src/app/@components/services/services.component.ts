@@ -1,3 +1,4 @@
+import { HomeYubikeyInputComponent } from './../home/home-yubikey-input/home-yubikey-input.component';
 import { OtpValidaterComponent } from './../home/otp-validater/otp-validater.component';
 import { mailService } from './../../@core/services/mail.service';
 import { Component, OnInit } from '@angular/core';
@@ -150,6 +151,26 @@ export class ServicesComponent implements OnInit {
 
   }
 
+  yubikeyStartPairing() {
+    this.dialogService.open(HomeYubikeyInputComponent, {
+      context: {
+        title: 'Register ' + ' Authenticator',
+        message: 'Please input paring code manually.',
+        userName: this.user.userName,
+        adminUser: this.sessionUser.sub,
+        mailTask: AppConst.MAIL_TASK_helpDeskPair,
+      },
+      hasBackdrop: true,
+      closeOnBackdropClick: false
+    }).onClose.subscribe(res => {
+      if (res) {
+        this.searchUser();
+      }
+    });
+  }
+
+
+
   AuthenticatorAppStartPairing() {
     this.pingidService.AuthenticatorAppStartPairing(this.user.userName).subscribe(
       res => {
@@ -166,7 +187,10 @@ export class ServicesComponent implements OnInit {
             qrcode: this.pairingKeyUri,
             code: this.pairingKey,
             sessionId: this.sessionId,
-            user: this.user
+            user: this.user,
+            userName: this.user.userName,
+            adminUser: this.sessionUser.sub,
+            mailTask: AppConst.MAIL_TASK_helpDeskPair,    
           },
           hasBackdrop: true,
           closeOnBackdropClick: false

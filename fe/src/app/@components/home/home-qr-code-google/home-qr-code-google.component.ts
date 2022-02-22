@@ -1,3 +1,4 @@
+import { mailService } from './../../../@core/services/mail.service';
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NbDialogRef} from "@nebular/theme";
 import {HttpClient} from "@angular/common/http";
@@ -21,8 +22,11 @@ export class HomeQrCodeGoogleComponent implements OnInit {
   devicePaired = false;
   user;
   otp;
+  mailTask;
+  userName;
+  adminUser;
 
-  constructor(private dialogRef: NbDialogRef<any>, private pingidService: PingIdService) {
+  constructor(private dialogRef: NbDialogRef<any>, private pingidService: PingIdService, private mailService: mailService) {
   }
 
   closeDialog(res) {
@@ -38,6 +42,13 @@ export class HomeQrCodeGoogleComponent implements OnInit {
         console.log(result);
         if (result.errorId == "200") {
           this.devicePaired = true;
+          if (this.mailTask=="pairdeviceself") {
+            this.mailService.selfServiceMail(this.userName,this.mailTask);
+          } else if (this.mailTask=="pairdevice"){
+            this.mailService.adminServiceMail(this.userName,this.mailTask,this.adminUser);
+          } else{
+            console.log("Email gose wrong!!");
+          }  
         }
       }, error => {
         console.log(error)
