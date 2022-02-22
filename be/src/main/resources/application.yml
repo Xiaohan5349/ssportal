@@ -16,7 +16,7 @@
 server:
   servlet:
     context-path: /sso
-  port: 8080
+  port: 0
 
 # logging
 logging:
@@ -41,19 +41,23 @@ management:
         health: heartbeat
 
 
-# mail
+# BBB mail
 spring:
   mail:
     default-encoding: UTF-8
-    host: smtp.gmail.com
-    port: 587
-    username: zichuandilin@gmail.com
-    password: roxtes-hypwyP-8totqy
+#    host: smtp.gmail.com
+#    port: 587
+#    username: zichuandilin@gmail.com
+#    password: roxtes-hypwyP-8totqy
+
+    host: smtp.bedbath.com
+    port: 25
+
     protocol: smtp
     properties:
       mail:
         smtp:
-          auth: true
+          auth: false
           starttls:
             enable: true
 
