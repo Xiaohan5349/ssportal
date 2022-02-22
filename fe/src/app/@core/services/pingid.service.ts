@@ -164,7 +164,7 @@ export class PingIdService {
   }
 
   startOfflineAuth(deviceId,username) {
-    const url = this.BACKEND_URL + '/pingid/startOfflineAuth';
+    const url = this.BACKEND_URL + '/pingid/authenticateOnline';
     const payload = {
       deviceId: deviceId,
       username: username
@@ -178,7 +178,7 @@ export class PingIdService {
   }
 
   finalOfflineAuth(sessionId,username,otp) {
-    const url = this.BACKEND_URL + '/pingid/finalOfflineAuth';
+    const url = this.BACKEND_URL + '/pingid/authenticationOffline';
     const payload = {
       username: username,
       sessionId: sessionId,

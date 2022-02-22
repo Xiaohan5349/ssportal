@@ -5,15 +5,11 @@
     <nb-card-body>
       <span *ngIf="!deviceTested">{{message}}</span>
       <div class="mt-4 text-center">
-        <ngx-kjua *ngIf="!deviceTested"
-                  [text]="qrText"
-        ></ngx-kjua>
         <div *ngIf="deviceTested">
           <h2 ><span status="info">Test Success</span></h2>
           <img  class="img-fluid mt-1" src="assets/images/success.png" style="width:200px;">
         </div>
         <br>
-        <h5 *ngIf="!deviceTested">{{code}}</h5>
       </div>
       <div *ngIf="!deviceTested">
         <input nbInput class="mb-1" [(ngModel)]="otp"
