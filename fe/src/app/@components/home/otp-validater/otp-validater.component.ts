@@ -55,6 +55,9 @@ export class OtpValidaterComponent implements OnInit {
         console.log(result);
         if (result.errorId == "200") {
           this.deviceTested = true;
+        } else {
+          this.deviceTested = false;
+          this.message = "OTP is invalide, Please Re-enter OTP"
         }
       }, error => {
         console.log(error)
