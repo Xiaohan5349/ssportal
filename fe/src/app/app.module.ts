@@ -40,6 +40,7 @@ import {NgxKjuaModule} from "ngx-kjua";
 import { ServicesComponent } from './@components/services/services.component';
 import { HomeQrCodeGoogleComponent } from './@components/home/home-qr-code-google/home-qr-code-google.component';
 import { HomeYubikeyInputComponent } from './@components/home/home-yubikey-input/home-yubikey-input.component';
+import { OtpValidaterComponent } from './@components/home/otp-validater/otp-validater.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { HomeYubikeyInputComponent } from './@components/home/home-yubikey-input
     HomeQrCodeComponent,
     ServicesComponent,
     HomeQrCodeGoogleComponent,
-    HomeYubikeyInputComponent
+    HomeYubikeyInputComponent,
+    OtpValidaterComponent
   ],
   imports: [
     BrowserModule,

@@ -1,3 +1,4 @@
+import { OtpValidaterComponent } from './../home/otp-validater/otp-validater.component';
 import { mailService } from './../../@core/services/mail.service';
 import { Component, OnInit } from '@angular/core';
 import {UserService} from "../../@core/services/user.service";
@@ -218,6 +219,49 @@ export class ServicesComponent implements OnInit {
     )
   }
 
+
+
+  testMFADesktop(testDevice){
+    //need modify starOfflineAuth method
+    this.pingidService.startOfflineAuth(testDevice.deviceId, this.user.userName).subscribe(
+      res => {
+        const result: any = res;
+        console.log(result.sessionId + "offlineAuth sessionId");
+        if (result.sessionId) {
+          this.dialogService.open(OtpValidaterComponent, {
+            context: {
+              title: 'OTP Verification',
+              message: 'Please input OTP generated from your desktop device',
+              sessionId: result.sessionId,
+              userName: this.user.userName,
+            },
+            hasBackdrop: true,
+          }).onClose.subscribe(res => {
+            if (res) {
+              this.searchUser();
+              }
+            }, error => {
+              console.log(error);
+             }
+            )
+        } else {
+          this.mfaRejected = true;
+          this.mfaErrMsg = result.errorMsg;
+          this.mfaTriggered = false;
+        }
+
+        setTimeout(() =>
+          {
+            this.clearAlerts();
+          },
+          5000);
+      }, error => {
+        console.log(error);
+      }
+    )
+
+  }
+
 /*  testMFA() {
     for (let i = 0; i < this.deviceList.length; i++) {
       if (this.deviceList[i].deviceRole.toLowerCase() === 'primary') {
@@ -255,6 +299,9 @@ export class ServicesComponent implements OnInit {
     this.mfaApproved = false;
     this.mfaTriggered = false;
     this.userNotFound = false;
+    this.userBypassed = false;
+    this.userActivat = false;
+    this.userSuspend = false;
   }
 
   searchUser() {
@@ -304,6 +351,11 @@ export class ServicesComponent implements OnInit {
         } else {
           this.mfaErrMsg = result.errorMsg;
         }
+        setTimeout(() =>
+        {
+          this.clearAlerts();
+        },
+        5000);
       }, error => {
         console.log(error);
         }
@@ -337,6 +389,11 @@ export class ServicesComponent implements OnInit {
         } else {
           this.mfaErrMsg = result.errorMsg;
         }
+        setTimeout(() =>
+        {
+          this.clearAlerts();
+        },
+        5000);
       }, error => {
         console.log(error);
        }
@@ -372,6 +429,11 @@ export class ServicesComponent implements OnInit {
         } else {
           this.mfaErrMsg = result.errorMsg;
         }
+        setTimeout(() =>
+        {
+          this.clearAlerts();
+        },
+        5000);
       }, error => {
         console.log(error);
        }

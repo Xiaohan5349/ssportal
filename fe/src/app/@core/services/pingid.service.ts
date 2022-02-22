@@ -163,7 +163,34 @@ export class PingIdService {
     return this.http.post(url, payload, httpOptions);
   }
 
+  startOfflineAuth(deviceId,username) {
+    const url = this.BACKEND_URL + '/pingid/startOfflineAuth';
+    const payload = {
+      deviceId: deviceId,
+      username: username
 
+    }
+    const httpOptions = {
+     headers: new HttpHeaders({'Content-Type': 'application/json'})
+    };
+    return this.http.post(url, payload, httpOptions);
+
+  }
+
+  finalOfflineAuth(sessionId,username,otp) {
+    const url = this.BACKEND_URL + '/pingid/finalOfflineAuth';
+    const payload = {
+      username: username,
+      sessionId: sessionId,
+      otp: otp
+
+    }
+    const httpOptions = {
+     headers: new HttpHeaders({'Content-Type': 'application/json'})
+    };
+    return this.http.post(url, payload, httpOptions);
+
+  }
 
 
 }

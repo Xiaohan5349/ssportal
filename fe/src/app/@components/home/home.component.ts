@@ -1,3 +1,4 @@
+import { OtpValidaterComponent } from './otp-validater/otp-validater.component';
 import { mailService } from './../../@core/services/mail.service';
 import { AppConst } from './../../@core/utils/app-const';
 import { environment } from './../../../environments/environment';
@@ -73,13 +74,12 @@ export class HomeComponent implements OnInit {
         console.log(res);
         this.pingidService.unpairDevice(device.deviceId, this.sessionUser.sub).subscribe(
           res => {
-            this.http.get(`${environment.apiURL}/mail/self?user=${this.sessionUser.sub}&task=${AppConst.MAIL_TASK_selfUnPair}`).subscribe(res => {
-            });
-          console.log(this.sessionUser.sub);
-          console.log(AppConst.MAIL_TASK_selfUnPair);
-          console.log("email sent");  
-          // leave this one for testing need to be changed
-          // this.mailService.selfServiceMail(this.sessionUser.sub,AppConst.MAIL_TASK_selfUnPair);
+          //   this.http.get(`${environment.apiURL}/mail/self?user=${this.sessionUser.sub}&task=${AppConst.MAIL_TASK_selfUnPair}`).subscribe(res => {
+          //   });
+          // console.log(this.sessionUser.sub);
+          // console.log(AppConst.MAIL_TASK_selfUnPair);
+          // console.log("email sent");  
+          this.mailService.selfServiceMail(this.sessionUser.sub,AppConst.MAIL_TASK_selfUnPair);
             this.getUserDetails();
           }, error => {
             console.log(error);
@@ -318,7 +318,46 @@ export class HomeComponent implements OnInit {
     }
    )
   }
+  testMFADesktop(testDevice){
+    //need modify starOfflineAuth method
+    this.pingidService.startOfflineAuth(testDevice.deviceId, this.sessionUser.sub).subscribe(
+      res => {
+        const result: any = res;
+        console.log(result.sessionId + "offlineAuth sessionId");
+        if (result.sessionId) {
+          this.dialogService.open(OtpValidaterComponent, {
+            context: {
+              title: 'OTP Verification',
+              message: 'Please input OTP generated from your desktop device',
+              sessionId: result.sessionId,
+              userName: this.sessionUser.sub,
+            },
+            hasBackdrop: true,
+          }).onClose.subscribe(res => {
+            if (res) {
+              this.getUserDetails();
+              }
+            }, error => {
+              console.log(error);
+             }
+            )
+        } else {
+          this.mfaRejected = true;
+          this.mfaErrMsg = result.errorMsg;
+          this.mfaTriggered = false;
+        }
 
+        setTimeout(() =>
+          {
+            this.clearAlerts();
+          },
+          5000);
+      }, error => {
+        console.log(error);
+      }
+    )
+
+  }
 
   testMFA(testDevice) {
     this.mfaTriggered = true;

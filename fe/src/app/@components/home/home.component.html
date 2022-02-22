@@ -50,6 +50,7 @@
                 <button [hidden]="deviceDetail?.deviceRole?.toLowerCase() === 'primary'" nbButton outline status="primary" size="small" (click)="makeDevicePrimary(deviceDetail)" class="mr-1">Make Primary</button>
                 <button *ngIf="deviceDetail?.type?.toLowerCase() === 'android'" nbButton outline status="warning" size="small" (click)="testMFA(deviceDetail)" class="mr-1">Test MFA</button>
                 <button *ngIf="deviceDetail?.type?.toLowerCase() === 'iphone'" nbButton outline status="warning" size="small" (click)="testMFA(deviceDetail)" class="mr-1">Test MFA</button>
+                <button *ngIf="deviceDetail?.type?.toLowerCase() === 'desktop'" nbButton outline status="warning" size="small" (click)="testMFADesktop(deviceDetail)" class="mr-1">Test MFA</button>
               </td>
             </tr>
             </tbody>
