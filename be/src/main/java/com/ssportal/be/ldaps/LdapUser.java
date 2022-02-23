@@ -9,6 +9,7 @@ public class LdapUser {
     private boolean softTokenUser;
     private boolean hardTokenUser;
     private boolean desktopTokenUser;
+    private boolean otpTokenUser;
 
     public String getUsername() {
         return username;
@@ -65,4 +66,9 @@ public class LdapUser {
     public void setDesktopTokenUser(boolean desktopTokenUser) {
         this.desktopTokenUser = desktopTokenUser;
     }
+
+    public boolean isOtpTokenUser() { return otpTokenUser; }
+
+    public void setOtpTokenUser(boolean otpTokenUser) {this.otpTokenUser = otpTokenUser; }
+
 }
