@@ -21,6 +21,7 @@ export class OtpValidaterComponent implements OnInit {
   deviceTested = false;
   userName;
   otp;
+  error = false;
 
   constructor(private dialogRef: NbDialogRef<any>, private pingidService: PingIdService) {
   }
@@ -57,7 +58,8 @@ export class OtpValidaterComponent implements OnInit {
           this.deviceTested = true;
         } else {
           this.deviceTested = false;
-          this.message = "OTP is invalide, Please Re-enter OTP"
+          this.error = false;
+          this.message = "OTP is invalide, Please re-start Test"
         }
       }, error => {
         console.log(error)

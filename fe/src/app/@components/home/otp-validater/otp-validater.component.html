@@ -17,7 +17,7 @@
                id="input-otp"
                placeholder="OTP">
       </div>
-      <div *ngIf="!deviceTested" class="text-center mt-4">
+      <div *ngIf="!deviceTested && !error" class="text-center mt-4">
         <button nbButton status="success" (click)="testDesktop()">Test</button>
       </div>
       <div class="text-center mt-4">
