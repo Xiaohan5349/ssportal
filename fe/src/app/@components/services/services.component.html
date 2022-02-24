@@ -78,7 +78,7 @@
         <button nbButton *ngIf="softToken=='true'" outline status="primary" (click)="getActivationCode('MOBILE')" class="mr-1" size="small">
           <nb-icon icon="smartphone" outline status="primary" class="mr-1" ></nb-icon>
           Register Soft Token </button>
-        <button nbButton *ngIf="softToken=='true'" outline status="primary" (click)="AuthenticatorAppStartPairing()" class="mr-1" size="small">
+        <button nbButton *ngIf="otpToken=='true'" outline status="primary" (click)="AuthenticatorAppStartPairing()" class="mr-1" size="small">
           <nb-icon icon="smartphone" outline status="info" class="mr-1" ></nb-icon>
           Register OTP Token </button>  
         <button nbButton *ngIf="desktopToken=='true'" outline status="primary" (click)="getActivationCode('DESKTOP')" class="mr-1" size="small">
