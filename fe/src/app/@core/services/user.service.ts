@@ -28,7 +28,7 @@ export class UserService {
   }
 
   getUserTokenTypeFromLDAP(username) {
-    this.http.get(`${this.BACKEND_URL}/mail?profile=${username}`).subscribe(res => {
+    this.http.get(`${this.BACKEND_URL}/?profile=${username}`).subscribe(res => {
       this.userTokenType = res;
     });
       return this.userTokenType;
