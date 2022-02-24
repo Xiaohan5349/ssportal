@@ -352,10 +352,10 @@ export class ServicesComponent implements OnInit {
       this.userTokenType = res;
       console.log('token type resposne')
       console.log(this.userTokenType);
-      this.hardToken = this.userTokenType.hardToken.toString();
-      this.softToken = this.userTokenType.softToken.toString();
-      this.desktopToken = this.userTokenType.desktopToken.toString();
-      this.otpToken = this.userTokenType.otpToken.toString();
+      this.hardToken = this.userTokenType.hardToken;
+      this.softToken = this.userTokenType.softToken;
+      this.desktopToken = this.userTokenType.desktopToken;
+      this.otpToken = this.userTokenType.otpToken;
       console.log("token type showup");
       console.log(this.hardToken);
       console.log(this.softToken);
