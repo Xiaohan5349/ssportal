@@ -14,6 +14,7 @@ export class UserService {
     private http: HttpClient
   ) { }
 
+  userTokenType;
 
   getUserDetailsByUsername(username) {
     const url = this.BACKEND_URL + '/pingid/getUserDetailsByUsername';
@@ -26,4 +27,10 @@ export class UserService {
     return this.http.post(url, payload, httpOptions);
   }
 
+  getUserTokenTypeFromLDAP(username) {
+    this.http.get(`${this.BACKEND_URL}/mail?profile=${username}`).subscribe(res => {
+      this.userTokenType = res;
+    });
+      return this.userTokenType;
+  }
 }

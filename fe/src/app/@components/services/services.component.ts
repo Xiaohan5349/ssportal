@@ -1,3 +1,4 @@
+import { Subject } from 'rxjs';
 import { HomeYubikeyInputComponent } from './../home/home-yubikey-input/home-yubikey-input.component';
 import { OtpValidaterComponent } from './../home/otp-validater/otp-validater.component';
 import { mailService } from './../../@core/services/mail.service';
@@ -45,6 +46,7 @@ export class ServicesComponent implements OnInit {
   desktopToken: string = "true";
   otpToken: string = "true";
   sessionUser;
+  userTokenType;
 
   constructor(
     private userService: UserService,
@@ -346,9 +348,37 @@ export class ServicesComponent implements OnInit {
           5000);
       }
     )
+    this.userService.getUserTokenTypeFromLDAP(this.userName).subscrbe(
+      res => {
+        this.userTokenType = res;
+        this.hardToken = this.userTokenType.hardToken.toString()
+        this.softToken = this.userTokenType.softToken.toString()
+        this.desktopToken = this.userTokenType.desktopToken.toString()
+        this.otpToken = this.userTokenType.otpToken.toString()
+        console.log("token type showup");
+        console.log(this.hardToken);
+        console.log(this.softToken);
+        console.log(this.desktopToken);
+        console.log(this.otpToken);
+      }, error => {
+      }
+    )
     //this.softToken = this.user.softToken;
     //this.hardToken = this.user.hardToken;
     //this.desktopToken = this.user.desktopToken;
+  }
+
+  searchUserToken(){
+    this.userService.getUserTokenTypeFromLDAP(this.userName).subscrbe(
+      res => {
+        this.userTokenType = res;
+        this.hardToken = this.userTokenType.hardToken.toString()
+        this.softToken = this.userTokenType.softToken.toString()
+        this.desktopToken = this.userTokenType.desktopToken.toString()
+        this.otpToken = this.userTokenType.otpToken.toString()
+      }, error => {
+      }
+    )
   }
 
   ActivateUser() {
