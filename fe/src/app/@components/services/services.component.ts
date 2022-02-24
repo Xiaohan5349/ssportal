@@ -348,18 +348,19 @@ export class ServicesComponent implements OnInit {
           5000);
       }
     )
-    this.userService.getUserTokenTypeFromLDAP(this.userName).subscrbe(
-      res => {
-        this.userTokenType = res;
-        this.hardToken = this.userTokenType.hardToken.toString()
-        this.softToken = this.userTokenType.softToken.toString()
-        this.desktopToken = this.userTokenType.desktopToken.toString()
-        this.otpToken = this.userTokenType.otpToken.toString()
-        console.log("token type showup");
-        console.log(this.hardToken);
-        console.log(this.softToken);
-        console.log(this.desktopToken);
-        console.log(this.otpToken);
+    this.http.get(`${environment.apiURL}/profile?user=${this.userName}`).subscribe(res => {
+      this.userTokenType = res;
+      console.log('token type resposne')
+      console.log(this.userTokenType);
+      this.hardToken = this.userTokenType.hardToken.toString();
+      this.softToken = this.userTokenType.softToken.toString();
+      this.desktopToken = this.userTokenType.desktopToken.toString();
+      this.otpToken = this.userTokenType.otpToken.toString();
+      console.log("token type showup");
+      console.log(this.hardToken);
+      console.log(this.softToken);
+      console.log(this.desktopToken);
+      console.log(this.otpToken);
       }, error => {
       }
     )
