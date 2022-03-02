@@ -142,7 +142,7 @@ public class PingIdController {
 
         Operation operation = new Operation(pingIdProperties.getOrgAlias(), pingIdProperties.getPingid_token(), pingIdProperties.getPingid_use_base64_key(), pingIdProperties.getApi_url());
         operation.setTargetUser(username);
-        JSONObject response = pingIdOperationService.authenticateOnline(new Application("MFA"), "CONFIRM", deviceId, operation);
+        JSONObject response = pingIdOperationService.authenticateOnline(new Application("MFA"), "OTP", deviceId, operation);
 
         return response;
     }

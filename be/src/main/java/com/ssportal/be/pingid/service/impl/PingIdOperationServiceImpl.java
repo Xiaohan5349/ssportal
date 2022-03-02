@@ -301,6 +301,7 @@ public class PingIdOperationServiceImpl implements PingIdOperationService {
         JSONObject reqBody = new JSONObject();
         reqBody.put("authType", authType);
         reqBody.put("spAlias", application.getSpAlias());
+
         reqBody.put("userName", operation.getPingIdUser().getUserName());
         reqBody.put("clientData", operation.getClientData());
         if (!"primary".equals(deviceId)) {
@@ -342,7 +343,7 @@ public class PingIdOperationServiceImpl implements PingIdOperationService {
 
         JSONObject response = OperationHelpers.parseResponse ( operation );
 
-        if ((int)response.get ( "errorId" ) == 200){
+        if ((long)response.get ( "errorId" ) == 200){
             operation.getValues ().clear ();
         }
 

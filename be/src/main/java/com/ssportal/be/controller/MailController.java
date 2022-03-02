@@ -1,10 +1,14 @@
 package com.ssportal.be.controller;
 
+import com.ssportal.be.ldaps.LdapOperation;
+import com.ssportal.be.ldaps.LdapOperationWithoutPing;
+import com.ssportal.be.ldaps.LdapUser;
 import com.ssportal.be.model.User;
 import com.ssportal.be.pingid.model.MailForm;
 import com.ssportal.be.pingid.service.PingIdOperationService;
 import com.ssportal.be.service.MailService;
 import org.apache.commons.lang3.StringUtils;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -13,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.naming.NamingException;
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.HashMap;
 
 @RestController
@@ -25,8 +31,25 @@ public class MailController {
     MailService mailService;
 
 
+    @RequestMapping(value = "/profile", method = RequestMethod.GET)
+    public JSONObject testLdap(@RequestParam(name = "user") String userName) throws IOException, GeneralSecurityException, NamingException {
 
-    @RequestMapping(value = "/mail", method = RequestMethod.GET)
+
+        LdapOperationWithoutPing ldapOperation = new LdapOperationWithoutPing ();
+        LdapUser user = ldapOperation.searchUser ( userName );
+        JSONObject jsonUser = new JSONObject (  );
+        jsonUser.put ( "firstName", user.getFirstName () );
+        jsonUser.put ( "lastName", user.getLastName ());
+        jsonUser.put ( "mail", user.getEmailAddress () );
+        jsonUser.put ( "username", userName );
+        jsonUser.put ( "hardToken", user.isHardTokenUser ());
+        jsonUser.put ( "desktopToken", user.isDesktopTokenUser ());
+        jsonUser.put ( "softToken", user.isSoftTokenUser ());
+        jsonUser.put ( "otpToken", user.isOtpTokenUser ());
+
+        return jsonUser;
+    }
+        @RequestMapping(value = "/mail", method = RequestMethod.GET)
     public String sendMail(@RequestParam(name = "task") String task, @RequestParam(name = "user") String userName, @RequestParam(name = "admin") String adminUsername) throws IOException {
 
         User user = new User(userName);
