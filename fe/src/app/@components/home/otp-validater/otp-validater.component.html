@@ -9,9 +9,13 @@
           <h2 ><span status="info">Test Success</span></h2>
           <img  class="img-fluid mt-1" src="assets/images/success.png" style="width:200px;">
         </div>
+        <div *ngIf="!deviceTested && error">
+          <h2 ><span status="info">Test Success</span></h2>
+          <img  class="img-fluid mt-1" src="assets/images/failed.jpg" style="width:200px;">
+        </div>
         <br>
       </div>
-      <div *ngIf="!deviceTested">
+      <div *ngIf="!deviceTested && !error">
         <input nbInput class="mb-1" [(ngModel)]="otp"
                fullWidth name="OTP"
                id="input-otp"

@@ -30,24 +30,24 @@ export class OtpValidaterComponent implements OnInit {
     this.dialogRef.close(res);
   }
 
-  pairDevice() {
-    console.log(this.otp);
-    console.log(this.sessionId);
-    this.pingidService.AuthenticatorAppFinishPairing(this.sessionId, this.otp).subscribe(
-      res => {
-        const result: any = res;
-        console.log(result);
-        if (result.errorId == "200") {
-          this.deviceTested = true;
-        } else {
-          this.deviceTested = false;
-          this.message = "OTP is invalide, Please Re-enter OTP"
-        }
-      }, error => {
-        console.log(error)
-      }
-    )      
-  }
+  // pairDevice() {
+  //   console.log(this.otp);
+  //   console.log(this.sessionId);
+  //   this.pingidService.AuthenticatorAppFinishPairing(this.sessionId, this.otp).subscribe(
+  //     res => {
+  //       const result: any = res;
+  //       console.log(result);
+  //       if (result.errorId == "200") {
+  //         this.deviceTested = true;
+  //       } else {
+  //         this.deviceTested = false;
+  //         this.message = "OTP is invalide, Please Re-enter OTP"
+  //       }
+  //     }, error => {
+  //       console.log(error)
+  //     }
+  //   )      
+  // }
 
   testDesktop() {
     this.pingidService.finalOfflineAuth(this.sessionId,this.userName,this.otp).subscribe( 
@@ -58,7 +58,7 @@ export class OtpValidaterComponent implements OnInit {
           this.deviceTested = true;
         } else {
           this.deviceTested = false;
-          this.error = false;
+          this.error = true;
           this.message = "OTP is invalide, Please re-start Test"
         }
       }, error => {
