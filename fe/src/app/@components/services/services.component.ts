@@ -257,7 +257,7 @@ export class ServicesComponent implements OnInit {
           this.dialogService.open(OtpValidaterComponent, {
             context: {
               title: 'OTP Verification',
-              message: 'Please input OTP generated from your desktop device',
+              message: 'Please input OTP generated from your device',
               sessionId: result.sessionId,
               userName: this.user.userName,
             },
