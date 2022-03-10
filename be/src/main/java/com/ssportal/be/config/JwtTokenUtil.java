@@ -19,7 +19,7 @@ import java.util.function.Function;
 
 @Component
 public class JwtTokenUtil implements Serializable {
-    private static final Logger LOG = LoggerFactory.getLogger ( LoginController.class );
+    private static final Logger LOG = LoggerFactory.getLogger ( JwtTokenUtil.class );
 
     public String getUsernameFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);
@@ -65,17 +65,18 @@ public class JwtTokenUtil implements Serializable {
 
     private String doGenerateToken(User user) {
         user.getUsername ();
-        String admin;
+        String admin = user.getAdmin ()!=null?user.getAdmin ():"false";
+        String hardToken = user.getHardToken () != null? user.getHardToken ():"false";
+        String softToken = user.getSoftToken () != null? user.getSoftToken ():"false";
+        String otpToken = user.getOtpToken () != null? user.getOtpToken ():"false";
+        String desktopToken = user.getDesktopToken () != null? user.getDesktopToken ():"false";
         Claims claims = Jwts.claims().setSubject(user.getUsername());
 
         Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
         claims.put("scopes", authorities);
         LOG.info ( "Check User details from Saml assertion:" );
-        if(user.getEmail () == null) LOG.error ( "User doesn't have email" );
-        if (user.getAdmin () != null) {
-            admin = user.getAdmin ();
-        } else {
-            admin = "regular";
+        if(user.getEmail () == null) {
+            LOG.error ( "User doesn't have email" );
         }
 
         return Jwts.builder()
@@ -83,10 +84,10 @@ public class JwtTokenUtil implements Serializable {
                 .setIssuer("Self Service Portal")
                 .claim ( "mail", user.getEmail () )
                 .claim ( "admin", admin )
-                .claim ( "hardToken", user.getHardToken () )
-                .claim ("otpToken", user.getOtpToken () )
-                .claim ( "softToken", user.getSoftToken () )
-                .claim ( "desktopToken", user.getDesktopToken ())
+                .claim ( "hardToken", hardToken )
+                .claim ("otpToken", otpToken )
+                .claim ( "softToken", softToken )
+                .claim ( "desktopToken", desktopToken)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + Constants.ACCESS_TOKEN_VALIDITY_SECONDS * 1000))
                 .signWith(SignatureAlgorithm.HS256, Constants.SIGNING_KEY_BASE64)

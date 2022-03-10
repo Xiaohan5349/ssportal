@@ -1,9 +1,14 @@
 package com.ssportal.be.ldaps;
 
 import com.pingidentity.access.DataSourceAccessor;
+import com.ssportal.be.pingid.model.Operation;
+import com.ssportal.be.pingid.model.PingIdProperties;
+import com.ssportal.be.pingid.service.PingIdOperationService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.simple.JSONObject;
 import org.sourceid.saml20.domain.datasource.info.LdapInfo;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.naming.Context;
 import javax.naming.NamingEnumeration;
@@ -17,7 +22,10 @@ import java.util.Hashtable;
 public class LdapOperationWithoutPing {
 
     private final LdapProperties props;
-    private static final Logger LOG = LogManager.getLogger(LdapOperation.class);
+    private static final Logger LOG = LogManager.getLogger(LdapOperationWithoutPing.class);
+
+    @Autowired
+    private PingIdOperationService pingIdOperationService;
 
     public LdapOperationWithoutPing() throws IOException {
         this.props = new LdapProperties();
@@ -60,10 +68,12 @@ public class LdapOperationWithoutPing {
         SearchResult result = null;
         if (results.hasMoreElements()) {
             LOG.info(bbbyId + " found in LDAP. Fetching user attributes " + Arrays.asList(returnAttr));
+
             result = (SearchResult) results.next();
             if (result.getAttributes() != null) {
                 user = new LdapUser();
                 Attributes resultAttributes = result.getAttributes();
+                // createUserInPingID(bbbyId);
                 if (resultAttributes.get(this.props.getFirstName()) != null) {
                     user.setFirstName( resultAttributes.get(this.props.getFirstName()).get().toString ());
                 }
@@ -99,6 +109,20 @@ public class LdapOperationWithoutPing {
         context.close();
         return user;
     }
+
+    public void createUserInPingID(String userName) throws IOException {
+        PingIdProperties pingIdProperties = new PingIdProperties ();
+        pingIdProperties.setProperties ( 0 );
+        Operation operation = new Operation ( pingIdProperties.getOrgAlias (), pingIdProperties.getPingid_token (), pingIdProperties.getPingid_use_base64_key (), pingIdProperties.getApi_url () );
+        operation.setTargetUser ( userName );
+        JSONObject userDetails = pingIdOperationService.getUserDetails ( operation );
+        if (userDetails == null) {
+            //pingIdOperationService.addUser ( user, false, operation );
+        }
+
+
+
+        }
 
 //    public boolean isManagerOf(String userDN, String username) throws GeneralSecurityException, IOException, NamingException {
 //        DirContext context = getContext();

@@ -9,6 +9,8 @@ import com.ssportal.be.pingid.model.PingIdProperties;
 import com.ssportal.be.pingid.service.PingIdOperationService;
 import com.ssportal.be.pingid.service.impl.PingIdOperationServiceImpl;
 import org.json.simple.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,7 +23,7 @@ import java.util.*;
 
 public class User implements Serializable, UserDetails {
 
-    private static final long serialVersionUID = -9138461153733765604L;
+    private static final Logger LOG = LoggerFactory.getLogger ( User.class );
     private Long id;
     private String firstName;
     private String lastName;
@@ -75,15 +77,31 @@ public class User implements Serializable, UserDetails {
 
     }
     public User(JSONObject userAttributes){
-        this.username = userAttributes.get ( "subject" ).toString ();
-        this.email = userAttributes.get ( "mail" ).toString ();
-        this.admin = userAttributes.get ( "admin" ).toString ();
-        this.firstName = userAttributes.get ( "firstName" ).toString ();
-        this.lastName = userAttributes.get ( "lastName" ).toString ();
-        this.hardToken = userAttributes.get ( "hardToken" ).toString ();
-        this.softToken = userAttributes.get ( "softToken" ).toString ();
-        this.desktopToken = userAttributes.get ( "desktopToken" ).toString ();
-        this.otpToken = userAttributes.get("otpToken").toString ();
+        try {
+            this.username = userAttributes.get ( "subject" ).toString ();
+            this.email = userAttributes.get ( "mail" ).toString ();
+            this.firstName = userAttributes.get ( "firstName" ).toString ();
+            this.lastName = userAttributes.get ( "lastName" ).toString ();
+        } catch (Exception e) {
+            LOG.error ( "Please check the username, mail, firstName and lastName" );
+        }
+        try {
+            String admin =  userAttributes.get ( "admin" ).toString ();
+            String hardToken =  userAttributes.get ( "hardToken" ).toString ();
+            String softToken =  userAttributes.get ( "softToken" ).toString ();
+            String desktopToken =  userAttributes.get ( "desktopToken" ).toString ();
+            String otpToken =  userAttributes.get ( "otpToken" ).toString ();
+
+            this.admin = admin!= null?admin:"false";
+            this.hardToken = hardToken!= null?hardToken:"false";
+            this.softToken = softToken!= null?softToken:"false";
+            this.desktopToken = desktopToken!= null?desktopToken:"false";
+            this.otpToken = otpToken!= null?otpToken:"false";
+        } catch (Exception e) {
+            LOG.error ( "please check the token group" );
+        }
+
+
     }
     public Long getId() {
         return id;
