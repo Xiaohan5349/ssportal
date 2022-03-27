@@ -2,6 +2,7 @@ package com.ssportal.be.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ssportal.be.ldaps.LdapUser;
 import com.ssportal.be.model.security.Authority;
 import com.ssportal.be.model.security.UserRole;
 import com.ssportal.be.pingid.model.Operation;
@@ -60,6 +61,13 @@ public class User implements Serializable, UserDetails {
     private Date birthday;
 
     public User(){}
+
+    public User (LdapUser user){
+            this.firstName = user.getFirstName ();
+            this.lastName = user.getLastName ();
+            this.email = user.getEmailAddress ();
+            this.username = user.getUsername ();
+    }
 
     public User(String Username) throws IOException {
 
