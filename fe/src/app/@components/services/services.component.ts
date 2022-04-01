@@ -344,24 +344,24 @@ export class ServicesComponent implements OnInit {
       console.log(this.softToken);
       console.log(this.desktopToken);
       console.log(this.otpToken);
+      this.userService.getUserDetailsByUsername(this.userName).subscribe(
+        res => {
+          this.user = res;
+          this.deviceList = this.user.devicesDetails;
+          this.userFound = true;
+        }, error => {
+          this.userNotFound = true;
+          this.userFound = false;
+          console.log(error);
+          this.errMsg = error.error;
+          setTimeout(() =>
+            {
+              this.clearAlerts();
+            },
+            5000);
+        }
+      )  
       }, error => {
-      }
-    )
-    this.userService.getUserDetailsByUsername(this.userName).subscribe(
-      res => {
-        this.user = res;
-        this.deviceList = this.user.devicesDetails;
-        this.userFound = true;
-      }, error => {
-        this.userNotFound = true;
-        this.userFound = false;
-        console.log(error);
-        this.errMsg = error.error;
-        setTimeout(() =>
-          {
-            this.clearAlerts();
-          },
-          5000);
       }
     )
     //this.softToken = this.user.softToken;
@@ -369,14 +369,20 @@ export class ServicesComponent implements OnInit {
     //this.desktopToken = this.user.desktopToken;
   }
 
-  searchUserToken(){
-    this.userService.getUserTokenTypeFromLDAP(this.userName).subscrbe(
-      res => {
-        this.userTokenType = res;
-        this.hardToken = this.userTokenType.hardToken.toString()
-        this.softToken = this.userTokenType.softToken.toString()
-        this.desktopToken = this.userTokenType.desktopToken.toString()
-        this.otpToken = this.userTokenType.otpToken.toString()
+  searchUserProfile(){
+    this.http.get(`${environment.apiURL}/profile?user=${this.userName}`).subscribe(res => {
+      this.userTokenType = res;
+      console.log('token type resposne')
+      console.log(this.userTokenType);
+      this.hardToken = this.userTokenType.hardToken.toString();
+      this.softToken = this.userTokenType.softToken.toString();
+      this.desktopToken = this.userTokenType.desktopToken.toString();
+      this.otpToken = this.userTokenType.otpToken.toString();
+      console.log("token type showup");
+      console.log(this.hardToken);
+      console.log(this.softToken);
+      console.log(this.desktopToken);
+      console.log(this.otpToken);
       }, error => {
       }
     )
