@@ -111,6 +111,7 @@ export class HomeComponent implements OnInit {
         if (this.activationCode) {
           this.dialogService.open(HomeQrCodeComponent, {
             context: {
+              type: type,
               title: 'Register ' + type + ' Device',
               message: 'Please scan the QR code with your PingID ' + type + ' app or input paring code manually.',
               code: this.activationCode,

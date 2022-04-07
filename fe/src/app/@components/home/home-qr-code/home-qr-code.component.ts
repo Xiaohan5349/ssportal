@@ -23,6 +23,7 @@ export class HomeQrCodeComponent implements OnInit, OnDestroy {
   userName;
   mailTask;
   adminUser;
+  type;
 
   constructor(private dialogRef: NbDialogRef<any>, private pingidService: PingIdService, private http: HttpClient, private mailService: mailService) {
   }
