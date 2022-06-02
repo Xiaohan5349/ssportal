@@ -242,7 +242,7 @@
     </dependencies>
 
     <build>
-        <finalName>sso</finalName>
+        <finalName>sso_qa</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

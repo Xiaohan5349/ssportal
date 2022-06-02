@@ -6,21 +6,20 @@ import java.security.Timestamp;
 import java.util.HashMap;
 import javax.servlet.ServletException;
 
+import com.ssportal.be.config.JwtTokenUtil;
 import com.ssportal.be.pingid.model.Application;
 import com.ssportal.be.pingid.model.Operation;
 import com.ssportal.be.pingid.model.PingIdProperties;
 import com.ssportal.be.pingid.model.PingIdUser;
 import com.ssportal.be.pingid.service.PingIdOperationService;
+import com.ssportal.be.utilility.Constants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/pingid")
@@ -32,6 +31,9 @@ public class PingIdController {
         this.pingIdProperties = new PingIdProperties();
         pingIdProperties.setProperties(0);
     }
+
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
 
     @Autowired
     private PingIdOperationService pingIdOperationService;
@@ -48,8 +50,17 @@ public class PingIdController {
     }
 
     @RequestMapping(value = "/getUserDetailsByUsername", method = RequestMethod.POST)
-    public ResponseEntity getUserDetailsByUsername(@RequestBody HashMap<String, String> mapper) throws IOException, ServletException {
+    public ResponseEntity getUserDetailsByUsername(@RequestHeader("accept-language") HashMap<String, String> header, @RequestBody HashMap<String, String> mapper) throws IOException, ServletException {
         String username = mapper.get("username");
+        String authToken  = header.get(Constants.HEADER_STRING).replace(Constants.TOKEN_PREFIX, "");
+        String usernameFromToken = jwtTokenUtil.getUsernameFromToken(authToken);
+        String role = jwtTokenUtil.getStringFromToken(authToken, "admin");
+        LOG.error("the role from token: "+ role);
+        LOG.error("username from token: "+ usernameFromToken);
+        if((!username.equals(usernameFromToken)) && !(role.equals("admin") || role.equals("helpdesk"))){
+            return new ResponseEntity<>("No Sufficient Permission", HttpStatus.FORBIDDEN);
+        }
+
         JSONObject userDetails = null;
 
         if (username != null && !username.trim().equalsIgnoreCase("")) {
@@ -131,7 +142,6 @@ public class PingIdController {
         Operation operation = new Operation(pingIdProperties.getOrgAlias(), pingIdProperties.getPingid_token(), pingIdProperties.getPingid_use_base64_key(), pingIdProperties.getApi_url());
         operation.setTargetUser(username);
         JSONObject response = pingIdOperationService.getPairingStatus(activationCode, operation);
-        System.out.println(response.get ( "errorId" ));
         return response;
     }
 

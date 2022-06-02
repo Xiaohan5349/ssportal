@@ -26,6 +26,7 @@ public class LdapProperties {
     private String hardTokenGroup;
     private String desktopTokenGroup;
     private String otpTokenGroup;
+    private String adminGroup;
 
     public String getLdapId() {
         return ldapId;
@@ -99,6 +100,14 @@ public class LdapProperties {
 
     public void setOtpTokenGroup(String otpTokenGroup) { this.otpTokenGroup = otpTokenGroup; }
 
+    public String getAdminGroup() {
+        return adminGroup;
+    }
+
+    public void setAdminGroup(String adminGroup) {
+        this.adminGroup = adminGroup;
+    }
+
     public void loadProperties() throws IOException {
         Properties prop = new Properties();
         String propFileName = "ldap.properties";
@@ -127,6 +136,7 @@ public class LdapProperties {
             softTokenGroup = prop.getProperty("softTokenGroup");
             desktopTokenGroup = prop.getProperty("desktopTokenGroup");
             otpTokenGroup = prop.getProperty ( "otpTokenGroup" );
+            adminGroup = prop.getProperty ( "adminGroup" );
         }
     }
 

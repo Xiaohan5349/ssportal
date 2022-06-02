@@ -6,11 +6,15 @@ public class LdapUser {
     private String firstName;
     private String lastName;
     private String emailAddress;
+    private String role;
     private boolean softTokenUser;
     private boolean hardTokenUser;
     private boolean desktopTokenUser;
     private boolean otpTokenUser;
 
+    public LdapUser(){
+        this.role = "REGULAR";
+    }
     public String getUsername() {
         return username;
     }
@@ -70,5 +74,13 @@ public class LdapUser {
     public boolean isOtpTokenUser() { return otpTokenUser; }
 
     public void setOtpTokenUser(boolean otpTokenUser) {this.otpTokenUser = otpTokenUser; }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 
 }

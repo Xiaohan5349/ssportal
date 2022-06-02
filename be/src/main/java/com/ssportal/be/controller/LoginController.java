@@ -9,6 +9,7 @@ import com.ssportal.be.service.UserService;
 import com.ssportal.be.utilility.ApiResponse;
 import com.ssportal.be.utilility.AuthToken;
 import com.ssportal.be.utilility.HelperUtil;
+import jdk.internal.jline.internal.Log;
 import org.apache.commons.lang3.StringUtils;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -143,7 +144,7 @@ public class LoginController {
                     }
                 }
             } catch (ParseException e) {
-                System.out.println ( "Certificate Error!!" );
+                Log.error ("Certificate Error!!");
                 LOG.error ( "Error processing user details, Please contact Administrator", e );
             }
             return null;

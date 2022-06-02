@@ -3,6 +3,9 @@ package com.ssportal.be.service.impl;
 import com.ssportal.be.model.User;
 import com.ssportal.be.pingid.model.MailForm;
 import com.ssportal.be.service.MailService;
+import freemarker.template.Configuration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -11,16 +14,15 @@ import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import javax.validation.constraints.Email;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import freemarker.template.Configuration;
 
 @Service
 public class MailServiceImpl implements MailService {
+
+    private final static Logger log = LoggerFactory.getLogger( MailServiceImpl.class);
+
     @Autowired
     private JavaMailSender mailSender;
 
@@ -233,7 +235,7 @@ public class MailServiceImpl implements MailService {
         try {
             content.append ( FreeMarkerTemplateUtils.processTemplateIntoString ( mailConfiguration.getTemplate ( temlpateName ), model ) );
         } catch (Exception e) {
-            System.out.println ( "error" );
+            log.error( "error when get Content from Mail template" );
             e.printStackTrace ();
         }
         return content.toString ();

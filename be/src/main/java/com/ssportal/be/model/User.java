@@ -67,6 +67,11 @@ public class User implements Serializable, UserDetails {
             this.lastName = user.getLastName ();
             this.email = user.getEmailAddress ();
             this.username = user.getUsername ();
+            if(user.getRole ().equals ( "ADMIN" )){
+                this.admin = "true";
+            }else {
+                this.admin = "false";
+            }
     }
 
     public User(String Username) throws IOException {

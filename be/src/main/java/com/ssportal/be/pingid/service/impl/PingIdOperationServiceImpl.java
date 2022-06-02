@@ -49,7 +49,7 @@ public class PingIdOperationServiceImpl implements PingIdOperationService {
             reqBody.put("email", user.getEmail ());
         }
         if (user.getFirstName () != null) {
-            reqBody.put("fName", user.getFirstName ());
+            reqBody.put("fname", user.getFirstName ());
         }
         if (user.getLastName () != null) {
             reqBody.put("lname", user.getLastName ());

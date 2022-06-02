@@ -176,7 +176,6 @@ public class OperationHelpers {
         jws.setAlgorithmHeaderValue(AlgorithmIdentifiers.HMAC_SHA256);
         jws.setHeader("org_alias", operation.getOrgAlias());
         jws.setHeader("token", operation.getToken());
-        System.out.println(requestBody.toJSONString().replace("\\\\","").replace("\\",""));
         jws.setPayload(requestBody.toJSONString().replace("\\\\","").replace("\\",""));
 
         // Set the verification key

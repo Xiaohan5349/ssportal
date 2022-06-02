@@ -50,7 +50,7 @@ public class LdapOperationWithoutPing {
         return context;
     }
 
-    public LdapUser searchUser(String bbbyId) throws GeneralSecurityException, IOException, NamingException {
+    public LdapUser searchUser(String bbbyId) throws GeneralSecurityException, Exception, IOException, NamingException {
         DirContext context = getContext();
         LdapUser user = null;
         // Configure filter
@@ -65,6 +65,14 @@ public class LdapOperationWithoutPing {
         searchControls.setSearchScope(SearchControls.SUBTREE_SCOPE);
         searchControls.setReturningAttributes(returnAttr);
         NamingEnumeration<SearchResult> results = context.search(props.getSearchBaseDN (), ldapFilter, searchControls);
+        try {
+            if (results == null) {
+                LOG.error ( "User not found in AD!" );
+                throw new Exception ( "User not Found" );
+            }
+        } catch (Exception e) {
+            return null;
+        }
         SearchResult result = null;
         if (results.hasMoreElements()) {
             LOG.info(bbbyId + " found in LDAP. Fetching user attributes " + Arrays.asList(returnAttr));
@@ -101,6 +109,9 @@ public class LdapOperationWithoutPing {
                         String otpToken = this.props.getOtpTokenGroup ();
                         if (groupDN.equalsIgnoreCase ( this.props.getOtpTokenGroup () )) {
                             user.setOtpTokenUser ( true );
+                        }
+                        if (groupDN.equalsIgnoreCase ( this.props.getAdminGroup () )) {
+                            user.setRole ( "ADMIN" );
                         }
                     }
                 }

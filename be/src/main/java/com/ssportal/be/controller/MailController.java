@@ -24,6 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.naming.NamingException;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.security.GeneralSecurityException;
 import java.util.HashMap;
 
@@ -40,44 +42,47 @@ public class MailController {
 
 
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
-    public JSONObject testLdap(@RequestParam(name = "user") String userName) throws IOException, GeneralSecurityException, NamingException {
+    public JSONObject testLdap(@RequestParam(name = "user") String userName) throws Exception {
         LdapOperationWithoutPing ldapOperation = new LdapOperationWithoutPing ();
         LdapUser user = ldapOperation.searchUser ( userName );
+        log.info ( "found User"+user.getUsername () );
         User user_add = new User ( user );
         try{
-        //register user in pingID;
+            //register user in pingID;
 
-        if (user == null){
-            log.error ( "User not found in AD!" );
-            throw new Exception("User not Found");
-        }
-        PingIdProperties pingIdProperties = new PingIdProperties ();
-        pingIdProperties.setProperties ( 0 );
-        Operation operation = new Operation ( pingIdProperties.getOrgAlias (), pingIdProperties.getPingid_token (), pingIdProperties.getPingid_use_base64_key (), pingIdProperties.getApi_url () );
-        operation.setTargetUser ( user.getUsername () );
+            if (user == null){
+                log.error ( "User not found in AD!" );
+                throw new Exception("User not Found");
+            }
+            PingIdProperties pingIdProperties = new PingIdProperties ();
+            pingIdProperties.setProperties ( 0 );
+            Operation operation = new Operation ( pingIdProperties.getOrgAlias (), pingIdProperties.getPingid_token (), pingIdProperties.getPingid_use_base64_key (), pingIdProperties.getApi_url () );
+            operation.setTargetUser ( user.getUsername () );
+            log.info ( "start looking for user in pingID" );
+            JSONObject userDetails = pingIdOperationService.getUserDetails ( operation );
+            if (userDetails == null) {
+                log.info ( "user not found, register new user in PingID" );
+                pingIdOperationService.addUser ( user_add, false, operation );
+                log.info ( "user created in PingID" );
+            }
 
-        JSONObject userDetails = pingIdOperationService.getUserDetails ( operation );
-        if (userDetails == null) {
-            pingIdOperationService.addUser ( user_add, false, operation );
-        }
+            JSONObject jsonUser = new JSONObject (  );
+            jsonUser.put ( "firstName", user.getFirstName () );
+            jsonUser.put ( "lastName", user.getLastName ());
+            jsonUser.put ( "mail", user.getEmailAddress () );
+            jsonUser.put ( "username", userName );
+            jsonUser.put ( "hardToken", user.isHardTokenUser ());
+            jsonUser.put ( "desktopToken", user.isDesktopTokenUser ());
+            jsonUser.put ( "softToken", user.isSoftTokenUser ());
+            jsonUser.put ( "otpToken", user.isOtpTokenUser ());
 
-        JSONObject jsonUser = new JSONObject (  );
-        jsonUser.put ( "firstName", user.getFirstName () );
-        jsonUser.put ( "lastName", user.getLastName ());
-        jsonUser.put ( "mail", user.getEmailAddress () );
-        jsonUser.put ( "username", userName );
-        jsonUser.put ( "hardToken", user.isHardTokenUser ());
-        jsonUser.put ( "desktopToken", user.isDesktopTokenUser ());
-        jsonUser.put ( "softToken", user.isSoftTokenUser ());
-        jsonUser.put ( "otpToken", user.isOtpTokenUser ());
-
-        return jsonUser;
+            return jsonUser;
 
         } catch (Exception e){
             return null;
         }
     }
-        @RequestMapping(value = "/mail", method = RequestMethod.GET)
+    @RequestMapping(value = "/mail", method = RequestMethod.GET)
     public String sendMail(@RequestParam(name = "task") String task, @RequestParam(name = "user") String userName, @RequestParam(name = "admin") String adminUsername) throws IOException {
 
         User user = new User(userName);
