@@ -1,5 +1,6 @@
 package com.ssportal.be.controller;
 
+import com.ssportal.be.config.JwtTokenUtil;
 import com.ssportal.be.ldaps.LdapOperation;
 import com.ssportal.be.ldaps.LdapOperationWithoutPing;
 import com.ssportal.be.ldaps.LdapUser;
@@ -9,6 +10,7 @@ import com.ssportal.be.pingid.model.Operation;
 import com.ssportal.be.pingid.model.PingIdProperties;
 import com.ssportal.be.pingid.service.PingIdOperationService;
 import com.ssportal.be.service.MailService;
+import com.ssportal.be.utilility.Constants;
 import org.apache.commons.lang3.StringUtils;
 
 import org.json.simple.JSONObject;
@@ -17,10 +19,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.naming.NamingException;
 import java.io.IOException;
@@ -36,13 +35,27 @@ public class MailController {
     private JavaMailSender mailSender;
 
     @Autowired
+    private JwtTokenUtil jwtTokenUtil;
+    @Autowired
     private PingIdOperationService pingIdOperationService;
     @Autowired
     MailService mailService;
 
 
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
-    public JSONObject testLdap(@RequestParam(name = "user") String userName) throws Exception {
+    public JSONObject testLdap(@RequestHeader("accept-language") HashMap<String, String> header, @RequestParam(name = "user") String userName) throws Exception {
+        //permission check
+
+        String authToken  = header.get("authorization").toString ().replace( Constants.TOKEN_PREFIX, "");
+        String usernameFromToken = jwtTokenUtil.getUsernameFromToken(authToken);
+        String role = jwtTokenUtil.getStringFromToken(authToken, "admin");
+        if(!(role.equals("admin") || role.equals("helpdesk"))){
+            HashMap responseMap = new HashMap();
+            responseMap.put("errorId",401);
+            responseMap.put("description", "Unauthorized");
+            return new JSONObject(responseMap);
+        }
+
         LdapOperationWithoutPing ldapOperation = new LdapOperationWithoutPing ();
         LdapUser user = ldapOperation.searchUser ( userName );
         log.info ( "found User"+user.getUsername () );
@@ -83,7 +96,14 @@ public class MailController {
         }
     }
     @RequestMapping(value = "/mail", method = RequestMethod.GET)
-    public String sendMail(@RequestParam(name = "task") String task, @RequestParam(name = "user") String userName, @RequestParam(name = "admin") String adminUsername) throws IOException {
+    public String sendMail(@RequestHeader("accept-language") HashMap<String, String> header, @RequestParam(name = "task") String task, @RequestParam(name = "user") String userName, @RequestParam(name = "admin") String adminUsername) throws IOException {
+        //permission check
+        String authToken  = header.get("authorization").toString ().replace( Constants.TOKEN_PREFIX, "");
+        String usernameFromToken = jwtTokenUtil.getUsernameFromToken(authToken);
+        String role = jwtTokenUtil.getStringFromToken(authToken, "admin");
+        if(!(role.equals("admin") || role.equals("helpdesk"))){
+            return "Unauthorized";
+        }
 
         User user = new User(userName);
         User adminUser = new User(adminUsername);
