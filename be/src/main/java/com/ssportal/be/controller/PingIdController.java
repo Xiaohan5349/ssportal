@@ -203,8 +203,20 @@ public class PingIdController {
 
 
     @RequestMapping(value = "/ToggleUserBypass", method = RequestMethod.POST)
-    public JSONObject ToggleUserBypass(@RequestBody HashMap<String, String> mapper){
-        String username = mapper.get ( "username" );
+    public JSONObject ToggleUserBypass(@RequestHeader("accept-language") HashMap<String, String> header, @RequestBody HashMap<String, String> mapper){
+        //permission check
+
+        String username = mapper.get("username");
+        String authToken = header.get(Constants.HEADER_STRING).replace(Constants.TOKEN_PREFIX, "");;
+        String role = jwtTokenUtil.getStringFromToken ( authToken, "admin" );
+
+        if(!role.equals("admin")){
+            HashMap responseMap = new HashMap();
+            responseMap.put("errorId",401);
+            responseMap.put("description", "Unauthorized");
+            return new JSONObject(responseMap);
+        }
+
         Operation operation = new Operation(pingIdProperties.getOrgAlias(), pingIdProperties.getPingid_token(), pingIdProperties.getPingid_use_base64_key(), pingIdProperties.getApi_url());
         operation.setTargetUser ( username );
 
@@ -213,8 +225,20 @@ public class PingIdController {
     }
 
     @RequestMapping(value = "/SuspendUser", method = RequestMethod.POST)
-    public JSONObject SuspendUser(@RequestBody HashMap<String, String> mapper){
-        String username = mapper.get ( "username" );
+    public JSONObject SuspendUser(@RequestHeader("accept-language") HashMap<String, String> header, @RequestBody HashMap<String, String> mapper){
+        //permission check
+
+        String username = mapper.get("username");
+        String authToken = header.get(Constants.HEADER_STRING).replace(Constants.TOKEN_PREFIX, "");;
+        String role = jwtTokenUtil.getStringFromToken ( authToken, "admin" );
+
+        if(!role.equals("admin")){
+            HashMap responseMap = new HashMap();
+            responseMap.put("errorId",401);
+            responseMap.put("description", "Unauthorized");
+            return new JSONObject(responseMap);
+        }
+
         Operation operation = new Operation(pingIdProperties.getOrgAlias(), pingIdProperties.getPingid_token(), pingIdProperties.getPingid_use_base64_key(), pingIdProperties.getApi_url());
         operation.setTargetUser ( username );
 
@@ -223,8 +247,20 @@ public class PingIdController {
     }
 
     @RequestMapping(value = "/ActivateUser", method = RequestMethod.POST)
-    public JSONObject ActivateUser(@RequestBody HashMap<String, String> mapper){
+    public JSONObject ActivateUser(@RequestHeader("accept-language") HashMap<String, String> header, @RequestBody HashMap<String, String> mapper){
+        //permission check
+
         String username = mapper.get("username");
+        String authToken = header.get(Constants.HEADER_STRING).replace(Constants.TOKEN_PREFIX, "");;
+        String role = jwtTokenUtil.getStringFromToken ( authToken, "admin" );
+
+        if(!role.equals("admin")){
+            HashMap responseMap = new HashMap();
+            responseMap.put("errorId",401);
+            responseMap.put("description", "Unauthorized");
+            return new JSONObject(responseMap);
+        }
+
         Operation operation = new Operation(pingIdProperties.getOrgAlias(), pingIdProperties.getPingid_token(), pingIdProperties.getPingid_use_base64_key(), pingIdProperties.getApi_url());
         operation.setTargetUser ( username );
 
