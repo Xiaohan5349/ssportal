@@ -52,11 +52,10 @@ public class PingIdController {
     @RequestMapping(value = "/getUserDetailsByUsername", method = RequestMethod.POST)
     public ResponseEntity getUserDetailsByUsername(@RequestHeader("accept-language") HashMap<String, String> header, @RequestBody HashMap<String, String> mapper) throws IOException, ServletException {
         String username = mapper.get("username");
-        String authToken  = header.get(Constants.HEADER_STRING).replace(Constants.TOKEN_PREFIX, "");
+        String authToken  = header.get("authorization").toString ().replace(Constants.TOKEN_PREFIX, "");
         String usernameFromToken = jwtTokenUtil.getUsernameFromToken(authToken);
         String role = jwtTokenUtil.getStringFromToken(authToken, "admin");
-        LOG.error("the role from token: "+ role);
-        LOG.error("username from token: "+ usernameFromToken);
+
         if((!username.equals(usernameFromToken)) && !(role.equals("admin") || role.equals("helpdesk"))){
             return new ResponseEntity<>("No Sufficient Permission", HttpStatus.FORBIDDEN);
         }

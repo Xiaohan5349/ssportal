@@ -9,7 +9,6 @@ import com.ssportal.be.service.UserService;
 import com.ssportal.be.utilility.ApiResponse;
 import com.ssportal.be.utilility.AuthToken;
 import com.ssportal.be.utilility.HelperUtil;
-import jdk.internal.jline.internal.Log;
 import org.apache.commons.lang3.StringUtils;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -77,7 +76,7 @@ public class LoginController {
             RefID = RefID.replaceAll ( "[^A-Za-z0-9]", "" );
         }
         ///bbb_xiaohan
-        String base_url = "https://sso.bedbath.com";
+        String base_url = "https://ssoqa.bedbath.com";
 //        String base_url = "https://localhost:9031";
         String pickupLocation = base_url + "/ext/ref/pickup?REF=" + RefID;
         java.util.Properties prop = new java.util.Properties ();
@@ -144,7 +143,7 @@ public class LoginController {
                     }
                 }
             } catch (ParseException e) {
-                Log.error ("Certificate Error!!");
+                LOG.error ("Certificate Error!!");
                 LOG.error ( "Error processing user details, Please contact Administrator", e );
             }
             return null;
