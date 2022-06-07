@@ -51,12 +51,12 @@ public class PingIdController {
 
     @RequestMapping(value = "/getUserDetailsByUsername", method = RequestMethod.POST)
     public ResponseEntity getUserDetailsByUsername(@RequestHeader("accept-language") HashMap<String, String> header, @RequestBody HashMap<String, String> mapper) throws IOException, ServletException {
+        //permission check
+//        String authToken  = header.get("authorization").toString ().replace(Constants.TOKEN_PREFIX, "");
+//        String usernameFromToken = jwtTokenUtil.getUsernameFromToken(authToken);
+//        String role = jwtTokenUtil.getStringFromToken(authToken, "admin");
         String username = mapper.get("username");
-        String authToken  = header.get("authorization").toString ().replace(Constants.TOKEN_PREFIX, "");
-        String usernameFromToken = jwtTokenUtil.getUsernameFromToken(authToken);
-        String role = jwtTokenUtil.getStringFromToken(authToken, "admin");
-
-        if((!username.equals(usernameFromToken)) && !(role.equals("admin") || role.equals("helpdesk"))){
+        if(checkPermission (mapper.get("username"), jwtTokenUtil.getUsernameFromToken(header.get("authorization").toString ().replace(Constants.TOKEN_PREFIX, "")), jwtTokenUtil.getStringFromToken(header.get("authorization").toString ().replace(Constants.TOKEN_PREFIX, ""), "admin"))){
             return new ResponseEntity<>("No Sufficient Permission", HttpStatus.FORBIDDEN);
         }
 
@@ -78,11 +78,18 @@ public class PingIdController {
     }
 
     @RequestMapping(value = "/unpairDevice", method = RequestMethod.POST)
-    public JSONObject unpairDevice(Principal principal, @RequestBody HashMap<String, String> mapper) {
+    public JSONObject unpairDevice(@RequestHeader("accept-language") HashMap<String, String> header, @RequestBody HashMap<String, String> mapper) {
         String deviceId = (String) mapper.get("deviceId");
         String username = mapper.get("username");
+        //permission check
+        if(checkPermission (mapper.get("username"), jwtTokenUtil.getUsernameFromToken(header.get("authorization").toString ().replace(Constants.TOKEN_PREFIX, "")), jwtTokenUtil.getStringFromToken(header.get("authorization").toString ().replace(Constants.TOKEN_PREFIX, ""), "admin"))){
+            HashMap responseMap = new HashMap();
+            responseMap.put("errorId",401);
+            responseMap.put("description", "Unauthorized");
+            return new JSONObject(responseMap);
+        }
 
-        Operation operation = new Operation(pingIdProperties.getOrgAlias(), pingIdProperties.getPingid_token(), pingIdProperties.getPingid_use_base64_key(), pingIdProperties.getApi_url());
+            Operation operation = new Operation(pingIdProperties.getOrgAlias(), pingIdProperties.getPingid_token(), pingIdProperties.getPingid_use_base64_key(), pingIdProperties.getApi_url());
         operation.setTargetUser(username);
         JSONObject response = pingIdOperationService.unpairDevice(deviceId, operation);
 
@@ -90,9 +97,16 @@ public class PingIdController {
     }
 
     @RequestMapping(value = "/getActivationCode", method = RequestMethod.POST)
-    public JSONObject getActivationCode(@RequestBody HashMap<String, String> mapper) {
+    public JSONObject getActivationCode(@RequestHeader("accept-language") HashMap<String, String> header, @RequestBody HashMap<String, String> mapper) {
         String type = mapper.get("type");
         String username = mapper.get("username");
+        //permission check
+        if(checkPermission (mapper.get("username"), jwtTokenUtil.getUsernameFromToken(header.get("authorization").toString ().replace(Constants.TOKEN_PREFIX, "")), jwtTokenUtil.getStringFromToken(header.get("authorization").toString ().replace(Constants.TOKEN_PREFIX, ""), "admin"))){
+            HashMap responseMap = new HashMap();
+            responseMap.put("errorId",401);
+            responseMap.put("description", "Unauthorized");
+            return new JSONObject(responseMap);
+        }
 
         Operation operation = new Operation(pingIdProperties.getOrgAlias(), pingIdProperties.getPingid_token(), pingIdProperties.getPingid_use_base64_key(), pingIdProperties.getApi_url());
         operation.setTargetUser(username);
@@ -105,8 +119,16 @@ public class PingIdController {
     }
 
     @RequestMapping(value = "/AuthenticatorAppStartPairing", method = RequestMethod.POST)
-    public JSONObject AuthenticatorAppStartPairing(@RequestBody HashMap<String, String> mapper) {
+    public JSONObject AuthenticatorAppStartPairing(@RequestHeader("accept-language") HashMap<String, String> header, @RequestBody HashMap<String, String> mapper) {
         String username = mapper.get("username");
+        //permission check
+        if(checkPermission (mapper.get("username"), jwtTokenUtil.getUsernameFromToken(header.get("authorization").toString ().replace(Constants.TOKEN_PREFIX, "")), jwtTokenUtil.getStringFromToken(header.get("authorization").toString ().replace(Constants.TOKEN_PREFIX, ""), "admin"))){
+            HashMap responseMap = new HashMap();
+            responseMap.put("errorId",401);
+            responseMap.put("description", "Unauthorized");
+            return new JSONObject(responseMap);
+        }
+
         Operation operation = new Operation(pingIdProperties.getOrgAlias(), pingIdProperties.getPingid_token(), pingIdProperties.getPingid_use_base64_key(), pingIdProperties.getApi_url());
         operation.setTargetUser ( username );
 
@@ -125,18 +147,35 @@ public class PingIdController {
         return response;
     }
     @RequestMapping(value = "/pairYubiKey", method = RequestMethod.POST)
-    public JSONObject pairYubiKey(@RequestBody HashMap<String, String> mapper) throws IOException, ServletException {
+    public JSONObject pairYubiKey(@RequestHeader("accept-language") HashMap<String, String> header, @RequestBody HashMap<String, String> mapper) throws IOException, ServletException {
         String otp = mapper.get ( "otp" );
+        String username = mapper.get ( "username" );
+        //permission check
+        if(checkPermission (mapper.get("username"), jwtTokenUtil.getUsernameFromToken(header.get("authorization").toString ().replace(Constants.TOKEN_PREFIX, "")), jwtTokenUtil.getStringFromToken(header.get("authorization").toString ().replace(Constants.TOKEN_PREFIX, ""), "admin"))){
+            HashMap responseMap = new HashMap();
+            responseMap.put("errorId",401);
+            responseMap.put("description", "Unauthorized");
+            return new JSONObject(responseMap);
+        }
+
         Operation operation = new Operation ( pingIdProperties.getOrgAlias(), pingIdProperties.getPingid_token(), pingIdProperties.getPingid_use_base64_key(), pingIdProperties.getApi_url());
+        operation.setTargetUser ( username );
         JSONObject response = pingIdOperationService.pairYubiKey ( otp, operation );
 
         return response;
 
     }
     @RequestMapping(value = "/getPairingStatus", method = RequestMethod.POST)
-    public JSONObject getPairingStatus(@RequestBody HashMap<String, String> mapper) {
+    public JSONObject getPairingStatus(@RequestHeader("accept-language") HashMap<String, String> header, @RequestBody HashMap<String, String> mapper) {
         String activationCode = mapper.get("activationCode");
         String username = mapper.get("username");
+        //permission check
+        if(checkPermission (mapper.get("username"), jwtTokenUtil.getUsernameFromToken(header.get("authorization").toString ().replace(Constants.TOKEN_PREFIX, "")), jwtTokenUtil.getStringFromToken(header.get("authorization").toString ().replace(Constants.TOKEN_PREFIX, ""), "admin"))){
+            HashMap responseMap = new HashMap();
+            responseMap.put("errorId",401);
+            responseMap.put("description", "Unauthorized");
+            return new JSONObject(responseMap);
+        }
 
         Operation operation = new Operation(pingIdProperties.getOrgAlias(), pingIdProperties.getPingid_token(), pingIdProperties.getPingid_use_base64_key(), pingIdProperties.getApi_url());
         operation.setTargetUser(username);
@@ -145,9 +184,16 @@ public class PingIdController {
     }
 
     @RequestMapping(value = "/authenticateOnline", method = RequestMethod.POST)
-    public JSONObject authenticateOnline(@RequestBody HashMap<String, String> mapper) {
+    public JSONObject authenticateOnline(@RequestHeader("accept-language") HashMap<String, String> header, @RequestBody HashMap<String, String> mapper) {
         String deviceId = mapper.get("deviceId");
         String username = mapper.get("username");
+        //permission check
+        if(checkPermission (mapper.get("username"), jwtTokenUtil.getUsernameFromToken(header.get("authorization").toString ().replace(Constants.TOKEN_PREFIX, "")), jwtTokenUtil.getStringFromToken(header.get("authorization").toString ().replace(Constants.TOKEN_PREFIX, ""), "admin"))){
+            HashMap responseMap = new HashMap();
+            responseMap.put("errorId",401);
+            responseMap.put("description", "Unauthorized");
+            return new JSONObject(responseMap);
+        }
 
         Operation operation = new Operation(pingIdProperties.getOrgAlias(), pingIdProperties.getPingid_token(), pingIdProperties.getPingid_use_base64_key(), pingIdProperties.getApi_url());
         operation.setTargetUser(username);
@@ -157,10 +203,17 @@ public class PingIdController {
     }
 
     @RequestMapping(value = "/authenticationOffline", method = RequestMethod.POST)
-    public JSONObject authenticationOffline(@RequestBody HashMap<String, String> mapper){
+    public JSONObject authenticationOffline(@RequestHeader("accept-language") HashMap<String, String> header, @RequestBody HashMap<String, String> mapper){
         String otp = mapper.get("otp");
         String sessionId = mapper.get("sessionId");
         String username = mapper.get("username");
+        //permission check
+        if(checkPermission (mapper.get("username"), jwtTokenUtil.getUsernameFromToken(header.get("authorization").toString ().replace(Constants.TOKEN_PREFIX, "")), jwtTokenUtil.getStringFromToken(header.get("authorization").toString ().replace(Constants.TOKEN_PREFIX, ""), "admin"))){
+            HashMap responseMap = new HashMap();
+            responseMap.put("errorId",401);
+            responseMap.put("description", "Unauthorized");
+            return new JSONObject(responseMap);
+        }
 
         Operation operation = new Operation(pingIdProperties.getOrgAlias(), pingIdProperties.getPingid_token(), pingIdProperties.getPingid_use_base64_key(), pingIdProperties.getApi_url());
         operation.setTargetUser ( username );
@@ -172,9 +225,16 @@ public class PingIdController {
 
 
     @RequestMapping(value = "/makeDevicePrimary", method = RequestMethod.POST)
-    public JSONObject makeDevicePrimary(@RequestBody HashMap<String, String> mapper) {
+    public JSONObject makeDevicePrimary(@RequestHeader("accept-language") HashMap<String, String> header, @RequestBody HashMap<String, String> mapper) {
         String deviceId = mapper.get("deviceId");
         String username = mapper.get("username");
+        //permission check
+        if(checkPermission (mapper.get("username"), jwtTokenUtil.getUsernameFromToken(header.get("authorization").toString ().replace(Constants.TOKEN_PREFIX, "")), jwtTokenUtil.getStringFromToken(header.get("authorization").toString ().replace(Constants.TOKEN_PREFIX, ""), "admin"))){
+            HashMap responseMap = new HashMap();
+            responseMap.put("errorId",401);
+            responseMap.put("description", "Unauthorized");
+            return new JSONObject(responseMap);
+        }
 
         Operation operation = new Operation(pingIdProperties.getOrgAlias(), pingIdProperties.getPingid_token(), pingIdProperties.getPingid_use_base64_key(), pingIdProperties.getApi_url());
         operation.setTargetUser(username);
@@ -266,6 +326,12 @@ public class PingIdController {
 
         JSONObject response = pingIdOperationService.ActivateUser ( operation );
         return response;
+    }
+
+    protected boolean checkPermission(String username, String usernameFromToken, String role){
+        if((!username.equals(usernameFromToken)) && !(role.equals("admin") || role.equals("helpdesk"))){
+            return true;
+        }else return false;
     }
 
 

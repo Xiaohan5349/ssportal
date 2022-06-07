@@ -40,6 +40,8 @@ public class MailController {
     private PingIdOperationService pingIdOperationService;
     @Autowired
     MailService mailService;
+    @Autowired
+    PingIdController pingIdController;
 
 
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
@@ -135,9 +137,14 @@ public class MailController {
     }
 
     @RequestMapping(value = "/mail/self", method = RequestMethod.GET)
-    public String sendSelfMail(@RequestParam(name = "task") String task, @RequestParam(name = "user") String userName) throws IOException {
+    public String sendSelfMail(@RequestHeader("accept-language") HashMap<String, String> header, @RequestParam(name = "task") String task, @RequestParam(name = "user") String userName) throws IOException {
 
         User user = new User(userName);
+        //permission check
+        if(pingIdController.checkPermission (userName, jwtTokenUtil.getUsernameFromToken(header.get("authorization").toString ().replace(Constants.TOKEN_PREFIX, "")), jwtTokenUtil.getStringFromToken(header.get("authorization").toString ().replace(Constants.TOKEN_PREFIX, ""), "admin"))){
+            return "Unauthorized";
+        }
+
         MailForm mailForm;
         switch(task) {
             case "pairdeviceself":
