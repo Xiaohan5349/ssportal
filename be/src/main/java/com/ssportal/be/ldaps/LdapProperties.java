@@ -25,6 +25,8 @@ public class LdapProperties {
     private String softTokenGroup;
     private String hardTokenGroup;
     private String desktopTokenGroup;
+
+    private String SMSTokenGroup;
     private String otpTokenGroup;
     private String adminGroup;
 
@@ -98,6 +100,13 @@ public class LdapProperties {
 
     public String getOtpTokenGroup() { return otpTokenGroup; }
 
+    public String getSMSTokenGroup() {
+        return SMSTokenGroup;
+    }
+
+    public void setSMSTokenGroup(String SMSTokenGroup) {
+        this.SMSTokenGroup = SMSTokenGroup;
+    }
     public void setOtpTokenGroup(String otpTokenGroup) { this.otpTokenGroup = otpTokenGroup; }
 
     public String getAdminGroup() {
@@ -137,6 +146,7 @@ public class LdapProperties {
             desktopTokenGroup = prop.getProperty("desktopTokenGroup");
             otpTokenGroup = prop.getProperty ( "otpTokenGroup" );
             adminGroup = prop.getProperty ( "adminGroup" );
+            SMSTokenGroup = prop.getProperty ( "SMSTokenGroup" );
         }
     }
 

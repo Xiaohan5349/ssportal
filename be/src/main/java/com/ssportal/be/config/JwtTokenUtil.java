@@ -75,6 +75,7 @@ public class JwtTokenUtil implements Serializable {
         String softToken = user.getSoftToken () != null? user.getSoftToken ():"false";
         String otpToken = user.getOtpToken () != null? user.getOtpToken ():"false";
         String desktopToken = user.getDesktopToken () != null? user.getDesktopToken ():"false";
+        String SMSToken = user.getSMSToken () != null? user.getSMSToken():"false";
         Claims claims = Jwts.claims().setSubject(user.getUsername());
 
         Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
@@ -93,6 +94,7 @@ public class JwtTokenUtil implements Serializable {
                 .claim ("otpToken", otpToken )
                 .claim ( "softToken", softToken )
                 .claim ( "desktopToken", desktopToken)
+                .claim ("SMSToken", SMSToken)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + Constants.ACCESS_TOKEN_VALIDITY_SECONDS * 1000))
                 .signWith(SignatureAlgorithm.HS256, Constants.SIGNING_KEY_BASE64)

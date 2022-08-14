@@ -34,6 +34,9 @@ public class User implements Serializable, UserDetails {
     private String softToken;
     private String desktopToken;
 
+
+
+    private String SMSToken;
     private String otpToken;
 
 
@@ -104,12 +107,14 @@ public class User implements Serializable, UserDetails {
             String softToken =  userAttributes.get ( "softToken" ).toString ();
             String desktopToken =  userAttributes.get ( "desktopToken" ).toString ();
             String otpToken =  userAttributes.get ( "otpToken" ).toString ();
+            String SMSToken = userAttributes.get ( "SMSToken" ).toString ();
 
             this.admin = admin!= null?admin:"false";
             this.hardToken = hardToken!= null?hardToken:"false";
             this.softToken = softToken!= null?softToken:"false";
             this.desktopToken = desktopToken!= null?desktopToken:"false";
             this.otpToken = otpToken!= null?otpToken:"false";
+            this.SMSToken = SMSToken!=null?SMSToken:"false";
         } catch (Exception e) {
             LOG.error ( "please check the token group" );
         }
@@ -257,6 +262,13 @@ public class User implements Serializable, UserDetails {
 
     public void setOtpToken(String otpToken) { this.otpToken = otpToken; }
 
+    public String getSMSToken() {
+        return SMSToken;
+    }
+
+    public void setSMSToken(String SMSToken) {
+        this.SMSToken = SMSToken;
+    }
 
     public String getDeviceId() {
         return deviceId;

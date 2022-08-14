@@ -110,6 +110,9 @@ public class LdapOperationWithoutPing {
                         if (groupDN.equalsIgnoreCase ( this.props.getOtpTokenGroup () )) {
                             user.setOtpTokenUser ( true );
                         }
+                        if (groupDN.equalsIgnoreCase(this.props.getSMSTokenGroup ())) {
+                            user.setSMSTokenUser ( true );
+                        }
                         if (groupDN.equalsIgnoreCase ( this.props.getAdminGroup () )) {
                             user.setRole ( "ADMIN" );
                         }

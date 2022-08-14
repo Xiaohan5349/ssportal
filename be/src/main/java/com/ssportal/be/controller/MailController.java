@@ -88,6 +88,7 @@ public class MailController {
             jsonUser.put ( "username", userName );
             jsonUser.put ( "hardToken", user.isHardTokenUser ());
             jsonUser.put ( "desktopToken", user.isDesktopTokenUser ());
+            jsonUser.put ( "SMSToken", user.isSMSTokenUser () );
             jsonUser.put ( "softToken", user.isSoftTokenUser ());
             jsonUser.put ( "otpToken", user.isOtpTokenUser ());
 

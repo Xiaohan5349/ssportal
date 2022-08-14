@@ -12,6 +12,8 @@ public class LdapUser {
     private boolean desktopTokenUser;
     private boolean otpTokenUser;
 
+    private boolean SMSTokenUser;
+
     public LdapUser(){
         this.role = "REGULAR";
     }
@@ -65,6 +67,14 @@ public class LdapUser {
 
     public boolean isDesktopTokenUser() {
         return desktopTokenUser;
+    }
+
+    public boolean isSMSTokenUser() {
+        return SMSTokenUser;
+    }
+
+    public void setSMSTokenUser(boolean SMSTokenUser){
+        this.SMSTokenUser = SMSTokenUser;
     }
 
     public void setDesktopTokenUser(boolean desktopTokenUser) {
