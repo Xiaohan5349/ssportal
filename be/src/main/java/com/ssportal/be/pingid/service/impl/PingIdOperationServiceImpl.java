@@ -2,10 +2,7 @@ package com.ssportal.be.pingid.service.impl;
 
 import com.cedarsoftware.util.io.JsonObject;
 import com.ssportal.be.model.User;
-import com.ssportal.be.pingid.model.Application;
-import com.ssportal.be.pingid.model.DeviceDetail;
-import com.ssportal.be.pingid.model.Operation;
-import com.ssportal.be.pingid.model.PingIdUser;
+import com.ssportal.be.pingid.model.*;
 import com.ssportal.be.pingid.service.PingIdOperationService;
 import com.ssportal.be.pingid.utils.OperationHelpers;
 import org.apache.commons.io.IOUtils;
@@ -327,12 +324,39 @@ public class PingIdOperationServiceImpl implements PingIdOperationService {
         return response;
     }
 
+    @SuppressWarnings("unchecked")
+    public JSONObject backupOnline(RequestData requestData, String authType, String deviceId, Operation operation) {
+
+        operation.setName("AuthenticateOnline");
+        operation.setEndpoint(operation.getApiUrl() + "/rest/4/authonline/do");
+
+        JSONObject reqBody = new JSONObject();
+        reqBody.put("authType", authType);
+        reqBody.put("spAlias", requestData.getSpAlias());
+        reqBody.put ( "deviceType", requestData.getDeviceType () );
+        reqBody.put ( "deviceData", requestData.getDeviceData () );
+
+
+        operation.setRequestToken(OperationHelpers.buildRequestToken(reqBody, operation));
+
+        OperationHelpers.sendRequest(operation);
+        JSONObject response = OperationHelpers.parseResponse(operation);
+
+        if (operation.getWasSuccessful()) {
+            operation.getValues().clear();
+            operation.setLastSessionId((String) response.get("sessionId"));
+        }
+        return response;
+    }
+
+
 
     public JSONObject authenticationOffline(String sessionId, String otp, Operation operation){
         operation.setName ( "AuthenticationOffline" );
         operation.setEndpoint ( operation.getApiUrl () + "/rest/4/authoffline/do" );
 
         JSONObject reqBody = new JSONObject();
+        //todo: need add a parameter to decide user web or rescuecode
         reqBody.put ( "spAlias", "web" );
         reqBody.put ( "otp", otp );
         reqBody.put ( "userName", operation.getPingIdUser ().getUserName () );

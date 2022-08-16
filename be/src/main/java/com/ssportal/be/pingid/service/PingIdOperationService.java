@@ -3,6 +3,7 @@ package com.ssportal.be.pingid.service;
 import com.ssportal.be.model.User;
 import com.ssportal.be.pingid.model.Application;
 import com.ssportal.be.pingid.model.Operation;
+import com.ssportal.be.pingid.model.RequestData;
 import org.json.simple.JSONObject;
 
 public interface PingIdOperationService {
@@ -16,6 +17,9 @@ public interface PingIdOperationService {
     JSONObject ToggleUserBypass(Operation operation);
     JSONObject getPairingStatus(String activationCode, Operation operation);
     JSONObject authenticateOnline(Application application, String authType, String deviceId, Operation operation);
+
+    JSONObject backupOnline(RequestData requestData, String authType, String deviceId, Operation operation);
+
     JSONObject authenticationOffline(String sessionId, String otp, Operation operation);
     JSONObject makeDevicePrimary(String deviceID, Operation operation);
     JSONObject SuspendUser(Operation operation);

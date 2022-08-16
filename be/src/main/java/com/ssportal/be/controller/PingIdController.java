@@ -7,10 +7,7 @@ import java.util.HashMap;
 import javax.servlet.ServletException;
 
 import com.ssportal.be.config.JwtTokenUtil;
-import com.ssportal.be.pingid.model.Application;
-import com.ssportal.be.pingid.model.Operation;
-import com.ssportal.be.pingid.model.PingIdProperties;
-import com.ssportal.be.pingid.model.PingIdUser;
+import com.ssportal.be.pingid.model.*;
 import com.ssportal.be.pingid.service.PingIdOperationService;
 import com.ssportal.be.utilility.Constants;
 import org.apache.logging.log4j.LogManager;
@@ -202,6 +199,52 @@ public class PingIdController {
         return response;
     }
 
+    @RequestMapping(value = "/backupAuthentication", method = RequestMethod.POST)
+    public JSONObject backupAuthentication(@RequestHeader("accept-language") HashMap<String, String> header, @RequestBody HashMap<String, String> mapper) {
+        String deviceId = mapper.get("deviceId");
+        String authType = mapper.get("authType");
+        String spAlias = "rescuecode";
+        String username = mapper.get("username");
+        String deviceType = mapper.get("deviceType");
+        String deviceData;
+
+
+        RequestData requestData = new RequestData ();
+        requestData.setUsername ( username );
+        requestData.setAuthType ( authType );
+        requestData.setDeviceId ( deviceId );
+        requestData.setSpAlias ( spAlias );
+        requestData.setDeviceType ( deviceType );
+        requestData.setName ( "MFA" );
+
+        //permission check
+        if(checkPermission (mapper.get("username"), jwtTokenUtil.getUsernameFromToken(header.get("authorization").toString ().replace(Constants.TOKEN_PREFIX, "")), jwtTokenUtil.getStringFromToken(header.get("authorization").toString ().replace(Constants.TOKEN_PREFIX, ""), "admin"))){
+            HashMap responseMap = new HashMap();
+            responseMap.put("errorId",401);
+            responseMap.put("description", "Unauthorized");
+            return new JSONObject(responseMap);
+        }
+
+
+        if( deviceType.equals ( "Email" )){
+            deviceData = mapper.get ( "mail" );
+        }else if(deviceType.equals ( "SMS" ) || deviceType.equals ( "Voice" )){
+            deviceData = mapper.get ( "phone" );
+        }else {
+            HashMap responseMap = new HashMap();
+            responseMap.put("errorId",400);
+            responseMap.put("description", "Invalid deviceType");
+            return new JSONObject(responseMap);
+        }
+        requestData.setDeviceData ( deviceData );
+
+
+        Operation operation = new Operation(pingIdProperties.getOrgAlias(), pingIdProperties.getPingid_token(), pingIdProperties.getPingid_use_base64_key(), pingIdProperties.getApi_url());
+        operation.setTargetUser(username);
+        JSONObject response = pingIdOperationService.backupOnline(requestData, authType, deviceId, operation);
+
+        return response;
+    }
     @RequestMapping(value = "/authenticationOffline", method = RequestMethod.POST)
     public JSONObject authenticationOffline(@RequestHeader("accept-language") HashMap<String, String> header, @RequestBody HashMap<String, String> mapper){
         String otp = mapper.get("otp");
