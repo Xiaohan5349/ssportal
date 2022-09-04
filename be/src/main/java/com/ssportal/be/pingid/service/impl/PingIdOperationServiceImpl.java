@@ -180,6 +180,45 @@ public class PingIdOperationServiceImpl implements PingIdOperationService {
         return operation.getLastActivationCode();
     }
 
+    public JSONObject startOfflinePairing(Operation operation, String phoneNumber){
+        operation.setName ( "StartOfflinePairing" );
+        operation.setEndpoint ( operation.getApiUrl ()+"/rest/4/startofflinepairing/do" );
+
+        JSONObject reqBody = new JSONObject (  );
+        reqBody.put ( "username", operation.getPingIdUser ().getUserName () );
+        reqBody.put ( "type", "SMS" );
+        reqBody.put("pairingData", phoneNumber);
+
+        operation.setRequestToken ( OperationHelpers.buildRequestToken ( reqBody, operation ) );
+
+        OperationHelpers.sendRequest ( operation );
+        JSONObject response = OperationHelpers.parseResponse ( operation );
+        LOG.info ( "StartOfflinePairing response from PingID: " + response.get ( "sessionId" ));
+        operation.getValues ().clear ();
+        JSONObject authenticator = new JSONObject (  );
+        authenticator.put ( "sessionId", response.get ( "sessionId" ));
+        return authenticator;
+    }
+
+    public JSONObject finalizeOfflinePairing(Operation operation, String sessionId, String otp){
+        operation.setName ( "FinalizeOfflinePairing" );
+        operation.setEndpoint ( operation.getApiUrl ()+"/rest/4/finalizeofflinepairing/do" );
+
+        JSONObject repBody = new JSONObject (  );
+        repBody.put ( "sessionId", sessionId );
+        repBody.put ( "otp", otp );
+        operation.setRequestToken ( OperationHelpers.buildRequestToken ( repBody, operation ));
+
+        OperationHelpers.sendRequest ( operation );
+        JSONObject response = OperationHelpers.parseResponse ( operation );
+        LOG.info ( "FinalizeOfflinePairing response from PingID: " + response.get ( "sessionId" ));
+        operation.getValues ().clear ();
+
+        return response;
+
+    }
+
+
     @SuppressWarnings("unchecked")
     public JSONObject AuthenticatorAppStartPairing(Operation operation){
         operation.setName ( "AuthenticatorAppStartPairing" );

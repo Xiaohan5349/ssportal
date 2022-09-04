@@ -20,6 +20,10 @@ public interface PingIdOperationService {
 
     JSONObject backupOnline(RequestData requestData, String authType, String deviceId, Operation operation);
 
+    JSONObject startOfflinePairing(Operation operation, String phoneNumber);
+
+    JSONObject finalizeOfflinePairing(Operation operation, String sessionId, String otp);
+
     JSONObject authenticationOffline(String sessionId, String otp, Operation operation);
     JSONObject makeDevicePrimary(String deviceID, Operation operation);
     JSONObject SuspendUser(Operation operation);

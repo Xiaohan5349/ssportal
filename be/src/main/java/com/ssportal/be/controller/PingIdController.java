@@ -115,6 +115,35 @@ public class PingIdController {
         return response;
     }
 
+    @RequestMapping(value = "/startOfflinePairing", method = RequestMethod.POST)
+    public JSONObject startOfflinePairing(@RequestHeader("accept-language") HashMap<String, String> header, @RequestBody HashMap<String, String> mapper) {
+        String username = mapper.get("username");
+        String phoneNumber = mapper.get("phone");
+        //permission check
+        if(checkPermission (mapper.get("username"), jwtTokenUtil.getUsernameFromToken(header.get("authorization").toString ().replace(Constants.TOKEN_PREFIX, "")), jwtTokenUtil.getStringFromToken(header.get("authorization").toString ().replace(Constants.TOKEN_PREFIX, ""), "admin"))){
+            HashMap responseMap = new HashMap();
+            responseMap.put("errorId",401);
+            responseMap.put("description", "Unauthorized");
+            return new JSONObject(responseMap);
+        }
+
+        Operation operation = new Operation(pingIdProperties.getOrgAlias(), pingIdProperties.getPingid_token(), pingIdProperties.getPingid_use_base64_key(), pingIdProperties.getApi_url());
+        operation.setTargetUser ( username );
+
+        JSONObject response = pingIdOperationService.startOfflinePairing ( operation, phoneNumber );
+
+        return response;
+    }
+
+    @RequestMapping(value = "/finalizeOfflinePairing", method = RequestMethod.POST)
+    public JSONObject finalizeOfflinePairing(@RequestBody HashMap<String, String> mapper){
+        String sessionId = mapper.get ( "sessionId" );
+        String otp = mapper.get ( "otp" );
+        Operation operation = new Operation(pingIdProperties.getOrgAlias(), pingIdProperties.getPingid_token(), pingIdProperties.getPingid_use_base64_key(), pingIdProperties.getApi_url());
+        JSONObject response = pingIdOperationService.finalizeOfflinePairing ( operation, sessionId, otp );
+        return response;
+    }
+
     @RequestMapping(value = "/AuthenticatorAppStartPairing", method = RequestMethod.POST)
     public JSONObject AuthenticatorAppStartPairing(@RequestHeader("accept-language") HashMap<String, String> header, @RequestBody HashMap<String, String> mapper) {
         String username = mapper.get("username");
