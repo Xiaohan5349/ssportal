@@ -9,6 +9,7 @@ import java.util.Properties;
 public class LdapProperties {
 
     private String ldapId;
+    private String manager;
     private String searchBaseDN;
     private String searchFilter;
     private String firstName;
@@ -32,6 +33,10 @@ public class LdapProperties {
 
     public String getLdapId() {
         return ldapId;
+    }
+
+    public String getManager() {
+        return manager;
     }
 
     public String getSearchBaseDN() {
@@ -128,6 +133,7 @@ public class LdapProperties {
                 throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
             }
             ldapId = prop.getProperty("ldapId");
+            manager = prop.getProperty ( "manager" );
             searchBaseDN = prop.getProperty("searchBaseDN");
             searchFilter = prop.getProperty("searchFilter");
             firstName = prop.getProperty("firstName");
