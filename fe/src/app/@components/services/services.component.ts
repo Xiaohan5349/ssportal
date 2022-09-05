@@ -14,6 +14,7 @@ import {JwtAuthService} from "../../@core/services/jwt-auth.service";
 import {NbMenuService} from '@nebular/theme';
 import { AppConst } from './../../@core/utils/app-const';
 import { environment } from './../../../environments/environment';
+import { HomeSmsInputComponent } from '../home/home-sms-input/home-sms-input.component';
 
 @Component({
   selector: 'app-services',
@@ -218,6 +219,26 @@ export class ServicesComponent implements OnInit {
         console.log(error);
       }
     )
+  }
+
+  smsStartPairing() {
+    this.dialogService.open(HomeSmsInputComponent, {
+      context: {
+        title: 'Register ' + ' SMS',
+        message: 'Please input phone number' + '',
+        user: this.user,
+        sessionId: this.sessionId,
+        userName: this.user.userName,
+        adminUser: this.sessionUser.sub,
+        mailTask: AppConst.MAIL_TASK_helpDeskPair,    
+      },
+      hasBackdrop: true,
+      closeOnBackdropClick: false
+    }).onClose.subscribe(res => {
+      if (res) {
+        this.searchUser();
+      }
+    });
   }
 
 

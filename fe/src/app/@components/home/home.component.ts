@@ -16,6 +16,7 @@ import {JwtAuthService} from "../../@core/services/jwt-auth.service";
 import {NgForm} from "@angular/forms";
 import {HomeQrCodeGoogleComponent} from "./home-qr-code-google/home-qr-code-google.component";
 import {NbMenuService} from '@nebular/theme';
+import { HomeSmsInputComponent } from './home-sms-input/home-sms-input.component';
 
 @Component({
   selector: 'app-home',
@@ -44,6 +45,7 @@ export class HomeComponent implements OnInit {
   hardToken: string = "false";
   desktopToken: string = "false";
   otpToken: string = "false";
+  smsToken: string = "false";
   orgUuid = 'dffd9656-dfb8-4a0b-bb35-8590e62984e4';
   idpAccountId
 //  items = [{ title: 'ByPass MFA' }, { title: 'Enable User' }, { title: 'Disable User' }];
@@ -206,6 +208,42 @@ export class HomeComponent implements OnInit {
     //   }
     // })
   }
+
+  smsStartPairing() {
+    this.dialogService.open(HomeSmsInputComponent, {
+      context: {
+        title: 'Register ' + ' SMS',
+        message: 'Please input phone number' + '',
+        user: this.sessionUser,
+        mailTask: AppConst.MAIL_TASK_selfPair,
+      },
+      hasBackdrop: true,
+      closeOnBackdropClick: false
+    }).onClose.subscribe(res => {
+      if (res) {
+        this.getUserDetails();
+      }
+    });
+
+  // this.dialogService.open(HomeQrCodeGoogleComponent, {
+  //   context: {
+  //     title: 'Register ' + ' Authenticator',
+  //     message: 'Please scan the QR code with your Authenticator ' + ' app or input paring code manually.',
+  //     qrcode: this.pairingKeyUri,
+  //     code: this.pairingKey,
+  //     sessionId: this.sessionId,
+  //     user: this.sessionUser
+  //   },
+  //   hasBackdrop: true,
+  //   closeOnBackdropClick: false
+  // }).onClose.subscribe(res => {
+  //   if (res) {
+  //     this.ngOnInit();
+  //   }
+  // })
+}
+
+
 
   yubikeyStartPairing() {
         this.dialogService.open(HomeYubikeyInputComponent, {

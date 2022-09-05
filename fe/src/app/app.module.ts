@@ -41,6 +41,7 @@ import { ServicesComponent } from './@components/services/services.component';
 import { HomeQrCodeGoogleComponent } from './@components/home/home-qr-code-google/home-qr-code-google.component';
 import { HomeYubikeyInputComponent } from './@components/home/home-yubikey-input/home-yubikey-input.component';
 import { OtpValidaterComponent } from './@components/home/otp-validater/otp-validater.component';
+import { HomeSmsInputComponent } from './@components/home/home-sms-input/home-sms-input.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { OtpValidaterComponent } from './@components/home/otp-validater/otp-vali
     ServicesComponent,
     HomeQrCodeGoogleComponent,
     HomeYubikeyInputComponent,
-    OtpValidaterComponent
+    OtpValidaterComponent,
+    HomeSmsInputComponent
   ],
   imports: [
     BrowserModule,

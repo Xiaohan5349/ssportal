@@ -192,5 +192,32 @@ export class PingIdService {
 
   }
 
+  startOfflinePairing(phoneNumber,username) {
+    const url = this.BACKEND_URL + '/pingid/startOfflinePairing';
+    const payload = {
+      username: username,
+      phone: phoneNumber,
+    }
+    const httpOptions = {
+     headers: new HttpHeaders({'Content-Type': 'application/json'})
+    };
+    return this.http.post(url, payload, httpOptions);
+
+
+  }
+
+  finalizeOfflinePairing(sessionId,otp) {
+    const url = this.BACKEND_URL + '/pingid/finalizeOfflinePairing';
+    const payload = {
+      sessionId: sessionId,
+      otp: otp
+    }
+    const httpOptions = {
+     headers: new HttpHeaders({'Content-Type': 'application/json'})
+    };
+    return this.http.post(url, payload, httpOptions);
+
+
+  }
 
 }

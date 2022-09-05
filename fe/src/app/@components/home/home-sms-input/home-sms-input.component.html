@@ -1,0 +1,42 @@
+<nb-card style="min-width: 500px;">
+    <nb-card-header>
+      {{title}}
+    </nb-card-header>
+    <nb-card-body>
+      <span *ngIf="!devicePaired">{{message}}</span>
+      <div class="mt-4 text-center">
+        <div *ngIf="devicePaired">
+          <h2 ><span status="info">Start Pairing</span></h2>
+          <img  class="img-fluid mt-1" src="assets/images/success.png" style="width:200px;">
+        </div>
+        <br>
+        <h5 *ngIf="!devicePaired">{{code}}</h5>
+      </div>
+      <div *ngIf="!smsSent">
+        <input nbInput class="mb-1" [(ngModel)]="smsNumber"
+               fullWidth name="smsNumber"
+               id="input-smsNumber"
+               placeholder="Phone Number">
+      </div>
+      <div *ngIf="otpNeed">
+        <input nbInput class="mb-1" [(ngModel)]="otp"
+               fullWidth name="OTP"
+               id="input-otp"
+               placeholder="One Time Password">
+      </div>
+      <nb-alert  *ngIf="smsNumberNotValid" status="warning">
+        Please Input valid phonenumber
+      </nb-alert>
+      <div *ngIf="!smsSent" class="text-center mt-4">
+        <button nbButton status="success" (click)="pairSMS()">Pair Device</button>
+      </div>
+      <div *ngIf="otpNeed" class="text-center mt-4">
+        <button nbButton status="success" (click)="otpValidate()">Verify OTP</button>
+      </div>
+      <div class="text-center mt-4">
+        <button nbButton status="danger" (click)="closeDialog(devicePaired)">Close</button>
+      </div>
+    </nb-card-body>
+  </nb-card>
+  
+
