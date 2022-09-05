@@ -10,6 +10,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.eclipse.jetty.util.Callback;
 import org.json.*;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
@@ -180,6 +181,7 @@ class JwtTokenUtilTest {
 //    }
 
     @Test
+    @Disabled
     void testFunction() throws Exception {
 //        StringBuilder sb = new StringBuilder (  );
 //
