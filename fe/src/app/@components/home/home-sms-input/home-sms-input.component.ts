@@ -78,7 +78,7 @@ export class HomeSmsInputComponent implements OnInit {
     console.log(this.smsNumberNotValid);
     if(!this.smsNumberNotValid){
       console.log("start send to backend")
-      this.pingidService.startOfflinePairing(this.userName,this.smsNumber).subscribe(
+      this.pingidService.startOfflinePairing(this.smsNumber,this.userName).subscribe(
         res => {
           const result: any = res;
           this.sessionId = result.sessionId;

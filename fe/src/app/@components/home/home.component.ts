@@ -216,6 +216,7 @@ export class HomeComponent implements OnInit {
         message: 'Please input phone number' + '',
         user: this.sessionUser,
         mailTask: AppConst.MAIL_TASK_selfPair,
+        userName: this.sessionUser.sub,
       },
       hasBackdrop: true,
       closeOnBackdropClick: false
