@@ -201,5 +201,12 @@ class JwtTokenUtilTest {
 
     }
 
+    @Test
+    public void SimpleTest(){
+        String abc = "2022628086";
+        abc = "1"+abc;
+        System.out.println (abc);
+    }
+
 
 }

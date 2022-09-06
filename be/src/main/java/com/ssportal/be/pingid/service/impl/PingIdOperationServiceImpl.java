@@ -185,6 +185,8 @@ public class PingIdOperationServiceImpl implements PingIdOperationService {
         operation.setEndpoint ( operation.getApiUrl ()+"/rest/4/startofflinepairing/do" );
 
         JSONObject reqBody = new JSONObject (  );
+        phoneNumber = "1"+phoneNumber;
+        LOG.info ( "the phone number is "+phoneNumber );
         reqBody.put ( "username", operation.getPingIdUser ().getUserName () );
         reqBody.put ( "type", "SMS" );
         reqBody.put("pairingData", phoneNumber);
