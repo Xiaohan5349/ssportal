@@ -112,6 +112,7 @@ export class HomeSmsInputComponent implements OnInit {
         const result: any = res;
         console.log(result);
         if (result.errorId == "200") {
+          this.otpNeed = false;
           this.devicePaired = true;
           if (this.mailTask=="pairdeviceself") {
             this.mailService.selfServiceMail(this.userName,this.mailTask);
@@ -120,6 +121,8 @@ export class HomeSmsInputComponent implements OnInit {
           } else{
             console.log("Email gose wrong!!");
           }  
+        } else if (result.errorId == "20513") {
+          this.message = "Incorrect OTP. Please try again.";
         }
       }, error => {
         console.log(error)
