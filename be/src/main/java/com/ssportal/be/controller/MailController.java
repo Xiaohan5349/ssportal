@@ -109,23 +109,24 @@ public class MailController {
         }
         LdapOperationWithoutPing ldapOperation = new LdapOperationWithoutPing ();
         User user = new User(ldapOperation.searchUser ( userName ));
-        User adminUser = new User(ldapOperation.searchUser_manager ( user.getManager ()));
+        User adminUser = new User(ldapOperation.searchAdmin ( adminUsername ));
+        User manager = new User(ldapOperation.searchUser_manager ( user.getManager ()));
         MailForm mailForm;
         switch(task) {
             case "pairdevice":
-                mailForm = mailService.buildFormForRegister ( adminUser, user );
+                mailForm = mailService.buildFormForRegister ( adminUser, manager, user );
                 break;
             case "unpairdevice":
-                mailForm = mailService.buildFormForUnregister ( adminUser, user );
+                mailForm = mailService.buildFormForUnregister ( adminUser, manager, user );
                 break;
             case "bypass":
-                mailForm = mailService.buildFormForBypass ( adminUser, user );
+                mailForm = mailService.buildFormForBypass ( adminUser, manager, user );
                 break;
             case "enable":
-                mailForm = mailService.buildFormForEnableUser ( adminUser, user );
+                mailForm = mailService.buildFormForEnableUser ( adminUser, manager, user );
                 break;
             case "disable":
-                mailForm = mailService.buildFormForDisableUser ( adminUser, user );
+                mailForm = mailService.buildFormForDisableUser ( adminUser, manager, user );
                 break;
             default:
                 throw new IllegalArgumentException ( "Invalid task " + task );
@@ -149,9 +150,11 @@ public class MailController {
     }
 
     @RequestMapping(value = "/mail/self", method = RequestMethod.GET)
-    public String sendSelfMail(@RequestHeader("accept-language") HashMap<String, String> header, @RequestParam(name = "task") String task, @RequestParam(name = "user") String userName) throws IOException {
+    public String sendSelfMail(@RequestHeader("accept-language") HashMap<String, String> header, @RequestParam(name = "task") String task, @RequestParam(name = "user") String userName) throws Exception {
 
-        User user = new User(userName);
+        LdapOperationWithoutPing ldapOperation = new LdapOperationWithoutPing ();
+        User user = new User(ldapOperation.searchUser ( userName ));
+        User manager = new User(ldapOperation.searchUser_manager ( user.getManager ()));
         //permission check
         if(pingIdController.checkPermission (userName, jwtTokenUtil.getUsernameFromToken(header.get("authorization").toString ().replace(Constants.TOKEN_PREFIX, "")), jwtTokenUtil.getStringFromToken(header.get("authorization").toString ().replace(Constants.TOKEN_PREFIX, ""), "admin"))){
             return "Unauthorized";
@@ -160,10 +163,10 @@ public class MailController {
         MailForm mailForm;
         switch(task) {
             case "pairdeviceself":
-                mailForm = mailService.buildFormForSelfRegister ( user );
+                mailForm = mailService.buildFormForSelfRegister ( user, manager );
                 break;
             case "unpairdeviceself":
-                mailForm = mailService.buildFormForSelfUnregister ( user );
+                mailForm = mailService.buildFormForSelfUnregister ( user, manager );
                 break;
             default:
                 throw new IllegalArgumentException ( "Invalid task " + task );

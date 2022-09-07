@@ -129,6 +129,54 @@ public class LdapOperationWithoutPing {
         return user;
     }
 
+    public LdapUser searchAdmin(String bbbyId) throws GeneralSecurityException, Exception, IOException, NamingException {
+        DirContext context = getContext();
+        LdapUser user = null;
+        // Configure filter
+        String ldapFilter = null;
+        String SearchFilter = this.props.getSearchFilter ();
+        ldapFilter = SearchFilter.replaceAll("_username", bbbyId);
+        // Fetch following fields from LDAP
+        String[] returnAttr = new String[]{
+                this.props.getFirstName(), this.props.getLastName(), this.props.getMail()
+        };
+        SearchControls searchControls = new SearchControls();
+        searchControls.setSearchScope(SearchControls.SUBTREE_SCOPE);
+        searchControls.setReturningAttributes(returnAttr);
+        NamingEnumeration<SearchResult> results = context.search(props.getSearchBaseDN (), ldapFilter, searchControls);
+        try {
+            if (results == null) {
+                LOG.error ( "User not found in AD!" );
+                throw new Exception ( "User not Found" );
+            }
+        } catch (Exception e) {
+            return null;
+        }
+        SearchResult result = null;
+        if (results.hasMoreElements()) {
+            LOG.info(bbbyId + " found in LDAP. Fetching user attributes " + Arrays.asList(returnAttr));
+
+            result = (SearchResult) results.next();
+            if (result.getAttributes() != null) {
+                user = new LdapUser();
+                Attributes resultAttributes = result.getAttributes();
+                // createUserInPingID(bbbyId);
+                if (resultAttributes.get(this.props.getFirstName()) != null) {
+                    user.setFirstName( resultAttributes.get(this.props.getFirstName()).get().toString ());
+                }
+                if (resultAttributes.get(this.props.getLastName()) != null) {
+                    user.setLastName( resultAttributes.get(this.props.getLastName()).get().toString ());
+                }
+                if (resultAttributes.get(this.props.getMail()) != null) {
+                    user.setEmailAddress( resultAttributes.get(this.props.getMail()).get().toString ());
+                }
+
+                user.setUsername(bbbyId);
+            }
+        }
+        context.close();
+        return user;
+    }
 
     public LdapUser searchUser_manager(String distinguishedName) throws GeneralSecurityException, Exception, IOException, NamingException {
         DirContext context = getContext();
