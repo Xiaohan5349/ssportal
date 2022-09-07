@@ -102,15 +102,14 @@ public class MailController {
     public String sendMail(@RequestHeader("accept-language") HashMap<String, String> header, @RequestParam(name = "task") String task, @RequestParam(name = "user") String userName, @RequestParam(name = "admin") String adminUsername) throws Exception {
         //permission check
         String authToken  = header.get("authorization").toString ().replace( Constants.TOKEN_PREFIX, "");
-        String usernameFromToken = jwtTokenUtil.getUsernameFromToken(authToken);
         String role = jwtTokenUtil.getStringFromToken(authToken, "admin");
         if(!(role.equals("admin") || role.equals("helpdesk"))){
             return "Unauthorized";
         }
         LdapOperationWithoutPing ldapOperation = new LdapOperationWithoutPing ();
         User user = new User(ldapOperation.searchUser ( userName ));
-        User adminUser = new User(ldapOperation.searchAdmin ( adminUsername ));
-        User manager = new User(ldapOperation.searchUser_manager ( user.getManager ()));
+        LdapUser adminUser = ldapOperation.searchAdmin ( adminUsername );
+        LdapUser manager = ldapOperation.searchUser_manager ( user.getManager ());
         MailForm mailForm;
         switch(task) {
             case "pairdevice":
@@ -154,7 +153,7 @@ public class MailController {
 
         LdapOperationWithoutPing ldapOperation = new LdapOperationWithoutPing ();
         User user = new User(ldapOperation.searchUser ( userName ));
-        User manager = new User(ldapOperation.searchUser_manager ( user.getManager ()));
+        LdapUser manager = ldapOperation.searchUser_manager ( user.getManager ());
         //permission check
         if(pingIdController.checkPermission (userName, jwtTokenUtil.getUsernameFromToken(header.get("authorization").toString ().replace(Constants.TOKEN_PREFIX, "")), jwtTokenUtil.getStringFromToken(header.get("authorization").toString ().replace(Constants.TOKEN_PREFIX, ""), "admin"))){
             return "Unauthorized";

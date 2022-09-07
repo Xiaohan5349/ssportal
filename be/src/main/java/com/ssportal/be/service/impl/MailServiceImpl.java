@@ -1,5 +1,6 @@
 package com.ssportal.be.service.impl;
 
+import com.ssportal.be.ldaps.LdapUser;
 import com.ssportal.be.model.User;
 import com.ssportal.be.pingid.model.MailForm;
 import com.ssportal.be.service.MailService;
@@ -59,12 +60,12 @@ public class MailServiceImpl implements MailService {
     }
 
     @Override
-    public MailForm buildFormForSelfRegister(User user, User manager){
+    public MailForm buildFormForSelfRegister(User user, LdapUser manager){
         MailForm mailForm = new MailForm ();
         mailForm.setName ( "pairdeviceself" );
         mailForm.setTemplateName ( "pairdeviceself.html" );
         String[] tos = new String[]{user.getEmail ()};
-        String[] bccs = new String[]{manager.getEmail ()};
+        String[] bccs = new String[]{manager.getEmailAddress ()};
         HashMap<String, Object> model = new HashMap<> (  );
         model.put ( "firstName", user.getFirstName () );
         model.put ( "lastName", user.getLastName () );
@@ -80,12 +81,12 @@ public class MailServiceImpl implements MailService {
 
 
     @Override
-    public MailForm buildFormForSelfUnregister(User user, User manager){
+    public MailForm buildFormForSelfUnregister(User user, LdapUser manager){
         MailForm mailForm = new MailForm ();
         mailForm.setName ( "unpairdeviceself" );
         mailForm.setTemplateName ( "unpairdeviceself.html" );
         String[] tos = new String[]{user.getEmail ()};
-        String[] bccs = new String[]{manager.getEmail ()};
+        String[] bccs = new String[]{manager.getEmailAddress ()};
 
         HashMap<String, Object> model = new HashMap<> (  );
         model.put ( "firstName", user.getFirstName () );
@@ -103,12 +104,12 @@ public class MailServiceImpl implements MailService {
 
 
     @Override
-    public MailForm buildFormForRegister(User adminUser,  User manager, User user){
+    public MailForm buildFormForRegister(LdapUser adminUser,  LdapUser manager, User user){
         MailForm mailForm = new MailForm ();
         mailForm.setName ( "pairdevice" );
         mailForm.setTemplateName ( "pairdevice.html" );
         String[] tos = new String[]{user.getEmail ()};
-        String[] bccs = new String[]{manager.getEmail ()};
+        String[] bccs = new String[]{manager.getEmailAddress ()};
         HashMap<String, Object> model = new HashMap<> (  );
         model.put ( "firstName", user.getFirstName () );
         model.put ( "lastName", user.getLastName () );
@@ -127,13 +128,13 @@ public class MailServiceImpl implements MailService {
 
 
     @Override
-    public MailForm buildFormForUnregister(User adminUser,  User manager, User user){
+    public MailForm buildFormForUnregister(LdapUser adminUser,  LdapUser manager, User user){
         MailForm mailForm = new MailForm ();
         mailForm.setName ( "unpairdevice" );
         //todo do we need to send email to admin? which event need to send to manager
         mailForm.setTemplateName ( "unpairdevice.html" );
         String[] tos = new String[]{user.getEmail ()};
-        String[] bccs = new String[]{manager.getEmail ()};
+        String[] bccs = new String[]{manager.getEmailAddress ()};
         HashMap<String, Object> model = new HashMap<> (  );
         //model.put ("activationCode", activationCode);
         model.put ( "firstName", user.getFirstName () );
@@ -151,12 +152,12 @@ public class MailServiceImpl implements MailService {
     }
 
     @Override
-    public MailForm buildFormForBypass(User adminUser,  User manager, User user){
+    public MailForm buildFormForBypass(LdapUser adminUser,  LdapUser manager, User user){
         MailForm mailForm = new MailForm ();
         mailForm.setName ( "bypass" );
         mailForm.setTemplateName ( "bypass.html" );
         String[] tos = new String[]{user.getEmail ()};
-        String[] bccs = new String[]{manager.getEmail ()};
+        String[] bccs = new String[]{manager.getEmailAddress ()};
         HashMap<String, Object> model = new HashMap<> (  );
         model.put ( "firstName", user.getFirstName () );
         model.put ( "lastName", user.getLastName () );
@@ -175,13 +176,13 @@ public class MailServiceImpl implements MailService {
 
 
     @Override
-    public MailForm buildFormForEnableUser(User adminUser,  User manager, User user){
+    public MailForm buildFormForEnableUser(LdapUser adminUser,  LdapUser manager, User user){
 
         MailForm mailForm = new MailForm ();
         mailForm.setName ( "enable" );
         mailForm.setTemplateName ( "enable.html" );
         String[] tos = new String[]{user.getEmail ()};
-        String[] bccs = new String[]{manager.getEmail ()};
+        String[] bccs = new String[]{manager.getEmailAddress ()};
         HashMap<String, Object> model = new HashMap<> (  );
         model.put ( "firstName", user.getFirstName () );
         model.put ( "lastName", user.getLastName () );
@@ -200,12 +201,12 @@ public class MailServiceImpl implements MailService {
 
 
     @Override
-    public MailForm buildFormForDisableUser(User adminUser,  User manager, User user){
+    public MailForm buildFormForDisableUser(LdapUser adminUser,  LdapUser manager, User user){
         MailForm mailForm = new MailForm ();
         mailForm.setName ( "disable" );
         mailForm.setTemplateName ( "disable.html" );
         String[] tos = new String[]{user.getEmail ()};
-        String[] bccs = new String[]{manager.getEmail ()};
+        String[] bccs = new String[]{manager.getEmailAddress ()};
         HashMap<String, Object> model = new HashMap<> (  );
         model.put ( "firstName", user.getFirstName () );
         model.put ( "lastName", user.getLastName () );
