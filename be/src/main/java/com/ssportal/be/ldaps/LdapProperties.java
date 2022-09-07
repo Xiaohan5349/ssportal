@@ -12,6 +12,7 @@ public class LdapProperties {
     private String manager;
     private String searchBaseDN;
     private String searchFilter;
+    private String managerSearchFilter;
     private String firstName;
     private String lastName;
     private String mail;
@@ -65,6 +66,10 @@ public class LdapProperties {
 
     public String getServiceDeskFilter() {
         return serviceDeskFilter;
+    }
+
+    public String getManagerSearchFilter() {
+        return managerSearchFilter;
     }
 
     public String getMfaGroupDN() {
@@ -136,6 +141,7 @@ public class LdapProperties {
             manager = prop.getProperty ( "manager" );
             searchBaseDN = prop.getProperty("searchBaseDN");
             searchFilter = prop.getProperty("searchFilter");
+            managerSearchFilter = prop.getProperty ( "managerSearchFilter" );
             firstName = prop.getProperty("firstName");
             lastName = prop.getProperty("lastName");
             mail = prop.getProperty("mail");

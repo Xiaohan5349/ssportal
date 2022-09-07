@@ -33,6 +33,7 @@ public class User implements Serializable, UserDetails {
     private String hardToken;
     private String softToken;
     private String desktopToken;
+    private String manager;
 
 
 
@@ -70,6 +71,7 @@ public class User implements Serializable, UserDetails {
             this.lastName = user.getLastName ();
             this.email = user.getEmailAddress ();
             this.username = user.getUsername ();
+            this.manager = user.getManager();
             if(user.getRole ().equals ( "ADMIN" )){
                 this.admin = "true";
             }else {
@@ -179,7 +181,13 @@ public class User implements Serializable, UserDetails {
         this.password = password;
     }
 
+    public String getManager() {
+        return manager;
+    }
 
+    public void setManager(String manager) {
+        this.manager = manager;
+    }
 
     public String getCompany() {
         return company;

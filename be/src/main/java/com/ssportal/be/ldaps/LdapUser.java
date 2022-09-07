@@ -11,7 +11,7 @@ public class LdapUser {
     private boolean hardTokenUser;
     private boolean desktopTokenUser;
     private boolean otpTokenUser;
-
+    private String manager;
     private boolean SMSTokenUser;
 
     public LdapUser(){
@@ -91,6 +91,14 @@ public class LdapUser {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getManager() {
+        return manager;
+    }
+
+    public void setManager(String manager) {
+        this.manager = manager;
     }
 
 }

@@ -99,7 +99,7 @@ public class MailController {
         }
     }
     @RequestMapping(value = "/mail", method = RequestMethod.GET)
-    public String sendMail(@RequestHeader("accept-language") HashMap<String, String> header, @RequestParam(name = "task") String task, @RequestParam(name = "user") String userName, @RequestParam(name = "admin") String adminUsername) throws IOException {
+    public String sendMail(@RequestHeader("accept-language") HashMap<String, String> header, @RequestParam(name = "task") String task, @RequestParam(name = "user") String userName, @RequestParam(name = "admin") String adminUsername) throws Exception {
         //permission check
         String authToken  = header.get("authorization").toString ().replace( Constants.TOKEN_PREFIX, "");
         String usernameFromToken = jwtTokenUtil.getUsernameFromToken(authToken);
@@ -107,9 +107,10 @@ public class MailController {
         if(!(role.equals("admin") || role.equals("helpdesk"))){
             return "Unauthorized";
         }
-
-        User user = new User(userName);
-        User adminUser = new User(adminUsername);
+        LdapOperationWithoutPing ldapOperation = new LdapOperationWithoutPing ();
+        User user = new User(ldapOperation.searchUser ( userName ));
+        User adminUser = new User();
+        adminUser.setEmail ( ldapOperation.searchUser_manager ( user.getManager ()) );
         MailForm mailForm;
         switch(task) {
             case "pairdevice":
@@ -135,6 +136,17 @@ public class MailController {
 
         return "test";
 
+    }
+
+    @RequestMapping(value = "/test", method = RequestMethod.POST)
+    public void TestEndpoint(@RequestParam(name = "region", required = false) String region, @RequestParam(name = "dent", required = false) String dent){
+
+      String test = "test1";
+        String abc = region;
+        int a = Integer.parseInt ( dent );
+        System.out.println (a);
+        System.out.println (abc);
+        System.out.println ("test completed");
     }
 
     @RequestMapping(value = "/mail/self", method = RequestMethod.GET)

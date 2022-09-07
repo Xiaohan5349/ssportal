@@ -1,41 +1,28 @@
 package com.ssportal.be.config;
 
-import com.cedarsoftware.util.io.JsonObject;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ser.Serializers;
+import com.ssportal.be.ldaps.LdapOperationWithoutPing;
+import com.ssportal.be.ldaps.LdapUser;
 import com.ssportal.be.model.User;
-import io.jsonwebtoken.JwtParser;
-import org.apache.commons.lang3.RandomStringUtils;
-import org.eclipse.jetty.util.Callback;
-import org.json.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.security.Key;
-
-import javax.crypto.Cipher;
-import javax.crypto.spec.SecretKeySpec;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Base64;
+import java.util.Date;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @RunWith (SpringRunner.class)
 @SpringBootTest
@@ -46,6 +33,7 @@ class JwtTokenUtilTest {
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
+
     @BeforeEach
     void setUp() {
         System.out.println ( "before each" );
@@ -66,9 +54,11 @@ class JwtTokenUtilTest {
 
     }
     @Test
-    public void testObjectMapper() throws IOException {
-
-
+    @Disabled
+    public void LdapTest() throws Exception {
+        LdapOperationWithoutPing ldapOperation = new LdapOperationWithoutPing ();
+        LdapUser user1 = ldapOperation.searchUser_local ( "201426561" );
+        System.out.println (user1.getEmailAddress ());
 
     }
     @Test
@@ -203,9 +193,9 @@ class JwtTokenUtilTest {
 
     @Test
     public void SimpleTest(){
-        String abc = "2022628086";
-        abc = "1"+abc;
-        System.out.println (abc);
+        String a = "5";
+        int b = Integer.parseInt ( a );
+        System.out.println (b);
     }
 
 
