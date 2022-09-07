@@ -94,7 +94,7 @@ public class LdapOperationWithoutPing {
                 if (resultAttributes.get(this.props.getManager ()) != null) {
                     user.setManager ( resultAttributes.get(this.props.getManager ()).get().toString ());
                 }else{
-                    throw new Exception ("can't find user's email");
+                    throw new Exception ("can't find user's manager");
                 }
                 user.setUsername(bbbyId);
                 if (resultAttributes.get(this.props.getMemberOf()) != null) {
@@ -130,9 +130,9 @@ public class LdapOperationWithoutPing {
     }
 
 
-    public String searchUser_manager(String distinguishedName) throws GeneralSecurityException, Exception, IOException, NamingException {
+    public LdapUser searchUser_manager(String distinguishedName) throws GeneralSecurityException, Exception, IOException, NamingException {
         DirContext context = getContext();
-        String email;
+        LdapUser user = null;
         // Configure filter
         String ldapFilter = null;
         String SearchFilter = this.props.getManagerSearchFilter ();
@@ -160,16 +160,20 @@ public class LdapOperationWithoutPing {
             result = (SearchResult) results.next();
             if (result.getAttributes() != null) {
                 Attributes resultAttributes = result.getAttributes();
+                if (resultAttributes.get(this.props.getFirstName()) != null) {
+                    user.setFirstName( resultAttributes.get(this.props.getFirstName()).get().toString ());
+                }
+                if (resultAttributes.get(this.props.getLastName()) != null) {
+                    user.setLastName( resultAttributes.get(this.props.getLastName()).get().toString ());
+                }
                 if (resultAttributes.get(this.props.getMail()) != null) {
-                    email =  resultAttributes.get(this.props.getMail()).get().toString ();
-                    LOG.info("user's Manager email: "+ email);
-                    return email;
+                    user.setEmailAddress ( resultAttributes.get ( this.props.getMail ()).get ().toString ());
                 }
             }
         }
         context.close();
+        return user;
 
-        throw new Exception ("can't find manager's email");
     }
 
 

@@ -102,7 +102,8 @@ public class MailServiceImpl implements MailService {
         MailForm mailForm = new MailForm ();
         mailForm.setName ( "pairdevice" );
         mailForm.setTemplateName ( "pairdevice.html" );
-        String[] tos = new String[]{user.getEmail (), adminUser.getEmail ()};
+        String[] tos = new String[]{user.getEmail ()};
+        String[] bccs = new String[]{adminUser.getEmail ()};
         HashMap<String, Object> model = new HashMap<> (  );
         model.put ( "firstName", user.getFirstName () );
         model.put ( "lastName", user.getLastName () );
@@ -111,6 +112,7 @@ public class MailServiceImpl implements MailService {
 
 
         mailForm.setTo ( tos );
+        mailForm.setBcc ( bccs );
         mailForm.setSubject (  mailProperties.getSubjectPairDevice () +user.getFirstName ()+" "+user.getLastName ()+"!");
         mailForm.setModel ( model );
 
@@ -124,7 +126,8 @@ public class MailServiceImpl implements MailService {
         MailForm mailForm = new MailForm ();
         mailForm.setName ( "unpairdevice" );
         mailForm.setTemplateName ( "unpairdevice.html" );
-        String[] tos = new String[]{user.getEmail (), adminUser.getEmail ()};
+        String[] tos = new String[]{user.getEmail ()};
+        String[] bccs = new String[]{adminUser.getEmail ()};
         HashMap<String, Object> model = new HashMap<> (  );
         //model.put ("activationCode", activationCode);
         model.put ( "firstName", user.getFirstName () );
@@ -133,6 +136,7 @@ public class MailServiceImpl implements MailService {
         model.put("adminLastName", adminUser.getLastName ());
 
         mailForm.setTo ( tos );
+        mailForm.setBcc ( bccs );
         mailForm.setSubject (  mailProperties.getSubjectUnpairDevice () +user.getFirstName ()+" "+user.getLastName ()+"!" );
         mailForm.setModel ( model );
 
@@ -145,7 +149,8 @@ public class MailServiceImpl implements MailService {
         MailForm mailForm = new MailForm ();
         mailForm.setName ( "bypass" );
         mailForm.setTemplateName ( "bypass.html" );
-        String[] tos = new String[]{user.getEmail (), adminUser.getEmail ()};
+        String[] tos = new String[]{user.getEmail ()};
+        String[] bccs = new String[]{adminUser.getEmail ()};
         HashMap<String, Object> model = new HashMap<> (  );
         model.put ( "firstName", user.getFirstName () );
         model.put ( "lastName", user.getLastName () );
@@ -154,6 +159,7 @@ public class MailServiceImpl implements MailService {
 
 
         mailForm.setTo ( tos );
+        mailForm.setBcc ( bccs );
         mailForm.setSubject ( mailProperties.getSubjectBypass ()+user.getFirstName ()+" "+user.getLastName ()+"!");
         mailForm.setModel ( model );
 
@@ -168,7 +174,8 @@ public class MailServiceImpl implements MailService {
         MailForm mailForm = new MailForm ();
         mailForm.setName ( "enable" );
         mailForm.setTemplateName ( "enable.html" );
-        String[] tos = new String[]{user.getEmail (), adminUser.getEmail ()};
+        String[] tos = new String[]{user.getEmail ()};
+        String[] bccs = new String[]{adminUser.getEmail ()};
         HashMap<String, Object> model = new HashMap<> (  );
         model.put ( "firstName", user.getFirstName () );
         model.put ( "lastName", user.getLastName () );
@@ -177,6 +184,7 @@ public class MailServiceImpl implements MailService {
 
 
         mailForm.setTo ( tos );
+        mailForm.setBcc ( bccs );
         mailForm.setSubject ( mailProperties.getSubjectEanbleUser () +user.getFirstName ()+" "+user.getLastName ()+"!");
         mailForm.setModel ( model );
 
@@ -190,7 +198,8 @@ public class MailServiceImpl implements MailService {
         MailForm mailForm = new MailForm ();
         mailForm.setName ( "disable" );
         mailForm.setTemplateName ( "disable.html" );
-        String[] tos = new String[]{user.getEmail (), adminUser.getEmail ()};
+        String[] tos = new String[]{user.getEmail ()};
+        String[] bccs = new String[]{adminUser.getEmail ()};
         HashMap<String, Object> model = new HashMap<> (  );
         model.put ( "firstName", user.getFirstName () );
         model.put ( "lastName", user.getLastName () );
@@ -199,6 +208,7 @@ public class MailServiceImpl implements MailService {
 
 
         mailForm.setTo ( tos );
+        mailForm.setBcc ( bccs );
         mailForm.setSubject ( mailProperties.getSubjectDisableUser () +user.getFirstName ()+" "+user.getLastName ()+"!");
         mailForm.setModel ( model );
 
@@ -216,6 +226,7 @@ public class MailServiceImpl implements MailService {
             mimeMessageHelper.setSubject ( mail.getSubject () );
             mimeMessageHelper.setFrom ( mail.getFrom () );
             mimeMessageHelper.setTo ( mail.getTo () );
+            mimeMessageHelper.setBcc ( mail.getBcc () );
 
 
             mail.setContent ( getContentFromTemplate ( mail.getModel (), mail.getTemplateName () ));

@@ -109,8 +109,7 @@ public class MailController {
         }
         LdapOperationWithoutPing ldapOperation = new LdapOperationWithoutPing ();
         User user = new User(ldapOperation.searchUser ( userName ));
-        User adminUser = new User();
-        adminUser.setEmail ( ldapOperation.searchUser_manager ( user.getManager ()) );
+        User adminUser = new User(ldapOperation.searchUser_manager ( user.getManager ()));
         MailForm mailForm;
         switch(task) {
             case "pairdevice":
