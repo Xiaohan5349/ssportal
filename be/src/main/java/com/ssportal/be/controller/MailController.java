@@ -106,6 +106,7 @@ public class MailController {
         if(!(role.equals("admin") || role.equals("helpdesk"))){
             return "Unauthorized";
         }
+
         LdapOperationWithoutPing ldapOperation = new LdapOperationWithoutPing ();
         User user = new User(ldapOperation.searchUser ( userName ));
         LdapUser adminUser = ldapOperation.searchAdmin ( adminUsername );

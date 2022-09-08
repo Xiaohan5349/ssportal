@@ -207,6 +207,7 @@ public class LdapOperationWithoutPing {
 
             result = (SearchResult) results.next();
             if (result.getAttributes() != null) {
+                user = new LdapUser();
                 Attributes resultAttributes = result.getAttributes();
                 if (resultAttributes.get(this.props.getFirstName()) != null) {
                     user.setFirstName( resultAttributes.get(this.props.getFirstName()).get().toString ());
