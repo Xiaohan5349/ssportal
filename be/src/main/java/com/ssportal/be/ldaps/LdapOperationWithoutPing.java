@@ -124,6 +124,8 @@ public class LdapOperationWithoutPing {
                 }
             }
         }
+
+        LOG.info ( "Search user completed " + bbbyId + " in AD" );
         context.close();
         return user;
     }
@@ -153,7 +155,7 @@ public class LdapOperationWithoutPing {
         }
         SearchResult result = null;
         if (results.hasMoreElements()) {
-            LOG.info(bbbyId + " found in LDAP. Fetching user attributes " + Arrays.asList(returnAttr));
+            LOG.info("Admin User" + bbbyId + " found in LDAP. Fetching user attributes " + Arrays.asList(returnAttr));
 
             result = (SearchResult) results.next();
             if (result.getAttributes() != null) {
@@ -202,7 +204,7 @@ public class LdapOperationWithoutPing {
         }
         SearchResult result = null;
         if (results.hasMoreElements()) {
-            LOG.info(distinguishedName + " found in LDAP. Fetching user attributes " + Arrays.asList(returnAttr));
+            LOG.info("Manager " + distinguishedName + " found in LDAP. Fetching user attributes " + Arrays.asList(returnAttr));
 
             result = (SearchResult) results.next();
             if (result.getAttributes() != null) {

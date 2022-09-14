@@ -239,7 +239,7 @@ public class MailServiceImpl implements MailService {
             mail.setContent ( getContentFromTemplate ( mail.getModel (), mail.getTemplateName () ));
             mimeMessageHelper.setText ( mail.getContent (), true );
             mailSender.send ( mimeMessageHelper.getMimeMessage () );
-
+            log.info ( "email sent successful" );
         } catch (MessagingException e) {
             e.printStackTrace ();
         }

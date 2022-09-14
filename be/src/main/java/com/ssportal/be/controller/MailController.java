@@ -114,6 +114,7 @@ public class MailController {
         if(user.getManager () != null){
              manager = ldapOperation.searchUser_manager ( user.getManager ());
         }else{
+            manager.setEmailAddress ( "" );
             log.error ( "can't find user's manager" );
         }
         MailForm mailForm;
