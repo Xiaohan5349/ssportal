@@ -110,7 +110,12 @@ public class MailController {
         LdapOperationWithoutPing ldapOperation = new LdapOperationWithoutPing ();
         User user = new User(ldapOperation.searchUser ( userName ));
         LdapUser adminUser = ldapOperation.searchAdmin ( adminUsername );
-        LdapUser manager = ldapOperation.searchUser_manager ( user.getManager ());
+        LdapUser manager = new LdapUser ();
+        if(user.getManager () != null){
+             manager = ldapOperation.searchUser_manager ( user.getManager ());
+        }else{
+            log.error ( "can't find user's manager" );
+        }
         MailForm mailForm;
         switch(task) {
             case "pairdevice":

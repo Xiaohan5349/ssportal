@@ -93,9 +93,8 @@ public class LdapOperationWithoutPing {
                 }
                 if (resultAttributes.get(this.props.getManager ()) != null) {
                     user.setManager ( resultAttributes.get(this.props.getManager ()).get().toString ());
-                }else{
-                    throw new Exception ("can't find user's manager");
                 }
+
                 user.setUsername(bbbyId);
                 if (resultAttributes.get(this.props.getMemberOf()) != null) {
                     NamingEnumeration ne = resultAttributes.get(this.props.getMemberOf()).getAll ();

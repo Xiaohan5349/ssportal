@@ -228,7 +228,7 @@ public class MailServiceImpl implements MailService {
     public void sendEmail(MailForm mail) {
         MimeMessage mimeMessage = mailSender.createMimeMessage ();
         try{
-            mail.setFrom ( "IdentityEngineers@bedbath.com" );
+            mail.setFrom ( "IAMSupport@bedbath.com" );
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper ( mimeMessage, true );
             mimeMessageHelper.setSubject ( mail.getSubject () );
             mimeMessageHelper.setFrom ( mail.getFrom () );
