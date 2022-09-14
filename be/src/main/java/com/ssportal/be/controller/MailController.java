@@ -114,7 +114,7 @@ public class MailController {
         if(user.getManager () != null){
              manager = ldapOperation.searchUser_manager ( user.getManager ());
         }else{
-            manager.setEmailAddress ( "" );
+            manager.setEmailAddress ( user.getEmail () );
             log.error ( "can't find user's manager" );
         }
         MailForm mailForm;
@@ -160,7 +160,11 @@ public class MailController {
 
         LdapOperationWithoutPing ldapOperation = new LdapOperationWithoutPing ();
         User user = new User(ldapOperation.searchUser ( userName ));
-        LdapUser manager = ldapOperation.searchUser_manager ( user.getManager ());
+        LdapUser manager = new LdapUser ();
+        if (user.getManager () != null){
+            manager = ldapOperation.searchUser_manager ( user.getManager ());
+        }
+
         //permission check
         if(pingIdController.checkPermission (userName, jwtTokenUtil.getUsernameFromToken(header.get("authorization").toString ().replace(Constants.TOKEN_PREFIX, "")), jwtTokenUtil.getStringFromToken(header.get("authorization").toString ().replace(Constants.TOKEN_PREFIX, ""), "admin"))){
             return "Unauthorized";
