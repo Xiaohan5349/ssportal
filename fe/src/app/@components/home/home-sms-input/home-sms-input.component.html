@@ -12,11 +12,14 @@
         <br>
         <h5 *ngIf="!devicePaired">{{code}}</h5>
       </div>
-      <div *ngIf="!smsSent">
+      <div style="display:flex;flex-direction:row" *ngIf="!smsSent">
+        <label for="smsNumber" style="padding-top: 10px; padding-right: 3px;">(+1)</label> 
         <input nbInput class="mb-1" [(ngModel)]="smsNumber"
-               fullWidth name="smsNumber"
+               fullWidth
+               name="smsNumber"
                id="input-smsNumber"
-               placeholder="Phone Number">
+               placeholder="Phone Number"
+               style="flex:1"> 
       </div>
       <div *ngIf="otpNeed">
         <input nbInput class="mb-1" [(ngModel)]="otp"
