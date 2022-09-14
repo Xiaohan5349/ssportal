@@ -111,12 +111,18 @@ public class MailController {
         User user = new User(ldapOperation.searchUser ( userName ));
         LdapUser adminUser = ldapOperation.searchAdmin ( adminUsername );
         LdapUser manager = new LdapUser ();
-        if(user.getManager () != null){
-             manager = ldapOperation.searchUser_manager ( user.getManager ());
-        }else{
+        if((user.getEmail () == null) && (user.getManager () == null)){
+            throw new Exception ("User doesn't have email and manager, please check");
+        }else if(user.getManager () == null){
             manager.setEmailAddress ( user.getEmail () );
             log.error ( "can't find user's manager" );
+        }else{
+            manager = ldapOperation.searchUser_manager ( user.getManager ());
+            if(user.getEmail () == null){
+                user.setEmail ( manager.getEmailAddress () );
+            }
         }
+
         MailForm mailForm;
         switch(task) {
             case "pairdevice":
@@ -158,17 +164,27 @@ public class MailController {
     @RequestMapping(value = "/mail/self", method = RequestMethod.GET)
     public String sendSelfMail(@RequestHeader("accept-language") HashMap<String, String> header, @RequestParam(name = "task") String task, @RequestParam(name = "user") String userName) throws Exception {
 
-        LdapOperationWithoutPing ldapOperation = new LdapOperationWithoutPing ();
-        User user = new User(ldapOperation.searchUser ( userName ));
-        LdapUser manager = new LdapUser ();
-        if (user.getManager () != null){
-            manager = ldapOperation.searchUser_manager ( user.getManager ());
-        }
-
         //permission check
         if(pingIdController.checkPermission (userName, jwtTokenUtil.getUsernameFromToken(header.get("authorization").toString ().replace(Constants.TOKEN_PREFIX, "")), jwtTokenUtil.getStringFromToken(header.get("authorization").toString ().replace(Constants.TOKEN_PREFIX, ""), "admin"))){
             return "Unauthorized";
         }
+
+
+        LdapOperationWithoutPing ldapOperation = new LdapOperationWithoutPing ();
+        User user = new User(ldapOperation.searchUser ( userName ));
+        LdapUser manager = new LdapUser ();
+        if((user.getEmail () == null) && (user.getManager () == null)){
+            throw new Exception ("User doesn't have email and manager, please check");
+        }else if(user.getManager () == null){
+            manager.setEmailAddress ( user.getEmail () );
+            log.error ( "can't find user's manager" );
+        }else{
+            manager = ldapOperation.searchUser_manager ( user.getManager ());
+            if(user.getEmail () == null){
+                user.setEmail ( manager.getEmailAddress () );
+            }
+        }
+
 
         MailForm mailForm;
         switch(task) {
