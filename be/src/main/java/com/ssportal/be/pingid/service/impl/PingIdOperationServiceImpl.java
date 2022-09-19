@@ -274,6 +274,10 @@ public class PingIdOperationServiceImpl implements PingIdOperationService {
         OperationHelpers.sendRequest ( operation );
         JSONObject response = OperationHelpers.parseResponse ( operation );
         operation.getValues ().clear ();
+        if(!(response.get ( "errorId" ).toString ().equals ( "200" ))){
+            System.out.println ("test true");
+        }
+        LOG.error(response.get ( "errorMsg" ));
 
         return  response;
     }
