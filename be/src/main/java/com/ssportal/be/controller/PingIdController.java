@@ -337,17 +337,25 @@ public class PingIdController {
     @RequestMapping(value = "/ToggleUserBypass", method = RequestMethod.POST)
     public JSONObject ToggleUserBypass(@RequestHeader("accept-language") HashMap<String, String> header, @RequestBody HashMap<String, String> mapper){
         //permission check
+        LOG.info ( "Class ToggleUserBypass Endpoint Entry" );
 
         String username = mapper.get("username");
-        String authToken = header.get(Constants.HEADER_STRING).replace(Constants.TOKEN_PREFIX, "");;
+        String authToken = header.get(Constants.HEADER_STRING).replace(Constants.TOKEN_PREFIX, "");
         String role = jwtTokenUtil.getStringFromToken ( authToken, "admin" );
 
+        LOG.info ( "userName: "+username );
+        LOG.info ( "authToken: "+authToken );
+        LOG.info ( "role: "+role );
+
+        LOG.info ( "Permission Check Entry" );
         if(!role.equals("admin")){
             HashMap responseMap = new HashMap();
             responseMap.put("errorId",401);
             responseMap.put("description", "Unauthorized");
             return new JSONObject(responseMap);
         }
+
+        LOG.info ( "Permission Check Exit" );
 
         Operation operation = new Operation(pingIdProperties.getOrgAlias(), pingIdProperties.getPingid_token(), pingIdProperties.getPingid_use_base64_key(), pingIdProperties.getApi_url());
         operation.setTargetUser ( username );
