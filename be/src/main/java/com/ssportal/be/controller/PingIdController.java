@@ -340,20 +340,14 @@ public class PingIdController {
         LOG.info ( "Class ToggleUserBypass Endpoint Entry" );
 
         String username = mapper.get("username");
-        String authToken = header.get(Constants.HEADER_STRING).replace(Constants.TOKEN_PREFIX, "");
-        String role = jwtTokenUtil.getStringFromToken ( authToken, "admin" );
 
-        LOG.info ( "userName: "+username );
-        LOG.info ( "authToken: "+authToken );
-        LOG.info ( "role: "+role );
-
-        LOG.info ( "Permission Check Entry" );
-        if(!role.equals("admin")){
+        if(checkPermissionAdmin (mapper.get("username"), jwtTokenUtil.getUsernameFromToken(header.get("authorization").toString ().replace(Constants.TOKEN_PREFIX, "")), jwtTokenUtil.getStringFromToken(header.get("authorization").toString ().replace(Constants.TOKEN_PREFIX, ""), "admin"))){
             HashMap responseMap = new HashMap();
             responseMap.put("errorId",401);
             responseMap.put("description", "Unauthorized");
             return new JSONObject(responseMap);
         }
+
 
         LOG.info ( "Permission Check Exit" );
 
@@ -369,10 +363,8 @@ public class PingIdController {
         //permission check
 
         String username = mapper.get("username");
-        String authToken = header.get(Constants.HEADER_STRING).replace(Constants.TOKEN_PREFIX, "");;
-        String role = jwtTokenUtil.getStringFromToken ( authToken, "admin" );
 
-        if(!role.equals("admin")){
+        if(checkPermissionAdmin (mapper.get("username"), jwtTokenUtil.getUsernameFromToken(header.get("authorization").toString ().replace(Constants.TOKEN_PREFIX, "")), jwtTokenUtil.getStringFromToken(header.get("authorization").toString ().replace(Constants.TOKEN_PREFIX, ""), "admin"))){
             HashMap responseMap = new HashMap();
             responseMap.put("errorId",401);
             responseMap.put("description", "Unauthorized");
@@ -391,10 +383,8 @@ public class PingIdController {
         //permission check
 
         String username = mapper.get("username");
-        String authToken = header.get(Constants.HEADER_STRING).replace(Constants.TOKEN_PREFIX, "");;
-        String role = jwtTokenUtil.getStringFromToken ( authToken, "admin" );
 
-        if(!role.equals("admin")){
+        if(checkPermissionAdmin (mapper.get("username"), jwtTokenUtil.getUsernameFromToken(header.get("authorization").toString ().replace(Constants.TOKEN_PREFIX, "")), jwtTokenUtil.getStringFromToken(header.get("authorization").toString ().replace(Constants.TOKEN_PREFIX, ""), "admin"))){
             HashMap responseMap = new HashMap();
             responseMap.put("errorId",401);
             responseMap.put("description", "Unauthorized");
@@ -410,6 +400,20 @@ public class PingIdController {
 
     protected boolean checkPermission(String username, String usernameFromToken, String role){
         if((!username.equals(usernameFromToken)) && !(role.equals("admin") || role.equals("helpdesk"))){
+            return true;
+        }else return false;
+    }
+
+    protected boolean checkPermissionAdmin(String username, String usernameFromToken, String role){
+        LOG.info ( "checkPermissionAdmin Entry" );
+        LOG.info ( "role: "+ role  );
+        if(!(role.equals("admin") || role.equals("helpdesk"))){
+            return true;
+        }else return false;
+    }
+
+    protected boolean checkPermissionHelpDesk(String username, String usernameFromToken, String role){
+        if(!role.equals("helpdesk")){
             return true;
         }else return false;
     }
