@@ -260,6 +260,7 @@ public class PingIdOperationServiceImpl implements PingIdOperationService {
     }
 
     public JSONObject ToggleUserBypass(Operation operation){
+        LOG.info ( "Class ToggleUserBypass Entry" );
         operation.setName ( "ToggleUserBypass" );
         operation.setEndpoint ( operation.getApiUrl () + "/rest/4/userbypass/do" );
 
@@ -275,10 +276,13 @@ public class PingIdOperationServiceImpl implements PingIdOperationService {
         JSONObject response = OperationHelpers.parseResponse ( operation );
         operation.getValues ().clear ();
         if(!(response.get ( "errorId" ).toString ().equals ( "200" ))){
-            System.out.println ("test true");
+            LOG.info ( "test true" );
         }
-        LOG.error(response.get ( "errorMsg" ));
+        LOG.info ( response.get ( "errorId" ).toString () );
+        LOG.error(response.get ( "errorMsg" ).toString ());
+        LOG.info ("response Content:" + response.toString ());
 
+        LOG.info ( "Class ToggleUserBypass Exit" );
         return  response;
     }
 
