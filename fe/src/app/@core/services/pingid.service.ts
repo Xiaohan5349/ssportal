@@ -221,9 +221,9 @@ export class PingIdService {
   }
 
   backupAuthentication(username,deviceData,deviceType) {
-    console.log("deviceData before +1" + deviceData);
+    console.log("{deviceData before +1} " + deviceData);
     deviceData = "+1" + deviceData;
-    console.log("deviceData after +1" + deviceData);
+    console.log("{deviceData after +1} " + deviceData);
     const url = this.BACKEND_URL + '/pingid/backupAuthentication';
     const payload = {
       username: username,

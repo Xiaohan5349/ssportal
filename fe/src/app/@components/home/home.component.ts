@@ -404,7 +404,8 @@ export class HomeComponent implements OnInit {
   }
 
   testMFASMS(testDevice){
-    this.pingidService.backupAuthentication(this.sessionUser.sub, testDevice.phonenumber, "SMS").subscribe(
+    console.log("testDevice" + testDevice);
+    this.pingidService.backupAuthentication(this.sessionUser.sub, testDevice.phoneNumber, "SMS").subscribe(
       res => {
         const result: any = res;
         console.log(result.sessionId + "offlineAuth sessionId");
