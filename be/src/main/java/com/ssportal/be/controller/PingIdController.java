@@ -258,7 +258,7 @@ public class PingIdController {
         if( deviceType.equals ( "Email" )){
             deviceData = mapper.get ( "mail" );
         }else if(deviceType.equals ( "SMS" ) || deviceType.equals ( "Voice" )){
-            deviceData = mapper.get ( "phone" );
+            deviceData = mapper.get ( "deviceData" );
         }else {
             HashMap responseMap = new HashMap();
             responseMap.put("errorId",400);
