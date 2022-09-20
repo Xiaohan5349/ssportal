@@ -22,6 +22,7 @@ export class OtpValidaterComponent implements OnInit {
   userName;
   otp;
   error = false;
+  spAlias;
 
   constructor(private dialogRef: NbDialogRef<any>, private pingidService: PingIdService) {
   }
@@ -50,7 +51,10 @@ export class OtpValidaterComponent implements OnInit {
   // }
 
   testDesktop() {
-    this.pingidService.finalOfflineAuth(this.sessionId,this.userName,this.otp).subscribe( 
+    console.log("Alias " + this.spAlias);
+    console.log("sessionId " + this.sessionId);
+    console.log("otp " + this.otp);
+    this.pingidService.finalOfflineAuth(this.sessionId,this.userName,this.otp,this.spAlias).subscribe( 
       res => {
         const result: any = res;
         console.log(result);

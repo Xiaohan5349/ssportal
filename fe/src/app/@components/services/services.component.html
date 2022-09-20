@@ -72,6 +72,7 @@
               <button *ngIf="deviceDetail?.type?.toLowerCase() === 'iphone'" nbButton outline status="warning" size="small" (click)="testMFADesktop(deviceDetail)" class="mr-1">Test MFA</button>
               <button *ngIf="deviceDetail?.type?.toLowerCase() === 'desktop'" nbButton outline status="warning" size="small" (click)="testMFADesktop(deviceDetail)" class="mr-1">Test MFA</button>
               <button *ngIf="deviceDetail?.type?.toLowerCase() === 'authenticator app'" nbButton outline status="warning" size="small" (click)="testMFADesktop(deviceDetail)" class="mr-1">Test MFA</button>
+              <button *ngIf="deviceDetail?.type?.toLowerCase() === 'sms'" nbButton outline status="warning" size="small" (click)="testMFASMS(deviceDetail)" class="mr-1">Test MFA</button>
           </td>
           </tr>
           </tbody>
@@ -117,6 +118,9 @@
         <nb-alert *ngIf="userActivat" status="success" class="mt-3">User has been activated.</nb-alert>
         <nb-alert *ngIf="userSuspend" status="success" class="mt-3">User has been suspended.</nb-alert>
         <nb-alert *ngIf="userBypassed" status="success" class="mt-3">User MFA Bypassed for next 30 minutes.</nb-alert>
+        <nb-alert *ngIf="userActivatError" status="danger" class="mt-3">{{mfaErrMsg}}</nb-alert>
+        <nb-alert *ngIf="userSuspendError" status="danger" class="mt-3">{{mfaErrMsg}}</nb-alert>
+        <nb-alert *ngIf="userBypassedError" status="danger" class="mt-3">{{mfaErrMsg}}</nb-alert>
       </nb-card-body> 
     </nb-card>
   </div>

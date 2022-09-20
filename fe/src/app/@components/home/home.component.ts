@@ -374,6 +374,7 @@ export class HomeComponent implements OnInit {
               message: 'Please input OTP generated from your device',
               sessionId: result.sessionId,
               userName: this.sessionUser.sub,
+              spAlias: "web",
             },
             hasBackdrop: true,
           }).onClose.subscribe(res => {
@@ -402,6 +403,46 @@ export class HomeComponent implements OnInit {
 
   }
 
+  testMFASMS(testDevice){
+    this.pingidService.backupAuthentication(this.sessionUser.sub, testDevice.phonenumber, "SMS").subscribe(
+      res => {
+        const result: any = res;
+        console.log(result.sessionId + "offlineAuth sessionId");
+        if (result.sessionId) {
+          this.dialogService.open(OtpValidaterComponent, {
+            context: {
+              title: 'OTP Verification',
+              message: 'Please input OTP received from your phone',
+              sessionId: result.sessionId,
+              userName: this.sessionUser.sub,
+              spAlias: "rescuecode",
+            },
+            hasBackdrop: true,
+          }).onClose.subscribe(res => {
+            if (res) {
+              this.getUserDetails();
+              }
+            }, error => {
+              console.log(error);
+             }
+            )
+        } else {
+          this.mfaRejected = true;
+          this.mfaErrMsg = result.errorMsg;
+          this.mfaTriggered = false;
+        }
+
+        setTimeout(() =>
+          {
+            this.clearAlerts();
+          },
+          5000);
+      }, error => {
+        console.log(error);
+      }
+    )
+  }
+
   testMFA(testDevice) {
     this.mfaTriggered = true;
     this.pingidService.testMFA(testDevice.deviceId, this.sessionUser.sub).subscribe(
@@ -427,6 +468,7 @@ export class HomeComponent implements OnInit {
     )
   }
 
+  
 /*  testMFA() {
     for (let i = 0; i < this.deviceList.length; i++) {
       if (this.deviceList[i].deviceRole.toLowerCase() === 'primary') {

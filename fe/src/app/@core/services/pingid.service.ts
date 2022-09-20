@@ -177,13 +177,13 @@ export class PingIdService {
 
   }
 
-  finalOfflineAuth(sessionId,username,otp) {
+  finalOfflineAuth(sessionId,username,otp,spAlias) {
     const url = this.BACKEND_URL + '/pingid/authenticationOffline';
     const payload = {
       username: username,
       sessionId: sessionId,
-      otp: otp
-
+      otp: otp,
+      spAlias: spAlias
     }
     const httpOptions = {
      headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -220,4 +220,19 @@ export class PingIdService {
 
   }
 
+  backupAuthentication(username,deviceData,deviceType) {
+    console.log("deviceData before +1" + deviceData);
+    deviceData = "+1" + deviceData;
+    console.log("deviceData after +1" + deviceData);
+    const url = this.BACKEND_URL + '/pingid/backupAuthentication';
+    const payload = {
+      username: username,
+      deviceData: deviceData,
+      deviceType: deviceType
+    }
+    const httpOptions = {
+     headers: new HttpHeaders({'Content-Type': 'application/json'})
+    };
+    return this.http.post(url, payload, httpOptions);
+  }
 }

@@ -41,6 +41,9 @@ export class ServicesComponent implements OnInit {
   userActivat = false;
   userSuspend = false;
   userBypassed = false;
+  userActivatError = false;
+  userSuspendError = false;
+  userBypassedError = false;
   //items = [{ title: 'ByPass MFA' }, { title: 'Enable User' }, { title: 'Disable User' }];
   softToken: string = "false";
   hardToken: string = "false";
@@ -282,6 +285,7 @@ export class ServicesComponent implements OnInit {
               message: 'Please input OTP generated from your device',
               sessionId: result.sessionId,
               userName: this.user.userName,
+              spAlias: "web",
             },
             hasBackdrop: true,
           }).onClose.subscribe(res => {
@@ -309,6 +313,47 @@ export class ServicesComponent implements OnInit {
     )
 
   }
+
+  testMFASMS(testDevice){
+    this.pingidService.backupAuthentication(this.sessionUser.sub, testDevice.phonenumber, "SMS").subscribe(
+      res => {
+        const result: any = res;
+        console.log(result.sessionId + "offlineAuth sessionId");
+        if (result.sessionId) {
+          this.dialogService.open(OtpValidaterComponent, {
+            context: {
+              title: 'OTP Verification',
+              message: 'Please input OTP received from your phone',
+              sessionId: result.sessionId,
+              userName: this.user.userName,
+              spAlias: "rescuecode",
+            },
+            hasBackdrop: true,
+          }).onClose.subscribe(res => {
+            if (res) {
+              this.searchUser();
+              }
+            }, error => {
+              console.log(error);
+             }
+            )
+        } else {
+          this.mfaRejected = true;
+          this.mfaErrMsg = result.errorMsg;
+          this.mfaTriggered = false;
+        }
+
+        setTimeout(() =>
+          {
+            this.clearAlerts();
+          },
+          5000);
+      }, error => {
+        console.log(error);
+      }
+    )
+  }
+
 
 /*  testMFA() {
     for (let i = 0; i < this.deviceList.length; i++) {
@@ -350,6 +395,9 @@ export class ServicesComponent implements OnInit {
     this.userBypassed = false;
     this.userActivat = false;
     this.userSuspend = false;
+    this.userBypassedError = false;
+    this.userActivatError = false;
+    this.userSuspendError = false;
   }
 
   searchUser() {
@@ -449,7 +497,8 @@ export class ServicesComponent implements OnInit {
         // console.log("admin email sent");  
           this.searchUser();
         } else {
-          this.mfaErrMsg = result.errorMsg;
+          this.userActivatError = true;
+          this.mfaErrMsg = "Error occured during user Activate";
         }
         setTimeout(() =>
         {
@@ -487,7 +536,8 @@ export class ServicesComponent implements OnInit {
         // console.log("admin email sent");  
           this.searchUser();
         } else {
-          this.mfaErrMsg = result.errorMsg;
+          this.userSuspendError = true;
+          this.mfaErrMsg = "Error occured during user Disable";
         }
         setTimeout(() =>
         {
@@ -527,7 +577,10 @@ export class ServicesComponent implements OnInit {
         // console.log("admin email sent");  
           this.searchUser();
         } else {
-          this.mfaErrMsg = result.errorMsg;
+          console.log("result");
+          console.log(result);
+          this.userBypassedError = true;
+          this.mfaErrMsg = "Error occured during user Bypass";
         }
         setTimeout(() =>
         {
