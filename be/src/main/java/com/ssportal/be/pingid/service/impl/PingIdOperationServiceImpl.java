@@ -375,11 +375,12 @@ public class PingIdOperationServiceImpl implements PingIdOperationService {
 
     @SuppressWarnings("unchecked")
     public JSONObject backupOnline(RequestData requestData, String authType, String deviceId, Operation operation) {
-
+        LOG.info("backupOnline class entry");
         operation.setName("AuthenticateOnline");
         operation.setEndpoint(operation.getApiUrl() + "/rest/4/authonline/do");
 
         JSONObject reqBody = new JSONObject();
+        reqBody.put ( "userName", operation.getPingIdUser().getUserName() );
         reqBody.put("authType", authType);
         reqBody.put("spAlias", requestData.getSpAlias());
         reqBody.put ( "deviceType", requestData.getDeviceType () );

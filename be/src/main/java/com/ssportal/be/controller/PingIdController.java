@@ -230,6 +230,8 @@ public class PingIdController {
 
     @RequestMapping(value = "/backupAuthentication", method = RequestMethod.POST)
     public JSONObject backupAuthentication(@RequestHeader("accept-language") HashMap<String, String> header, @RequestBody HashMap<String, String> mapper) {
+        LOG.info("backupAuthentication endpoint entry");
+
         String deviceId = mapper.get("deviceId");
         String authType = "ONE_TIME_DEVICE";
         String spAlias = "rescuecode";
