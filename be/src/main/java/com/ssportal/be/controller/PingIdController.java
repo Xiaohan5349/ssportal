@@ -231,7 +231,7 @@ public class PingIdController {
     @RequestMapping(value = "/backupAuthentication", method = RequestMethod.POST)
     public JSONObject backupAuthentication(@RequestHeader("accept-language") HashMap<String, String> header, @RequestBody HashMap<String, String> mapper) {
         String deviceId = mapper.get("deviceId");
-        String authType = mapper.get("authType");
+        String authType = "ONE_TIME_DEVICE";
         String spAlias = "rescuecode";
         String username = mapper.get("username");
         String deviceType = mapper.get("deviceType");
@@ -279,6 +279,7 @@ public class PingIdController {
         String otp = mapper.get("otp");
         String sessionId = mapper.get("sessionId");
         String username = mapper.get("username");
+        String spAlias = mapper.get ( "spAlias" );
         //permission check
         if(checkPermission (mapper.get("username"), jwtTokenUtil.getUsernameFromToken(header.get("authorization").toString ().replace(Constants.TOKEN_PREFIX, "")), jwtTokenUtil.getStringFromToken(header.get("authorization").toString ().replace(Constants.TOKEN_PREFIX, ""), "admin"))){
             HashMap responseMap = new HashMap();
@@ -289,7 +290,7 @@ public class PingIdController {
 
         Operation operation = new Operation(pingIdProperties.getOrgAlias(), pingIdProperties.getPingid_token(), pingIdProperties.getPingid_use_base64_key(), pingIdProperties.getApi_url());
         operation.setTargetUser ( username );
-        JSONObject response = pingIdOperationService.authenticationOffline ( sessionId, otp, operation);
+        JSONObject response = pingIdOperationService.authenticationOffline ( sessionId, otp, operation, spAlias);
 
         return response;
 

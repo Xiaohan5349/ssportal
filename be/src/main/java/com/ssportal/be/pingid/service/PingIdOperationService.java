@@ -24,7 +24,7 @@ public interface PingIdOperationService {
 
     JSONObject finalizeOfflinePairing(Operation operation, String sessionId, String otp);
 
-    JSONObject authenticationOffline(String sessionId, String otp, Operation operation);
+    JSONObject authenticationOffline(String sessionId, String otp, Operation operation, String spAlias);
     JSONObject makeDevicePrimary(String deviceID, Operation operation);
     JSONObject SuspendUser(Operation operation);
     JSONObject ActivateUser(Operation operation);

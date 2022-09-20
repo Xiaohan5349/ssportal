@@ -400,13 +400,13 @@ public class PingIdOperationServiceImpl implements PingIdOperationService {
 
 
 
-    public JSONObject authenticationOffline(String sessionId, String otp, Operation operation){
+    public JSONObject authenticationOffline(String sessionId, String otp, Operation operation, String spAlias){
         operation.setName ( "AuthenticationOffline" );
         operation.setEndpoint ( operation.getApiUrl () + "/rest/4/authoffline/do" );
 
         JSONObject reqBody = new JSONObject();
         //todo: need add a parameter to decide user web or rescuecode
-        reqBody.put ( "spAlias", "web" );
+        reqBody.put ( "spAlias", spAlias );
         reqBody.put ( "otp", otp );
         reqBody.put ( "userName", operation.getPingIdUser ().getUserName () );
         reqBody.put ( "sessionId", sessionId );
