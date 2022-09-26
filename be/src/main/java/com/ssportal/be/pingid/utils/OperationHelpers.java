@@ -81,14 +81,17 @@ public class OperationHelpers {
     }
 
     public static void sendRequest(Operation operation) {
+        LOG.info("Class sendRequest Entry");
         OutputStreamWriter outputStreamWriter = null;
         try {
             URL restUrl = new URL(operation.getEndpoint());
+            LOG.info ( "URL: "+restUrl.toString () );
             HttpURLConnection urlConnection = (HttpURLConnection) restUrl.openConnection();
             urlConnection.setDoOutput(true);
             urlConnection.setRequestMethod("POST");
             urlConnection.addRequestProperty("Content-Type", "application/json");
             urlConnection.addRequestProperty("Accept", "*/*");
+
 
             outputStreamWriter = new OutputStreamWriter(urlConnection.getOutputStream(), "UTF-8");
             outputStreamWriter.write(operation.getRequestToken());

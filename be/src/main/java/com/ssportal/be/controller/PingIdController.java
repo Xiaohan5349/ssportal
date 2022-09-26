@@ -232,7 +232,6 @@ public class PingIdController {
     public JSONObject backupAuthentication(@RequestHeader("accept-language") HashMap<String, String> header, @RequestBody HashMap<String, String> mapper) {
         LOG.info("backupAuthentication endpoint entry");
 
-        String deviceId = mapper.get("deviceId");
         String authType = "ONE_TIME_DEVICE";
         String spAlias = "rescuecode";
         String username = mapper.get("username");
@@ -243,7 +242,6 @@ public class PingIdController {
         RequestData requestData = new RequestData ();
         requestData.setUsername ( username );
         requestData.setAuthType ( authType );
-        requestData.setDeviceId ( deviceId );
         requestData.setSpAlias ( spAlias );
         requestData.setDeviceType ( deviceType );
         requestData.setName ( "MFA" );
@@ -272,7 +270,7 @@ public class PingIdController {
 
         Operation operation = new Operation(pingIdProperties.getOrgAlias(), pingIdProperties.getPingid_token(), pingIdProperties.getPingid_use_base64_key(), pingIdProperties.getApi_url());
         operation.setTargetUser(username);
-        JSONObject response = pingIdOperationService.backupOnline(requestData, authType, deviceId, operation);
+        JSONObject response = pingIdOperationService.backupOnline(requestData, authType, operation);
 
         return response;
     }

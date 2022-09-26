@@ -36,7 +36,7 @@ public class PingIdOperationServiceImpl implements PingIdOperationService {
     // public methods
     public JSONObject addUser(User user, Boolean activateUser, Operation operation) {
         //Operation operation = new Operation();
-
+        LOG.info ( "addUser service entry" );
         operation.setName("AddUser");
         operation.setEndpoint(operation.getApiUrl() + "/rest/4/adduser/do");
 
@@ -62,12 +62,15 @@ public class PingIdOperationServiceImpl implements PingIdOperationService {
         if (activateUser) {
             operation.setLastActivationCode((String) response.get("activationCode"));
         }
+
+        LOG.info ( "addUser service exit" );
         return response;
     }
 
     // public methods
     public JSONObject editUser(User user, Boolean activateUser, Operation operation) {
         //Operation operation = new Operation();
+        LOG.info ( "editUser service entry" );
 
         operation.setName("EditUser");
         operation.setEndpoint(operation.getApiUrl() + "/rest/4/edituser/do");
@@ -94,11 +97,16 @@ public class PingIdOperationServiceImpl implements PingIdOperationService {
         if (activateUser) {
             operation.setLastActivationCode((String) response.get("activationCode"));
         }
+
+        LOG.info ( "editUser service exit" );
         return response;
     }
 
     @SuppressWarnings("unchecked")
     public JSONObject getUserDetails(Operation operation) {
+        LOG.info ( "getUserDetails service entry" );
+
+
         operation.setName("GetUserDetails");
         operation.setEndpoint(operation.getApiUrl() + "/rest/4/getuserdetails/do");
         JSONObject reqBody = new JSONObject();
@@ -122,10 +130,15 @@ public class PingIdOperationServiceImpl implements PingIdOperationService {
             DeviceDetail deviceDetail = new DeviceDetail((JSONObject) userDetails.get("deviceDetails"));
             operation.getPingIdUser().setDeviceDetail(deviceDetail);
         }
+
+        LOG.info ( "getUserDetails service exit" );
         return userDetails;
     }
 
     public JSONObject pairYubiKey(String otp, Operation operation){
+
+        LOG.info ( "pairYubiKey service entry" );
+
         operation.setName ( "pairYubiKey" );
         operation.setEndpoint ( operation.getApiUrl () + "/rest/4/pairyubikey/do " );
 
@@ -138,12 +151,16 @@ public class PingIdOperationServiceImpl implements PingIdOperationService {
         OperationHelpers.sendRequest ( operation );
         JSONObject response = OperationHelpers.parseResponse ( operation );
         operation.getValues ().clear ();
+
+        LOG.info ( "pairYubiKey service exit" );
         return response;
 
     }
 
     @SuppressWarnings("unchecked")
     public JSONObject unpairDevice(String deviceId, Operation operation) {
+
+        LOG.info ( "unpairDevice service entry" );
 
         operation.setName("UnpairDevice");
         operation.setEndpoint(operation.getApiUrl()+ "/rest/4/unpairdevice/do");
@@ -158,11 +175,15 @@ public class PingIdOperationServiceImpl implements PingIdOperationService {
         OperationHelpers.sendRequest(operation);
         JSONObject response = OperationHelpers.parseResponse(operation);
         operation.getValues().clear();
+
+        LOG.info ( "unpairDevice service exit" );
         return response;
     }
 
     @SuppressWarnings("unchecked")
     public String getActivationCode(String type, Operation operation) {
+
+        LOG.info ( "getActivationCode service entry" );
 
         operation.setName("GetActivationCode");
         operation.setEndpoint(operation.getApiUrl() + "/rest/4/getactivationcode/do");
@@ -177,10 +198,15 @@ public class PingIdOperationServiceImpl implements PingIdOperationService {
         JSONObject response = OperationHelpers.parseResponse(operation);
         operation.getValues().clear();
         operation.setLastActivationCode((String) response.get("activationCode"));
+
+        LOG.info ( "getActivationCode service exit" );
         return operation.getLastActivationCode();
     }
 
     public JSONObject startOfflinePairing(Operation operation, String phoneNumber){
+
+        LOG.info ( "startOfflinePairing service entry" );
+
         operation.setName ( "StartOfflinePairing" );
         operation.setEndpoint ( operation.getApiUrl ()+"/rest/4/startofflinepairing/do" );
 
@@ -199,10 +225,15 @@ public class PingIdOperationServiceImpl implements PingIdOperationService {
         operation.getValues ().clear ();
         JSONObject authenticator = new JSONObject (  );
         authenticator.put ( "sessionId", response.get ( "sessionId" ));
+
+        LOG.info ( "startOfflinePairing service exit" );
         return authenticator;
     }
 
     public JSONObject finalizeOfflinePairing(Operation operation, String sessionId, String otp){
+
+        LOG.info ( "finalizeOfflinePairing service entry" );
+
         operation.setName ( "FinalizeOfflinePairing" );
         operation.setEndpoint ( operation.getApiUrl ()+"/rest/4/finalizeofflinepairing/do" );
 
@@ -216,6 +247,7 @@ public class PingIdOperationServiceImpl implements PingIdOperationService {
         LOG.info ( "FinalizeOfflinePairing response from PingID: " + response.get ( "sessionId" ));
         operation.getValues ().clear ();
 
+        LOG.info ( "finalizeOfflinePairing service exit" );
         return response;
 
     }
@@ -223,6 +255,9 @@ public class PingIdOperationServiceImpl implements PingIdOperationService {
 
     @SuppressWarnings("unchecked")
     public JSONObject AuthenticatorAppStartPairing(Operation operation){
+
+        LOG.info ( "AuthenticatorAppStartPairing service entry" );
+
         operation.setName ( "AuthenticatorAppStartPairing" );
         operation.setEndpoint ( operation.getApiUrl ()+"/rest/4/authenticatorappstartpairing/do" );
 
@@ -239,10 +274,15 @@ public class PingIdOperationServiceImpl implements PingIdOperationService {
         authenticator.put ( "sessionId", response.get ( "sessionId" ));
         authenticator.put ( "pairingKeyUri", response.get ( "pairingKeyUri" ) );
         authenticator.put ( "pairingKey", operation.getPairingKey () );
+
+        LOG.info ( "AuthenticatorAppStartPairing service exit" );
         return authenticator;
     }
 
     public JSONObject AuthenticatorAppFinishPairing(Operation operation, String sessionId, String otp){
+
+        LOG.info ( "AuthenticatorAppFinishPairing service entry" );
+
         operation.setName ( "AuthenticatorAppFinishPairing" );
         operation.setEndpoint ( operation.getApiUrl ()+"/rest/4/authenticatorappfinishpairing/do" );
 
@@ -255,12 +295,15 @@ public class PingIdOperationServiceImpl implements PingIdOperationService {
         JSONObject response = OperationHelpers.parseResponse ( operation );
         operation.getValues ().clear ();
 
+        LOG.info ( "AuthenticatorAppFinishPairing service exit" );
         return response;
 
     }
 
     public JSONObject ToggleUserBypass(Operation operation){
+
         LOG.info ( "Class ToggleUserBypass Entry" );
+
         operation.setName ( "ToggleUserBypass" );
         operation.setEndpoint ( operation.getApiUrl () + "/rest/4/userbypass/do" );
 
@@ -287,6 +330,9 @@ public class PingIdOperationServiceImpl implements PingIdOperationService {
     }
 
     public JSONObject SuspendUser(Operation operation){
+
+        LOG.info ( "SuspendUser service entry" );
+
         operation.setName ( "SuspendUser" );
         operation.setEndpoint ( operation.getApiUrl () + "/rest/4/suspenduser/do" );
 
@@ -299,11 +345,15 @@ public class PingIdOperationServiceImpl implements PingIdOperationService {
         JSONObject response = OperationHelpers.parseResponse ( operation );
         operation.getValues ().clear ();
 
+        LOG.info ( "SuspendUser service exit" );
         return response;
     }
 
 
     public JSONObject ActivateUser(Operation operation){
+
+        LOG.info ( "ActivateUser service entry" );
+
         operation.setName ( "ActivateUser" );
         operation.setEndpoint ( operation.getApiUrl ()+ "/rest/4/activateuser/do" );
 
@@ -316,6 +366,7 @@ public class PingIdOperationServiceImpl implements PingIdOperationService {
         JSONObject response = OperationHelpers.parseResponse ( operation );
         operation.getValues ().clear ();
 
+        LOG.info ( "ActivateUser service exit" );
         return response;
     }
 
@@ -323,6 +374,8 @@ public class PingIdOperationServiceImpl implements PingIdOperationService {
 
     @SuppressWarnings("unchecked")
     public JSONObject getPairingStatus(String activationCode, Operation operation) {
+
+        LOG.info ( "getPairingStatus service entry" );
 
         operation.setName("GetPairingStatus");
         operation.setEndpoint(operation.getApiUrl() + "/rest/4/pairingstatus/do");
@@ -335,11 +388,15 @@ public class PingIdOperationServiceImpl implements PingIdOperationService {
 
         OperationHelpers.sendRequest(operation);
         JSONObject response = OperationHelpers.parseResponse(operation);
+
+        LOG.info ( "getPairingStatus service exit" );
         return response;
     }
 
     @SuppressWarnings("unchecked")
     public JSONObject authenticateOnline(Application application, String authType, String deviceId, Operation operation) {
+
+        LOG.info ( "authenticateOnline service entry" );
 
         operation.setName("AuthenticateOnline");
         operation.setEndpoint(operation.getApiUrl() + "/rest/4/authonline/do");
@@ -370,21 +427,25 @@ public class PingIdOperationServiceImpl implements PingIdOperationService {
             operation.getValues().clear();
             operation.setLastSessionId((String) response.get("sessionId"));
         }
+
+        LOG.info ( "authenticateOnline service exit" );
         return response;
     }
 
     @SuppressWarnings("unchecked")
-    public JSONObject backupOnline(RequestData requestData, String authType, String deviceId, Operation operation) {
-        LOG.info("backupOnline class entry");
+    public JSONObject backupOnline(RequestData requestData, String authType, Operation operation) {
+
+        LOG.info("backupOnline service entry");
+
         operation.setName("AuthenticateOnline");
         operation.setEndpoint(operation.getApiUrl() + "/rest/4/authonline/do");
 
         JSONObject reqBody = new JSONObject();
-        reqBody.put ( "userName", operation.getPingIdUser().getUserName() );
         reqBody.put("authType", authType);
         reqBody.put("spAlias", requestData.getSpAlias());
         reqBody.put ( "deviceType", requestData.getDeviceType () );
         reqBody.put ( "deviceData", requestData.getDeviceData () );
+
 
 
         operation.setRequestToken(OperationHelpers.buildRequestToken(reqBody, operation));
@@ -396,12 +457,17 @@ public class PingIdOperationServiceImpl implements PingIdOperationService {
             operation.getValues().clear();
             operation.setLastSessionId((String) response.get("sessionId"));
         }
+
+        LOG.info("backupOnline service exit");
         return response;
     }
 
 
 
     public JSONObject authenticationOffline(String sessionId, String otp, Operation operation, String spAlias){
+
+        LOG.info("authenticationOffline service entry");
+
         operation.setName ( "AuthenticationOffline" );
         operation.setEndpoint ( operation.getApiUrl () + "/rest/4/authoffline/do" );
 
@@ -421,12 +487,16 @@ public class PingIdOperationServiceImpl implements PingIdOperationService {
             operation.getValues ().clear ();
         }
 
+        LOG.info("authenticationOffline service exit");
         return response;
     }
 
 
 
     public JSONObject makeDevicePrimary(String deviceID, Operation operation) {
+
+        LOG.info("makeDevicePrimary service entry");
+
         operation.setName("UpdateDeviceAttributes");
         operation.setEndpoint(operation.getApiUrl() + "/rest/4/updatedeviceattr/do");
 
@@ -442,11 +512,14 @@ public class PingIdOperationServiceImpl implements PingIdOperationService {
         OperationHelpers.sendRequest(operation);
         JSONObject response = OperationHelpers.parseResponse(operation);
 
+        LOG.info("makeDevicePrimary service exit");
         return response;
     }
 
     @SuppressWarnings("unchecked")
     public String webAuthnAuthentication(String deviceId,  String returnUrl, Operation operation) {
+
+        LOG.info("webAuthnAuthentication service entry");
 
         operation.setName("WebAuthnAuthentication");
 
@@ -473,6 +546,7 @@ public class PingIdOperationServiceImpl implements PingIdOperationService {
         reqBody.put("returnUrl", returnUrl);
         operation.setRequestToken(OperationHelpers.signAuthnRequest(reqBody, operation));
 
+        LOG.info("webAuthnAuthentication service exit");
         return operation.getRequestToken();
     }
 

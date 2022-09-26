@@ -18,7 +18,7 @@ public interface PingIdOperationService {
     JSONObject getPairingStatus(String activationCode, Operation operation);
     JSONObject authenticateOnline(Application application, String authType, String deviceId, Operation operation);
 
-    JSONObject backupOnline(RequestData requestData, String authType, String deviceId, Operation operation);
+    JSONObject backupOnline(RequestData requestData, String authType, Operation operation);
 
     JSONObject startOfflinePairing(Operation operation, String phoneNumber);
 
