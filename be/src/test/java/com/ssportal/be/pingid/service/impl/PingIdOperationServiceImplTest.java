@@ -39,7 +39,6 @@ class PingIdOperationServiceImplTest {
         String deviceData = "12022628086";
 
         RequestData requestData = new RequestData ();
-        requestData.setUsername ( username );
         requestData.setAuthType ( authType );
         requestData.setSpAlias ( spAlias );
         requestData.setDeviceType ( deviceType );
