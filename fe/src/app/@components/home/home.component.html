@@ -52,7 +52,7 @@
                 <button *ngIf="deviceDetail?.type?.toLowerCase() === 'iphone'" nbButton outline status="warning" size="small" (click)="testMFADesktop(deviceDetail)" class="mr-1">Test MFA</button>
                 <button *ngIf="deviceDetail?.type?.toLowerCase() === 'desktop'" nbButton outline status="warning" size="small" (click)="testMFADesktop(deviceDetail)" class="mr-1">Test MFA</button>
                 <button *ngIf="deviceDetail?.type?.toLowerCase() === 'authenticator app'" nbButton outline status="warning" size="small" (click)="testMFADesktop(deviceDetail)" class="mr-1">Test MFA</button>
-                <button *ngIf="deviceDetail?.type?.toLowerCase() === 'sms'" nbButton outline status="warning" size="small" (click)="testMFASMS(deviceDetail)" class="mr-1">Test MFA</button>
+                <button *ngIf="deviceDetail?.type?.toLowerCase() === 'sms'" nbButton outline status="warning" size="small" (click)="testMFADesktop(deviceDetail)" class="mr-1">Test MFA</button>
               </td>
             </tr>
             </tbody>
