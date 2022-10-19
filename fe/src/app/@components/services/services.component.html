@@ -89,10 +89,7 @@
         <button nbButton *ngIf="hardToken=='true'" outline status="primary" (click)="yubikeyStartPairing()" class="mr-1" size="small">
           <nb-icon icon="hard-drive" outline status="info" class="mr-1" ></nb-icon>
           Register Hard Token </button>
-        <!-- <button nbButton *ngIf="smsToken=='true'" outline status="primary"  (click)="smsStartPairing()"class="mr-1" size="small">
-          <nb-icon icon="smartphone" outline status="info" class="mr-1" ></nb-icon>
-          Register SMS </button> -->
-        <button nbButton outline status="primary"  (click)="smsStartPairing()"class="mr-1" size="small">
+        <button nbButton *ngIf="smsToken=='true'" outline status="primary"  (click)="smsStartPairing()"class="mr-1" size="small">
           <nb-icon icon="smartphone" outline status="info" class="mr-1" ></nb-icon>
           Register SMS </button>
     
