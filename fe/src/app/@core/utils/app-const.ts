@@ -1,6 +1,6 @@
 export class AppConst {
 
-// bbbqa_to_bbbprod
+//bbbqa_to_bbbprod
   public static SERVER_PATH = 'https://mfa.bedbath.com/sso';
 //   public static SERVER_PATH = 'http://localhost:8080/sso';
 //   public static SERVER_PATH = 'http://172.24.160.53:8080/sso';
