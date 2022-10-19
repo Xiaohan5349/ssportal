@@ -126,6 +126,7 @@ public class LdapOperationWithoutPing {
         }
 
         LOG.info ( "Search user completed " + bbbyId + " in AD" );
+        LOG.error ( user.toString ());
         context.close();
         return user;
     }

@@ -80,7 +80,7 @@ export class HomeComponent implements OnInit {
           //   });
           // console.log(this.sessionUser.sub);
           // console.log(AppConst.MAIL_TASK_selfUnPair);
-          // console.log("email sent");  
+          // console.log("email sent");
           this.mailService.selfServiceMail(this.sessionUser.sub,AppConst.MAIL_TASK_selfUnPair);
             this.getUserDetails();
           }, error => {
@@ -469,7 +469,7 @@ export class HomeComponent implements OnInit {
     )
   }
 
-  
+
 /*  testMFA() {
     for (let i = 0; i < this.deviceList.length; i++) {
       if (this.deviceList[i].deviceRole.toLowerCase() === 'primary') {
@@ -555,7 +555,8 @@ export class HomeComponent implements OnInit {
     this.hardToken = this.sessionUser.hardToken;
     this.desktopToken = this.sessionUser.desktopToken;
     this.otpToken = this.sessionUser.otpToken;
-    console.log(this.AdminStatus);
+    this.smsToken = this.sessionUser.SMSToken;
+    console.log(this.AdminStatus)
     console.log(this.sessionUser.sub);
 
   }

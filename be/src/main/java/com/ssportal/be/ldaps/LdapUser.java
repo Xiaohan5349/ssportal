@@ -101,4 +101,20 @@ public class LdapUser {
         this.manager = manager;
     }
 
+    @Override
+    public String toString() {
+        return "LdapUser{" +
+                "username='" + username + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", emailAddress='" + emailAddress + '\'' +
+                ", role='" + role + '\'' +
+                ", softTokenUser=" + softTokenUser +
+                ", hardTokenUser=" + hardTokenUser +
+                ", desktopTokenUser=" + desktopTokenUser +
+                ", otpTokenUser=" + otpTokenUser +
+                ", manager='" + manager + '\'' +
+                ", SMSTokenUser=" + SMSTokenUser +
+                '}';
+    }
 }

@@ -49,6 +49,7 @@ export class ServicesComponent implements OnInit {
   hardToken: string = "false";
   desktopToken: string = "false";
   otpToken: string = "false";
+  smsToken: string = "false";
   sessionUser;
   userTokenType;
 
@@ -82,7 +83,7 @@ export class ServicesComponent implements OnInit {
           // console.log(this.user.userName);
           // console.log(AppConst.MAIL_TASK_helpDeskUnPair);
           // console.log(this.sessionUser.sub);
-          // console.log("admin email sent");  
+          // console.log("admin email sent");
             this.searchUser();
           }, error => {
             console.log(error);
@@ -197,7 +198,7 @@ export class ServicesComponent implements OnInit {
             user: this.user,
             userName: this.user.userName,
             adminUser: this.sessionUser.sub,
-            mailTask: AppConst.MAIL_TASK_helpDeskPair,    
+            mailTask: AppConst.MAIL_TASK_helpDeskPair,
           },
           hasBackdrop: true,
           closeOnBackdropClick: false
@@ -233,7 +234,7 @@ export class ServicesComponent implements OnInit {
         sessionId: this.sessionId,
         userName: this.user.userName,
         adminUser: this.sessionUser.sub,
-        mailTask: AppConst.MAIL_TASK_helpDeskPair,    
+        mailTask: AppConst.MAIL_TASK_helpDeskPair,
       },
       hasBackdrop: true,
       closeOnBackdropClick: false
@@ -409,11 +410,12 @@ export class ServicesComponent implements OnInit {
         this.softToken = this.userTokenType.softToken.toString();
         this.desktopToken = this.userTokenType.desktopToken.toString();
         this.otpToken = this.userTokenType.otpToken.toString();
+        this.smsToken = this.userTokenType.SMSToken.toString();
         console.log("token type showup");
         console.log(this.hardToken);
         console.log(this.softToken);
         console.log(this.desktopToken);
-        console.log(this.otpToken);  
+        console.log(this.otpToken);
       this.userService.getUserDetailsByUsername(this.userName).subscribe(
         res => {
           this.user = res;
@@ -430,7 +432,7 @@ export class ServicesComponent implements OnInit {
             },
             5000);
         }
-      )  
+      )
       }, error => {
         this.userService.getUserDetailsByUsername(this.userName).subscribe(
           res => {
@@ -448,7 +450,7 @@ export class ServicesComponent implements OnInit {
               },
               5000);
           }
-        )    
+        )
       }
     )
     //this.softToken = this.user.softToken;
@@ -494,7 +496,7 @@ export class ServicesComponent implements OnInit {
         //   });
         // console.log(this.user.userName);
         // console.log(AppConst.MAIL_TASK_enable);
-        // console.log("admin email sent");  
+        // console.log("admin email sent");
           this.searchUser();
         } else {
           this.userActivatError = true;
@@ -533,7 +535,7 @@ export class ServicesComponent implements OnInit {
         //   });
         // console.log(this.user.userName);
         // console.log(AppConst.MAIL_TASK_disable);
-        // console.log("admin email sent");  
+        // console.log("admin email sent");
           this.searchUser();
         } else {
           this.userSuspendError = true;
@@ -574,7 +576,7 @@ export class ServicesComponent implements OnInit {
         //   });
         // console.log(this.user.userName);
         // console.log(AppConst.MAIL_TASK_bypass);
-        // console.log("admin email sent");  
+        // console.log("admin email sent");
           this.searchUser();
         } else {
           console.log("result");
