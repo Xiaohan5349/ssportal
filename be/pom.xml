@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.ssportal</groupId>
     <artifactId>be</artifactId>
-    <version>qa-1.0</version>
+    <version>prod-1.0</version>
 
     <packaging>war</packaging>
     <name>be</name>
@@ -266,7 +266,7 @@
     </dependencies>
 
     <build>
-        <finalName>sso_qa</finalName>
+        <finalName>sso_prod_sms</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
