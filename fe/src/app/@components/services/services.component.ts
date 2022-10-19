@@ -410,11 +410,13 @@ export class ServicesComponent implements OnInit {
         this.softToken = this.userTokenType.softToken.toString();
         this.desktopToken = this.userTokenType.desktopToken.toString();
         this.otpToken = this.userTokenType.otpToken.toString();
+        this.smsToken = this.userTokenType.SMSToken.toString();
         console.log("token type showup");
-        console.log(this.hardToken);
-        console.log(this.softToken);
-        console.log(this.desktopToken);
-        console.log(this.otpToken);  
+        console.log("hardToken" + this.hardToken);
+        console.log("softToken" + this.softToken);
+        console.log("desktopToken" + this.desktopToken);
+        console.log("otpToken" + this.otpToken);  
+        console.log("smsToken" + this.smsToken);
       this.userService.getUserDetailsByUsername(this.userName).subscribe(
         res => {
           this.user = res;
