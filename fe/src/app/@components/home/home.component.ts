@@ -555,6 +555,7 @@ export class HomeComponent implements OnInit {
     this.hardToken = this.sessionUser.hardToken;
     this.desktopToken = this.sessionUser.desktopToken;
     this.otpToken = this.sessionUser.otpToken;
+    this.smsToken = this.sessionUser.SMSToken;
     console.log(this.AdminStatus);
     console.log(this.sessionUser.sub);
 

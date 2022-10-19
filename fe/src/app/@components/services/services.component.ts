@@ -49,6 +49,7 @@ export class ServicesComponent implements OnInit {
   hardToken: string = "false";
   desktopToken: string = "false";
   otpToken: string = "false";
+  smsToken: string = "false";
   sessionUser;
   userTokenType;
 
@@ -465,6 +466,7 @@ export class ServicesComponent implements OnInit {
       this.softToken = this.userTokenType.softToken.toString();
       this.desktopToken = this.userTokenType.desktopToken.toString();
       this.otpToken = this.userTokenType.otpToken.toString();
+      this.smsToken = this.userTokenType.SMSToken.toString();
       console.log("token type showup");
       console.log(this.hardToken);
       console.log(this.softToken);
