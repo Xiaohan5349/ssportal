@@ -140,8 +140,6 @@ export class JwtAuthService {
 
     setAdmin(){
         const jwt = this.ls.getItem(this.JWT_TOKEN);
-        console.log(this.JWT_TOKEN);
-        console.log("setAdmin" + jwt);
         //add check JWT method with BE
         this.parseJwt(jwt);
         const user = this.ls.getItem(this.APP_USER);
@@ -151,7 +149,6 @@ export class JwtAuthService {
 
     setToken(token: String) {
         this.ls.setItem(this.JWT_TOKEN, token);
-        console.log("settoken method" + token);
     }
 
     setUserAndToken(token: String, user: User, isAuthenticated: Boolean) {
@@ -170,10 +167,8 @@ export class JwtAuthService {
             const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
                 return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
                   }).join(''));
-                  console.log(jsonPayload);
                   const jwtOut = JSON.parse(jsonPayload);
                   this.ls.setItem(this.APP_USER, jwtOut);
-                  console.log(jwtOut);          
         }
         catch (err){
             this.router.navigateByUrl('/logout');

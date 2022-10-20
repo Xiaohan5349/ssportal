@@ -37,28 +37,6 @@ export class HomeSmsInputComponent implements OnInit {
     this.dialogRef.close(res);
   }
 
-  // pairYubikey() {
-  //   console.log(this.otp);
-  //   console.log(this.userName);
-  //   this.pingidService.yubikeyPairing(this.userName, this.otp).subscribe(
-  //     res => {
-  //       const result: any = res;
-  //       console.log(result);
-  //       if (result.errorId == "200") {
-  //         this.devicePaired = true;
-  //         if (this.mailTask=="pairdeviceself") {
-  //           this.mailService.selfServiceMail(this.userName,this.mailTask);
-  //         } else if (this.mailTask=="pairdevice"){
-  //           this.mailService.adminServiceMail(this.userName,this.mailTask,this.adminUser);
-  //         } else{
-  //           console.log("Email gose wrong!!");
-  //         }  
-  //       }
-  //     }, error => {
-  //       console.log(error)
-  //     }
-  //   )      
-  // }
 
   validPhone(smsNumber){
     var phoneno = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
@@ -74,10 +52,7 @@ export class HomeSmsInputComponent implements OnInit {
 
   pairSMS(){
     this.validPhone(this.smsNumber);
-    console.log(this.smsNumber);
-    console.log(this.smsNumberNotValid);
     if(!this.smsNumberNotValid){
-      console.log("start send to backend")
       this.pingidService.startOfflinePairing(this.smsNumber,this.userName).subscribe(
         res => {
           const result: any = res;
@@ -106,11 +81,9 @@ export class HomeSmsInputComponent implements OnInit {
   }
 
   otpValidate(){
-    console.log("send backend to valid")
     this.pingidService.finalizeOfflinePairing(this.sessionId, this.otp).subscribe(
       res => {
         const result: any = res;
-        console.log(result);
         if (result.errorId == "200") {
           this.otpNeed = false;
           this.devicePaired = true;
@@ -119,7 +92,6 @@ export class HomeSmsInputComponent implements OnInit {
           } else if (this.mailTask=="pairdevice"){
             this.mailService.adminServiceMail(this.userName,this.mailTask,this.adminUser);
           } else{
-            console.log("Email gose wrong!!");
           }  
         } else if (result.errorId == "20513") {
           this.message = "Incorrect OTP. Please try again.";

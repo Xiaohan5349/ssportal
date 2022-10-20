@@ -48,14 +48,7 @@ export class HomeQrCodeComponent implements OnInit, OnDestroy {
           this.mailService.selfServiceMail(this.userName,this.mailTask);
         } else if (this.mailTask=="pairdevice"){
           this.mailService.adminServiceMail(this.userName,this.mailTask,this.adminUser);
-        //   this.http.get(`${environment.apiURL}/mail?user=${this.userName}&task=${this.mailTask}&admin=${this.adminUser}`).subscribe(res => {
-        //   });
-        // console.log(this.userName);
-        // console.log(this.mailTask);
-        // console.log(this.adminUser);
-        // console.log("admin email sent");
         } else{
-          console.log("Email gose wrong!!");
         }
       }
     }, error => {

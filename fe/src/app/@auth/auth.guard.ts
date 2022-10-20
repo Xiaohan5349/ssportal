@@ -24,13 +24,11 @@ export class AuthGuard implements CanActivate {
         this.helperService.changeUserAdminStatus(false);
       }
       this.helperService.changeUserLoggedIn(true);
-      console.log("home guard work")
       return true;
     } else {
       this.helperService.changeUserLoggedIn(false);
       this.router.navigate(['/login'], {
       });
-      console.log("home guard not pass")
       return false;
     }
   }

@@ -34,12 +34,9 @@ export class HomeQrCodeGoogleComponent implements OnInit {
   }
 
   pairDevice() {
-    console.log(this.otp);
-    console.log(this.sessionId);
     this.pingidService.AuthenticatorAppFinishPairing(this.sessionId, this.otp).subscribe(
       res => {
         const result: any = res;
-        console.log(result);
         if (result.errorId == "200") {
           this.devicePaired = true;
           if (this.mailTask=="pairdeviceself") {
@@ -47,7 +44,6 @@ export class HomeQrCodeGoogleComponent implements OnInit {
           } else if (this.mailTask=="pairdevice"){
             this.mailService.adminServiceMail(this.userName,this.mailTask,this.adminUser);
           } else{
-            console.log("Email gose wrong!!");
           }  
         }
       }, error => {

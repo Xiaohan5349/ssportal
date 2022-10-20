@@ -31,33 +31,11 @@ export class OtpValidaterComponent implements OnInit {
     this.dialogRef.close(res);
   }
 
-  // pairDevice() {
-  //   console.log(this.otp);
-  //   console.log(this.sessionId);
-  //   this.pingidService.AuthenticatorAppFinishPairing(this.sessionId, this.otp).subscribe(
-  //     res => {
-  //       const result: any = res;
-  //       console.log(result);
-  //       if (result.errorId == "200") {
-  //         this.deviceTested = true;
-  //       } else {
-  //         this.deviceTested = false;
-  //         this.message = "OTP is invalide, Please Re-enter OTP"
-  //       }
-  //     }, error => {
-  //       console.log(error)
-  //     }
-  //   )      
-  // }
 
   testDesktop() {
-    console.log("Alias " + this.spAlias);
-    console.log("sessionId " + this.sessionId);
-    console.log("otp " + this.otp);
     this.pingidService.finalOfflineAuth(this.sessionId,this.userName,this.otp,this.spAlias).subscribe( 
       res => {
         const result: any = res;
-        console.log(result);
         if (result.errorId == "200") {
           this.deviceTested = true;
         } else {

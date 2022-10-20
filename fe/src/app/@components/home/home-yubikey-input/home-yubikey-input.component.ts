@@ -31,12 +31,9 @@ export class HomeYubikeyInputComponent implements OnInit {
   }
 
   pairYubikey() {
-    console.log(this.otp);
-    console.log(this.userName);
     this.pingidService.yubikeyPairing(this.userName, this.otp).subscribe(
       res => {
         const result: any = res;
-        console.log(result);
         if (result.errorId == "200") {
           this.devicePaired = true;
           if (this.mailTask=="pairdeviceself") {

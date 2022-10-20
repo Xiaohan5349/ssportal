@@ -36,17 +36,11 @@ export class mailService {
     adminServiceMail (userName,MAIL_TASK,adminUser){
         this.http.get(`${environment.apiURL}/mail?user=${userName}&task=${MAIL_TASK}&admin=${adminUser}`).subscribe(res => {
         });
-      console.log(userName);
-      console.log(MAIL_TASK);
-      console.log("admin email sent");      
     }
 
     selfServiceMail (userName,MAIL_TASK){
         this.http.get(`${environment.apiURL}/mail/self?user=${userName}&task=${MAIL_TASK}`).subscribe(res => {
         });
-      console.log(userName);
-      console.log(MAIL_TASK);
-      console.log("email sent");      
     }
 
 

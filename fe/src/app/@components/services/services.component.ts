@@ -74,16 +74,9 @@ export class ServicesComponent implements OnInit {
       hasBackdrop: true,
     }).onClose.subscribe(res => {
       if (res) {
-        console.log(res);
         this.pingidService.unpairDevice(device.deviceId, this.user.userName).subscribe(
           res => {
             this.mailService.adminServiceMail(this.user.userName,AppConst.MAIL_TASK_helpDeskUnPair,this.sessionUser.sub);
-          //   this.http.get(`${environment.apiURL}/mail?user=${this.user.userName}&task=${AppConst.MAIL_TASK_helpDeskUnPair}&admin=${this.sessionUser.sub}`).subscribe(res => {
-          //   });
-          // console.log(this.user.userName);
-          // console.log(AppConst.MAIL_TASK_helpDeskUnPair);
-          // console.log(this.sessionUser.sub);
-          // console.log("admin email sent");
             this.searchUser();
           }, error => {
             console.log(error);
@@ -98,7 +91,6 @@ export class ServicesComponent implements OnInit {
       res => {
         const result: any = res;
         this.activationCode = result.activationCode;
-        console.log(this.activationCode);
         if(this.activationCode) {
         this.dialogService.open(HomeQrCodeComponent, {
           context: {
@@ -186,7 +178,6 @@ export class ServicesComponent implements OnInit {
         this.pairingKeyUri = result.pairingKeyUri;
         this.pairingKey = result.pairingKey;
         this.sessionId = result.sessionId;
-        console.log(this.pairingKey);
         if (this.pairingKey) {
         this.dialogService.open(HomeQrCodeGoogleComponent, {
           context: {
@@ -278,7 +269,6 @@ export class ServicesComponent implements OnInit {
     this.pingidService.startOfflineAuth(testDevice.deviceId, this.user.userName).subscribe(
       res => {
         const result: any = res;
-        console.log(result.sessionId + "offlineAuth sessionId");
         if (result.sessionId) {
           this.dialogService.open(OtpValidaterComponent, {
             context: {
@@ -319,7 +309,6 @@ export class ServicesComponent implements OnInit {
     this.pingidService.backupAuthentication(this.sessionUser.sub, testDevice.phoneNumber, "SMS").subscribe(
       res => {
         const result: any = res;
-        console.log(result.sessionId + "offlineAuth sessionId");
         if (result.sessionId) {
           this.dialogService.open(OtpValidaterComponent, {
             context: {
@@ -404,18 +393,11 @@ export class ServicesComponent implements OnInit {
   searchUser() {
     this.http.get(`${environment.apiURL}/profile?user=${this.userName}`).subscribe(res => {
       this.userTokenType = res;
-      console.log('token type resposne')
-      console.log(this.userTokenType);
         this.hardToken = this.userTokenType.hardToken.toString();
         this.softToken = this.userTokenType.softToken.toString();
         this.desktopToken = this.userTokenType.desktopToken.toString();
         this.otpToken = this.userTokenType.otpToken.toString();
         this.smsToken = this.userTokenType.SMSToken.toString();
-        console.log("token type showup");
-        console.log(this.hardToken);
-        console.log(this.softToken);
-        console.log(this.desktopToken);
-        console.log(this.otpToken);
       this.userService.getUserDetailsByUsername(this.userName).subscribe(
         res => {
           this.user = res;
@@ -461,17 +443,10 @@ export class ServicesComponent implements OnInit {
   searchUserProfile(){
     this.http.get(`${environment.apiURL}/profile?user=${this.userName}`).subscribe(res => {
       this.userTokenType = res;
-      console.log('token type resposne')
-      console.log(this.userTokenType);
       this.hardToken = this.userTokenType.hardToken.toString();
       this.softToken = this.userTokenType.softToken.toString();
       this.desktopToken = this.userTokenType.desktopToken.toString();
       this.otpToken = this.userTokenType.otpToken.toString();
-      console.log("token type showup");
-      console.log(this.hardToken);
-      console.log(this.softToken);
-      console.log(this.desktopToken);
-      console.log(this.otpToken);
       }, error => {
       }
     )
@@ -492,11 +467,6 @@ export class ServicesComponent implements OnInit {
         if (result.errorId == "200") {
           this.userActivat = true;
           this.mailService.adminServiceMail(this.user.userName,AppConst.MAIL_TASK_enable,this.sessionUser.sub);
-        //   this.http.get(`${environment.apiURL}/mail?user=${this.user.userName}&task=${AppConst.MAIL_TASK_enable}&admin=${this.sessionUser.sub}`).subscribe(res => {
-        //   });
-        // console.log(this.user.userName);
-        // console.log(AppConst.MAIL_TASK_enable);
-        // console.log("admin email sent");
           this.searchUser();
         } else {
           this.userActivatError = true;
@@ -531,11 +501,6 @@ export class ServicesComponent implements OnInit {
         if (result.errorId == "200") {
           this.userSuspend = true;
           this.mailService.adminServiceMail(this.user.userName,AppConst.MAIL_TASK_disable,this.sessionUser.sub);
-        //   this.http.get(`${environment.apiURL}/mail?user=${this.user.userName}&task=${AppConst.MAIL_TASK_disable}&admin=${this.sessionUser.sub}`).subscribe(res => {
-        //   });
-        // console.log(this.user.userName);
-        // console.log(AppConst.MAIL_TASK_disable);
-        // console.log("admin email sent");
           this.searchUser();
         } else {
           this.userSuspendError = true;
@@ -569,18 +534,10 @@ export class ServicesComponent implements OnInit {
       res => {
         const result: any = res;
         if (result.errorId == "200") {
-          console.log("userBypassed")
           this.userBypassed = true;
           this.mailService.adminServiceMail(this.user.userName,AppConst.MAIL_TASK_bypass,this.sessionUser.sub);
-        //   this.http.get(`${environment.apiURL}/mail?user=${this.user.userName}&task=${AppConst.MAIL_TASK_bypass}&admin=${this.sessionUser.sub}`).subscribe(res => {
-        //   });
-        // console.log(this.user.userName);
-        // console.log(AppConst.MAIL_TASK_bypass);
-        // console.log("admin email sent");
           this.searchUser();
         } else {
-          console.log("result");
-          console.log(result);
           this.userBypassedError = true;
           this.mfaErrMsg = "Error occured during user Bypass";
         }
@@ -601,20 +558,5 @@ export class ServicesComponent implements OnInit {
 
   ngOnInit(): void {
     this.AdminStatus = this.jwtAuth.getAdmin();
-    // this.menuService.onItemClick().subscribe((event) => {
-    //   if (event.item.title === 'ByPass MFA') {
-    //     this.ToggleUserBypass();
-    //     console.log('ByPass MFA clicked service');
-    //   }
-    //   if (event.item.title === 'Enable User') {
-    //     this.ActivateUser();
-    //     console.log('Enable User clicked service');
-    //   }
-    //   if (event.item.title === 'Disable User') {
-    //     this.SuspendUser();
-    //     console.log('Disable User clicked service');
-    //   }
-    // });
-
   }
 }

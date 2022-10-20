@@ -73,14 +73,8 @@ export class HomeComponent implements OnInit {
       hasBackdrop: true,
     }).onClose.subscribe(res => {
       if (res) {
-        console.log(res);
         this.pingidService.unpairDevice(device.deviceId, this.sessionUser.sub).subscribe(
           res => {
-          //   this.http.get(`${environment.apiURL}/mail/self?user=${this.sessionUser.sub}&task=${AppConst.MAIL_TASK_selfUnPair}`).subscribe(res => {
-          //   });
-          // console.log(this.sessionUser.sub);
-          // console.log(AppConst.MAIL_TASK_selfUnPair);
-          // console.log("email sent");
           this.mailService.selfServiceMail(this.sessionUser.sub,AppConst.MAIL_TASK_selfUnPair);
             this.getUserDetails();
           }, error => {
@@ -96,8 +90,6 @@ export class HomeComponent implements OnInit {
       res => {
         this.user = res;
         this.deviceList = this.user.devicesDetails;
-        console.log(this.user);
-        console.log(this.deviceList);
       }, error => {
         console.log(error);
       }
@@ -109,7 +101,6 @@ export class HomeComponent implements OnInit {
       res => {
         const result: any = res;
         this.activationCode = result.activationCode;
-        console.log(this.activationCode);
         if (this.activationCode) {
           this.dialogService.open(HomeQrCodeComponent, {
             context: {
@@ -154,7 +145,6 @@ export class HomeComponent implements OnInit {
           this.pairingKeyUri = result.pairingKeyUri;
           this.pairingKey = result.pairingKey;
           this.sessionId = result.sessionId;
-          console.log(this.pairingKey);
           if(this.pairingKey){
           this.dialogService.open(HomeQrCodeGoogleComponent, {
             context: {
@@ -349,7 +339,6 @@ export class HomeComponent implements OnInit {
       res => {
         const result: any = res;
         if (result.errorId == "200") {
-          console.log("userBypassed")
         } else {
           this.mfaErrMsg = result.errorMsg;
         }
@@ -366,7 +355,6 @@ export class HomeComponent implements OnInit {
     this.pingidService.startOfflineAuth(testDevice.deviceId, this.sessionUser.sub).subscribe(
       res => {
         const result: any = res;
-        console.log(result.sessionId + "offlineAuth sessionId");
         if (result.sessionId) {
           this.dialogService.open(OtpValidaterComponent, {
             context: {
@@ -404,11 +392,9 @@ export class HomeComponent implements OnInit {
   }
 
   testMFASMS(testDevice){
-    console.log("testDevice" + testDevice);
     this.pingidService.backupAuthentication(this.sessionUser.sub, testDevice.phoneNumber, "SMS").subscribe(
       res => {
         const result: any = res;
-        console.log(result.sessionId + "offlineAuth sessionId");
         if (result.sessionId) {
           this.dialogService.open(OtpValidaterComponent, {
             context: {
@@ -530,25 +516,8 @@ export class HomeComponent implements OnInit {
     this.mfaTriggered = false;
   }
 
-  test(){
-    console.log("test1")
-  }
 
   ngOnInit(): void {
-    // this.menuService.onItemClick().subscribe((event) => {
-    //   if (event.item.title === 'ByPass MFA') {
-    //     this.ToggleUserBypass();
-    //     console.log('ByPass MFA clicked');
-    //   }
-    //   if (event.item.title === 'Enable User') {
-    //     this.ActivateUser();
-    //     console.log('Enable User clicked');
-    //   }
-    //   if (event.item.title === 'Disable User') {
-    //     this.SuspendUser();
-    //     console.log('Disable User clicked');
-    //   }
-    // });
     this.getUserDetails();
     this.AdminStatus = this.jwtAuth.getAdmin();
     this.softToken = this.sessionUser.softToken;
@@ -556,8 +525,6 @@ export class HomeComponent implements OnInit {
     this.desktopToken = this.sessionUser.desktopToken;
     this.otpToken = this.sessionUser.otpToken;
     this.smsToken = this.sessionUser.SMSToken;
-    console.log(this.AdminStatus)
-    console.log(this.sessionUser.sub);
 
   }
 
