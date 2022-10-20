@@ -110,7 +110,6 @@ public class User implements Serializable, UserDetails {
             String desktopToken =  userAttributes.get ( "desktopToken" ).toString ();
             String otpToken =  userAttributes.get ( "otpToken" ).toString ();
             String SMSToken = userAttributes.get ( "SMSToken" ).toString ();
-            LOG.error ( "user SMSToken in User class: "+SMSToken );
 
             this.admin = admin!= null?admin:"false";
             this.hardToken = hardToken!= null?hardToken:"false";
@@ -118,7 +117,6 @@ public class User implements Serializable, UserDetails {
             this.desktopToken = desktopToken!= null?desktopToken:"false";
             this.otpToken = otpToken!= null?otpToken:"false";
             this.SMSToken = SMSToken!=null?SMSToken:"false";
-            LOG.error ( "user SMSToken in User class: "+this.SMSToken );
         } catch (Exception e) {
             LOG.error ( "please check the token group" );
         }

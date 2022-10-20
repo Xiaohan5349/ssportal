@@ -85,7 +85,7 @@ public class OperationHelpers {
         OutputStreamWriter outputStreamWriter = null;
         try {
             URL restUrl = new URL(operation.getEndpoint());
-            LOG.info ( "URL: "+restUrl.toString () );
+//            LOG.info ( "URL: "+restUrl.toString () );
             HttpURLConnection urlConnection = (HttpURLConnection) restUrl.openConnection();
             urlConnection.setDoOutput(true);
             urlConnection.setRequestMethod("POST");

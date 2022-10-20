@@ -76,7 +76,6 @@ public class JwtTokenUtil implements Serializable {
         String otpToken = user.getOtpToken () != null? user.getOtpToken ():"false";
         String desktopToken = user.getDesktopToken () != null? user.getDesktopToken ():"false";
         String SMSToken = user.getSMSToken () != null? user.getSMSToken():"false";
-        LOG.error ( "User SMS Token in JWT Class "+ SMSToken );
         Claims claims = Jwts.claims().setSubject(user.getUsername());
 
         Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
